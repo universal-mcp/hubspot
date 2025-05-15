@@ -2027,7 +2027,33 @@ class HubspotApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-  
+    def basic_update_company_object(self, companyId, properties, idProperty=None) -> dict[str, Any]:
+        """
+        Updates a company in the CRM using the PATCH method, allowing partial modifications to the company's properties.
+
+        Args:
+            companyId (string): companyId
+            properties (object): No description provided. Example: "{'description': 'A new product description', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_cost_of_goods_sold': '700.00', 'property_date': '1572480000000', 'property_radio': 'option_1', 'property_number': '17', 'property_string': 'value', 'property_checkbox': 'false', 'property_dropdown': 'choice_b', 'property_multiple_checkboxes': 'chocolate;strawberry', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly', 'hs_recurring_billing_period': 'P24M'}".
+            idProperty (string): Optional query parameter to specify the property used for identifying the object, passed as a string value.
+
+        Returns:
+            dict[str, Any]: successful operation
+
+        Tags:
+            Basic, important
+        """
+        if companyId is None:
+            raise ValueError("Missing required parameter 'companyId'.")
+        request_body_data = None
+        request_body_data = {
+            'properties': properties,
+        }
+        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
+        url = f"{self.base_url}/crm/v3/objects/companies/{companyId}"
+        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        response = self._patch(url, data=request_body_data, params=query_params)
+        response.raise_for_status()
+        return response.json()
 
     def public_object_merge_companies_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -2519,7 +2545,7 @@ class HubspotApp(APIApplication):
             dict[str, Any]: successful operation
 
         Tags:
-            Basic, important
+            Basic
         """
         if quoteId is None:
             raise ValueError("Missing required parameter 'quoteId'.")
