@@ -21,6 +21,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -49,6 +53,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -70,6 +78,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -94,6 +106,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -121,6 +137,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -143,6 +163,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -167,6 +191,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -189,6 +217,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -213,6 +245,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -242,6 +278,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -262,6 +302,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -291,6 +335,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -317,6 +365,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -346,6 +398,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -367,6 +423,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -391,6 +451,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -418,6 +482,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -440,6 +508,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -464,6 +536,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -486,6 +562,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -510,6 +590,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -539,6 +623,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -559,6 +647,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -588,6 +680,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -611,6 +707,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipelines
@@ -642,6 +742,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipelines
         """
@@ -671,6 +775,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipelines
@@ -702,6 +810,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipelines
         """
@@ -730,6 +842,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipeline Audits
         """
@@ -754,6 +870,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipeline Stages
@@ -787,6 +907,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipeline Stages
         """
@@ -814,6 +938,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipelines
         """
@@ -838,6 +966,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipelines
@@ -865,6 +997,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipeline Stages
@@ -901,6 +1037,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipeline Stages
         """
@@ -931,6 +1071,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Pipeline Stages
@@ -968,6 +1112,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Pipeline Stages
         """
@@ -1001,6 +1149,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -1029,6 +1181,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -1050,6 +1206,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1074,6 +1234,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1101,6 +1265,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -1123,6 +1291,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1147,6 +1319,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -1169,6 +1345,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1193,6 +1373,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -1222,6 +1406,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -1242,6 +1430,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1271,6 +1463,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -1293,6 +1489,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Settings
@@ -1322,6 +1522,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Settings
         """
@@ -1346,6 +1550,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Settings
@@ -1375,6 +1583,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Settings
         """
@@ -1400,6 +1612,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Recording_Settings
         """
@@ -1422,6 +1638,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Recording_Settings
@@ -1448,6 +1668,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Recording_Settings
@@ -1478,6 +1702,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -1506,6 +1734,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -1527,6 +1759,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1551,6 +1787,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1578,6 +1818,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -1600,6 +1844,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1624,6 +1872,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -1646,6 +1898,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1670,6 +1926,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -1699,6 +1959,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -1719,6 +1983,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1748,6 +2016,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -1774,6 +2046,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1803,6 +2079,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -1824,6 +2104,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1848,6 +2132,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -1875,6 +2163,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -1897,6 +2189,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1921,6 +2217,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -1943,6 +2243,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -1967,6 +2271,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -1996,6 +2304,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -2016,6 +2328,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -2045,6 +2361,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -2068,6 +2388,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2090,6 +2414,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2115,6 +2443,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Imports
         """
@@ -2136,6 +2468,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2159,6 +2495,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2189,6 +2529,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2217,6 +2561,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2242,6 +2590,10 @@ class CrmApi(APISegmentBase):
         Returns:
             Any: No content
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object_Schemas
         """
@@ -2264,6 +2616,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2288,6 +2644,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2317,6 +2677,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2340,6 +2704,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -2367,6 +2735,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Groups
         """
@@ -2391,6 +2763,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Groups
@@ -2418,6 +2794,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Groups
@@ -2449,6 +2829,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2473,6 +2857,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2509,6 +2897,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2538,6 +2930,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -2563,6 +2959,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -2590,6 +2990,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -2627,6 +3031,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -2652,6 +3060,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Groups
         """
@@ -2676,6 +3088,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Groups
@@ -2704,6 +3120,10 @@ class CrmApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Owners
         """
@@ -2725,6 +3145,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Events
@@ -2749,6 +3173,10 @@ class CrmApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Templates
@@ -2787,6 +3215,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Templates
         """
@@ -2814,6 +3246,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Templates
@@ -2848,6 +3284,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Events
         """
@@ -2878,6 +3318,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Tokens
@@ -2911,6 +3355,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Tokens
         """
@@ -2942,6 +3390,10 @@ EDIT'.
         Returns:
             Any: No content
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Tokens
         """
@@ -2969,6 +3421,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Events
         """
@@ -2994,6 +3450,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Events
         """
@@ -3017,6 +3477,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Templates
@@ -3050,6 +3514,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Templates
         """
@@ -3076,6 +3544,10 @@ EDIT'.
 
         Returns:
             Any: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Events
@@ -3105,6 +3577,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -3132,6 +3608,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3153,6 +3633,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3176,6 +3660,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3203,6 +3691,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -3225,6 +3717,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3249,6 +3745,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -3271,6 +3771,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3295,6 +3799,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -3324,6 +3832,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3344,6 +3856,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3373,6 +3889,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -3399,6 +3919,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3428,6 +3952,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3449,6 +3977,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3473,6 +4005,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3500,6 +4036,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -3522,6 +4062,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3546,6 +4090,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -3568,6 +4116,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3592,6 +4144,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -3621,6 +4177,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3641,6 +4201,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3670,6 +4234,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -3697,6 +4265,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3729,6 +4301,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3753,6 +4329,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3780,6 +4360,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -3810,6 +4394,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -3835,6 +4423,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3862,6 +4454,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -3887,6 +4483,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -3914,6 +4514,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -3946,6 +4550,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -3969,6 +4577,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4001,6 +4613,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -4025,6 +4641,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Settings
@@ -4053,6 +4673,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Settings
         """
@@ -4077,6 +4701,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Settings
@@ -4103,6 +4731,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4132,6 +4764,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -4153,6 +4789,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4177,6 +4817,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4204,6 +4848,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -4226,6 +4874,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4250,6 +4902,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -4272,6 +4928,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4296,6 +4956,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -4325,6 +4989,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -4345,6 +5013,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4374,6 +5046,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -4400,6 +5076,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4429,6 +5109,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -4450,6 +5134,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4474,6 +5162,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4501,6 +5193,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Public_Object
         """
@@ -4523,6 +5219,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4547,6 +5247,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -4569,6 +5273,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -4593,6 +5301,10 @@ EDIT'.
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             GDPR
@@ -4622,6 +5334,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -4642,6 +5358,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -4671,6 +5391,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -4696,6 +5420,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Core
         """
@@ -4716,6 +5444,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Core
@@ -4751,6 +5483,10 @@ EDIT'.
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Owners
         """
@@ -4771,6 +5507,10 @@ EDIT'.
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Types

@@ -21,6 +21,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Search
         """
@@ -40,6 +44,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -67,6 +75,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Batch
         """
@@ -89,6 +101,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -114,6 +130,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Reports
@@ -142,6 +162,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Asset
         """
@@ -165,6 +189,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -190,6 +218,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Asset
@@ -220,6 +252,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             Any: No content
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Asset
         """
@@ -249,6 +285,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Reports
         """
@@ -270,6 +310,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Batch
@@ -293,6 +337,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Budget
@@ -319,6 +367,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Basic
         """
@@ -340,6 +392,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -363,6 +419,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Basic
@@ -394,6 +454,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Reports
         """
@@ -421,6 +485,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Statistics
         """
@@ -441,6 +509,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Public_VNext_Emails
@@ -468,6 +540,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Statistics
         """
@@ -487,6 +563,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -509,6 +589,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -534,6 +618,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Marketing Emails
         """
@@ -558,6 +646,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -599,6 +691,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Marketing Emails
         """
@@ -627,6 +723,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Marketing Emails
         """
@@ -649,6 +749,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -674,6 +778,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Public_VNext_Emails
@@ -710,6 +818,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -749,6 +861,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Marketing Emails
         """
@@ -772,6 +888,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -801,6 +921,10 @@ class MarketingApi(APISegmentBase):
         Returns:
             dict[str, Any]: successful operation
 
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+
         Tags:
             Marketing Emails
         """
@@ -823,6 +947,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             Any: No content
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
@@ -864,6 +992,10 @@ class MarketingApi(APISegmentBase):
 
         Returns:
             dict[str, Any]: successful operation
+
+        Raises:
+            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
             Marketing Emails
