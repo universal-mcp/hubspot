@@ -35,7 +35,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_crm_v_objects_emails_email_id_get_by_id(self, emailId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -66,7 +71,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def delete_crm_v_objects_emails_email_id_archive(self, emailId) -> Any:
         """
@@ -92,7 +102,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def patch_crm_v_objects_emails_email_id_update(self, emailId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -123,7 +138,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_merge_merge(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -151,7 +171,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_batch_archive_archive(self, inputs) -> Any:
         """
@@ -178,7 +203,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_batch_create_create(self, inputs) -> dict[str, Any]:
         """
@@ -205,7 +235,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_batch_update_update(self, inputs) -> dict[str, Any]:
         """
@@ -232,7 +267,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_gdpr_delete_purge(self, objectId, idProperty=None) -> Any:
         """
@@ -260,7 +300,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_crm_v_objects_emails_get_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -289,7 +334,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_create(self, associations, properties) -> dict[str, Any]:
         """
@@ -317,7 +367,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_crm_v_objects_emails_search_do_search(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -349,7 +404,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -380,7 +440,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_product_by_id(self, productId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -411,7 +476,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_product(self, productId) -> Any:
         """
@@ -437,7 +507,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_product(self, productId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -468,7 +543,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_products_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -496,7 +576,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_products_by_ids(self, inputs) -> Any:
         """
@@ -523,7 +608,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_products_batch(self, inputs) -> dict[str, Any]:
         """
@@ -550,7 +640,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_products_batch(self, inputs) -> dict[str, Any]:
         """
@@ -577,7 +672,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_delete_contact(self, objectId, idProperty=None) -> Any:
         """
@@ -605,7 +705,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_products_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -634,7 +739,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_product_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -662,7 +772,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_products_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -694,7 +809,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_get_by_id(self, objectType, pipelineId) -> dict[str, Any]:
         """
@@ -723,7 +843,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_replace_pipeline_object(self, objectType, pipelineId, displayOrder, stages, label, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None) -> dict[str, Any]:
         """
@@ -760,7 +885,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_remove_by_id(self, objectType, pipelineId, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None) -> Any:
         """
@@ -791,7 +921,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_update_pipeline_by_id(self, objectType, pipelineId, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None, archived=None, displayOrder=None, label=None) -> dict[str, Any]:
         """
@@ -828,7 +963,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_audits_get_by_pipeline_id(self, objectType, pipelineId) -> dict[str, Any]:
         """
@@ -857,7 +997,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_get_all(self, objectType, pipelineId) -> dict[str, Any]:
         """
@@ -886,7 +1031,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_create_stage_object(self, objectType, pipelineId, metadata, displayOrder, label) -> dict[str, Any]:
         """
@@ -925,7 +1075,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_get_all(self, objectType) -> dict[str, Any]:
         """
@@ -951,7 +1106,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipelines_create_new_pipeline_object(self, objectType, displayOrder, stages, label) -> dict[str, Any]:
         """
@@ -983,7 +1143,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_get_by_id(self, objectType, pipelineId, stageId) -> dict[str, Any]:
         """
@@ -1015,7 +1180,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_replace_stage_object(self, objectType, pipelineId, stageId, metadata, displayOrder, label) -> dict[str, Any]:
         """
@@ -1057,7 +1227,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_delete_stage(self, objectType, pipelineId, stageId) -> Any:
         """
@@ -1089,7 +1264,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def pipeline_stages_update_stage_by_id(self, objectType, pipelineId, stageId, metadata, archived=None, displayOrder=None, label=None) -> dict[str, Any]:
         """
@@ -1132,7 +1312,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_companies_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -1163,7 +1348,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_company_object(self, companyId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -1194,7 +1384,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_company(self, companyId) -> Any:
         """
@@ -1220,7 +1415,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_company_object(self, companyId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -1251,7 +1451,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_companies_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -1279,7 +1484,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_companies_by_id_batch(self, inputs) -> Any:
         """
@@ -1306,7 +1516,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_companies_batch(self, inputs) -> dict[str, Any]:
         """
@@ -1333,7 +1548,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_companies_batch(self, inputs) -> dict[str, Any]:
         """
@@ -1360,7 +1580,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contact_company(self, objectId, idProperty=None) -> Any:
         """
@@ -1388,7 +1613,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_companies_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -1417,7 +1647,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_company_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -1445,7 +1680,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_company_objects(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -1477,7 +1717,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_get_calling_config(self, appId) -> dict[str, Any]:
         """
@@ -1503,7 +1748,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_configure_calling_extension(self, appId, name, url, supportsCustomObjects=None, isReady=None, width=None, height=None) -> dict[str, Any]:
         """
@@ -1538,7 +1788,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_delete_calling_extension(self, appId) -> Any:
         """
@@ -1564,7 +1819,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_update_calling_extension(self, appId, supportsCustomObjects=None, isReady=None, name=None, width=None, url=None, height=None) -> dict[str, Any]:
         """
@@ -1599,7 +1859,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def recording_settings_get_by_app_id(self, appId) -> dict[str, Any]:
         """
@@ -1625,7 +1890,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def recording_settings_set_call_recording(self, appId, urlToRetrieveAuthedRecording) -> dict[str, Any]:
         """
@@ -1655,7 +1925,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def recording_settings_update_calling_settings(self, appId, urlToRetrieveAuthedRecording=None) -> dict[str, Any]:
         """
@@ -1685,7 +1960,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_quotes_by_property_values(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -1716,7 +1996,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_quote_by_id(self, quoteId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -1747,7 +2032,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_quote_object(self, quoteId) -> Any:
         """
@@ -1773,7 +2063,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_quote_object(self, quoteId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -1804,7 +2099,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_two_quotes_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -1832,7 +2132,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_quotes_by_id_batch(self, inputs) -> Any:
         """
@@ -1859,7 +2164,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_quotes_batch(self, inputs) -> dict[str, Any]:
         """
@@ -1886,7 +2196,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_quotes_batch(self, inputs) -> dict[str, Any]:
         """
@@ -1913,7 +2228,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contact_quotes(self, objectId, idProperty=None) -> Any:
         """
@@ -1941,7 +2261,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_quotes_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -1970,7 +2295,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_quote_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -1998,7 +2328,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_quotes_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -2030,7 +2365,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_deals_by_internal_id_or_property_values(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -2061,7 +2401,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_deal_by_id(self, dealId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -2092,7 +2437,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_deal_object(self, dealId) -> Any:
         """
@@ -2118,7 +2468,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_deal_object(self, dealId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -2149,7 +2504,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_deals_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -2177,7 +2537,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_deals_by_ids(self, inputs) -> Any:
         """
@@ -2204,7 +2569,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_deals_object(self, inputs) -> dict[str, Any]:
         """
@@ -2231,7 +2601,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_deals_objects(self, inputs) -> dict[str, Any]:
         """
@@ -2258,7 +2633,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_deal(self, objectId, idProperty=None) -> Any:
         """
@@ -2286,7 +2666,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_get_deals_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -2315,7 +2700,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_deal_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -2343,7 +2733,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_deals_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -2375,7 +2770,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_cancel_import(self, importId) -> dict[str, Any]:
         """
@@ -2402,7 +2802,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_get_import_record(self, importId) -> dict[str, Any]:
         """
@@ -2428,7 +2833,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_imports_get_error_details(self, importId, after=None, limit=None) -> dict[str, Any]:
         """
@@ -2456,7 +2866,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('after', after), ('limit', limit)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_get_existing_schema(self, objectType) -> dict[str, Any]:
         """
@@ -2482,7 +2897,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_delete_schema(self, objectType, archived=None) -> Any:
         """
@@ -2509,7 +2929,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_update_schema_object(self, objectType, description=None, secondaryDisplayProperties=None, requiredProperties=None, searchableProperties=None, primaryDisplayProperty=None, restorable=None, labels=None) -> dict[str, Any]:
         """
@@ -2545,7 +2970,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_create_association(self, objectType, fromObjectTypeId, toObjectTypeId, name=None) -> dict[str, Any]:
         """
@@ -2577,7 +3007,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_schemas_purge_object_schema(self, objectType) -> Any:
         """
@@ -2603,7 +3038,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_remove_association(self, objectType, associationIdentifier) -> Any:
         """
@@ -2632,7 +3072,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_get_all_schemas(self, archived=None) -> dict[str, Any]:
         """
@@ -2656,7 +3101,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_define_object_schema(self, requiredProperties, name, associatedObjects, properties, labels, description=None, secondaryDisplayProperties=None, searchableProperties=None, primaryDisplayProperty=None) -> dict[str, Any]:
         """
@@ -2691,7 +3141,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_properties(self, objectType, inputs) -> Any:
         """
@@ -2721,7 +3176,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def groups_read_property_group(self, objectType, groupName) -> dict[str, Any]:
         """
@@ -2750,7 +3210,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def groups_archive_property_group(self, objectType, groupName) -> Any:
         """
@@ -2779,7 +3244,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def groups_update_property_group(self, objectType, groupName, displayOrder=None, label=None) -> dict[str, Any]:
         """
@@ -2813,7 +3283,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_read_property(self, objectType, propertyName, archived=None, properties=None) -> dict[str, Any]:
         """
@@ -2844,7 +3319,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived), ('properties', properties)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_archive_property(self, objectType, propertyName) -> Any:
         """
@@ -2873,7 +3353,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_update_property_by_id(self, objectType, propertyName, description=None, groupName=None, hidden=None, options=None, displayOrder=None, calculationFormula=None, label=None, type=None, fieldType=None, formField=None) -> dict[str, Any]:
         """
@@ -2915,7 +3400,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_properties(self, objectType, archived, inputs) -> dict[str, Any]:
         """
@@ -2946,7 +3436,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_properties_create_batch(self, objectType, inputs) -> dict[str, Any]:
         """
@@ -2976,7 +3471,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_get_all_properties(self, objectType, archived=None, properties=None) -> dict[str, Any]:
         """
@@ -3004,7 +3504,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived), ('properties', properties)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_create_property(self, objectType, label, type, groupName, name, fieldType, description=None, hidden=None, displayOrder=None, formField=None, referencedObjectType=None, options=None, calculationFormula=None, hasUniqueValue=None, externalOptions=None) -> dict[str, Any]:
         """
@@ -3047,7 +3552,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def groups_read_all_property(self, objectType) -> dict[str, Any]:
         """
@@ -3073,7 +3583,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def groups_create_copy(self, objectType, name, label, displayOrder=None) -> dict[str, Any]:
         """
@@ -3105,7 +3620,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def owners_get_by_id(self, ownerId, idProperty=None, archived=None) -> dict[str, Any]:
         """
@@ -3133,7 +3653,12 @@ class CrmApi(APISegmentBase):
         query_params = {k: v for k, v in [('idProperty', idProperty), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def events_create_multiple_batch(self, inputs) -> dict[str, Any]:
         """
@@ -3160,7 +3685,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def templates_get_specific_event_template(self, appId, eventTemplateId) -> dict[str, Any]:
         """
@@ -3189,7 +3719,12 @@ class CrmApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def templates_update_event_template(self, appId, eventTemplateId, name, tokens, id, detailTemplate=None, headerTemplate=None) -> dict[str, Any]:
         """
@@ -3233,7 +3768,12 @@ EDIT'.
         query_params = {}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def templates_delete_event_template(self, appId, eventTemplateId) -> Any:
         """
@@ -3262,7 +3802,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def events_create_single_event(self, eventTemplateId, tokens, extraData=None, timelineIFrame=None, domain=None, id=None, utk=None, email=None, objectId=None, timestamp=None) -> dict[str, Any]:
         """
@@ -3298,7 +3843,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def tokens_add_to_event_template(self, appId, eventTemplateId, name, label, type, createdAt=None, options=None, objectPropertyName=None, updatedAt=None) -> dict[str, Any]:
         """
@@ -3337,7 +3887,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def tokens_update_existing_token_on_event_template(self, appId, eventTemplateId, tokenName, label, options=None, objectPropertyName=None) -> dict[str, Any]:
         """
@@ -3375,7 +3930,12 @@ EDIT'.
         query_params = {}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def tokens_remove_from_template(self, appId, eventTemplateId, tokenName) -> Any:
         """
@@ -3407,7 +3967,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def events_render_detail_template(self, eventTemplateId, eventId) -> dict[str, Any]:
         """
@@ -3436,7 +4001,12 @@ EDIT'.
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def events_get_event_by_id(self, eventTemplateId, eventId) -> dict[str, Any]:
         """
@@ -3465,7 +4035,12 @@ EDIT'.
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def templates_list_event_templates(self, appId) -> dict[str, Any]:
         """
@@ -3491,7 +4066,12 @@ EDIT'.
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def templates_create_event_template_for_app(self, appId, name, tokens, objectType, detailTemplate=None, headerTemplate=None) -> dict[str, Any]:
         """
@@ -3530,7 +4110,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def events_rendering_html(self, eventTemplateId, eventId, detail=None) -> Any:
         """
@@ -3560,7 +4145,12 @@ EDIT'.
         query_params = {k: v for k, v in [('detail', detail)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_contacts_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -3591,7 +4181,12 @@ EDIT'.
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_contact_by_id(self, contactId, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -3621,7 +4216,12 @@ EDIT'.
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_contact(self, contactId) -> Any:
         """
@@ -3647,7 +4247,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_contact_object(self, contactId, properties) -> dict[str, Any]:
         """
@@ -3677,7 +4282,12 @@ EDIT'.
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_contacts_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -3705,7 +4315,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_contacts_by_id_batch(self, inputs) -> Any:
         """
@@ -3732,7 +4347,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_contacts(self, inputs) -> dict[str, Any]:
         """
@@ -3759,7 +4379,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_contacts_batch(self, inputs) -> dict[str, Any]:
         """
@@ -3786,7 +4411,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contacts(self, objectId, idProperty=None) -> Any:
         """
@@ -3814,7 +4444,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_contacts_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -3843,7 +4478,12 @@ EDIT'.
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_contact_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -3871,7 +4511,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_contacts_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -3903,7 +4548,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_feedback_submissions(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -3934,7 +4584,12 @@ EDIT'.
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_feedback_submission(self, feedbackSubmissionId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -3965,7 +4620,12 @@ EDIT'.
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_feedback_submission(self, feedbackSubmissionId) -> Any:
         """
@@ -3991,7 +4651,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_feedback_submission(self, feedbackSubmissionId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -4022,7 +4687,12 @@ EDIT'.
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_feedback_submissions(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -4050,7 +4720,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_feedback_submissions_by_id(self, inputs) -> Any:
         """
@@ -4077,7 +4752,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_feedback_submissions(self, inputs) -> dict[str, Any]:
         """
@@ -4104,7 +4784,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_feedback_submissions(self, inputs) -> dict[str, Any]:
         """
@@ -4131,7 +4816,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contact_feedback_submission(self, objectId, idProperty=None) -> Any:
         """
@@ -4159,7 +4849,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_feedback_submissions_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -4188,7 +4883,12 @@ EDIT'.
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_feedback_submission(self, associations, properties) -> dict[str, Any]:
         """
@@ -4216,7 +4916,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_feedback_submissions(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -4248,7 +4953,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_objects_by_internal_id_or_property_values(self, objectType, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -4282,7 +4992,12 @@ EDIT'.
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_object_by_id(self, objectType, objectId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -4316,7 +5031,12 @@ EDIT'.
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_object(self, objectType, objectId) -> Any:
         """
@@ -4345,7 +5065,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_object(self, objectType, objectId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -4379,7 +5104,12 @@ EDIT'.
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_objects_with_type(self, objectType, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -4410,7 +5140,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_objects_by_id(self, objectType, inputs) -> Any:
         """
@@ -4440,7 +5175,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_create_objects(self, objectType, inputs) -> dict[str, Any]:
         """
@@ -4470,7 +5210,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_objects_by_internal_id_or_property_values(self, objectType, inputs) -> dict[str, Any]:
         """
@@ -4500,7 +5245,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contact_object(self, objectType, objectId, idProperty=None) -> Any:
         """
@@ -4531,7 +5281,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_objects_page(self, objectType, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -4563,7 +5318,12 @@ EDIT'.
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_crmobject(self, objectType, associations, properties) -> dict[str, Any]:
         """
@@ -4594,7 +5354,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_objects_by_criteria(self, objectType, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -4629,7 +5394,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_get_by_id(self, appId) -> dict[str, Any]:
         """
@@ -4655,7 +5425,12 @@ EDIT'.
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_update_video_conferencing_app_settings(self, appId, createMeetingUrl, userVerifyUrl=None, fetchAccountsUri=None, updateMeetingUrl=None, deleteMeetingUrl=None) -> dict[str, Any]:
         """
@@ -4689,7 +5464,12 @@ EDIT'.
         query_params = {}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def settings_delete_video_conferencing_app_settings(self, appId) -> Any:
         """
@@ -4715,7 +5495,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_tickets_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -4746,7 +5531,12 @@ EDIT'.
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_ticket_by_id(self, ticketId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -4777,7 +5567,12 @@ EDIT'.
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_ticket(self, ticketId) -> Any:
         """
@@ -4803,7 +5598,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_ticket_object(self, ticketId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -4834,7 +5634,12 @@ EDIT'.
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_tickets_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -4862,7 +5667,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_tickets_by_id(self, inputs) -> Any:
         """
@@ -4889,7 +5699,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_ticket_creation_batch(self, inputs) -> dict[str, Any]:
         """
@@ -4916,7 +5731,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_tickets_batch(self, inputs) -> dict[str, Any]:
         """
@@ -4943,7 +5763,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_permanently_delete_contact(self, objectId, idProperty=None) -> Any:
         """
@@ -4971,7 +5796,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_tickets_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -5000,7 +5830,12 @@ EDIT'.
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_ticket_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -5028,7 +5863,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_tickets_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -5060,7 +5900,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_read_line_items(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -5091,7 +5936,12 @@ EDIT'.
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_read_line_item_by_id(self, lineItemId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
         """
@@ -5122,7 +5972,12 @@ EDIT'.
         query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_archive_line_item(self, lineItemId) -> Any:
         """
@@ -5148,7 +6003,12 @@ EDIT'.
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_update_line_item_object(self, lineItemId, properties, idProperty=None) -> dict[str, Any]:
         """
@@ -5179,7 +6039,12 @@ EDIT'.
         query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def public_object_merge_line_items_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
         """
@@ -5207,7 +6072,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_archive_line_items_by_ids(self, inputs) -> Any:
         """
@@ -5234,7 +6104,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_line_items_create_batch(self, inputs) -> dict[str, Any]:
         """
@@ -5261,7 +6136,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def batch_update_line_items(self, inputs) -> dict[str, Any]:
         """
@@ -5288,7 +6168,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def gdpr_delete_contact_content(self, objectId, idProperty=None) -> Any:
         """
@@ -5316,7 +6201,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_list_line_items_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
         """
@@ -5345,7 +6235,12 @@ EDIT'.
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def basic_create_line_item_object(self, associations, properties) -> dict[str, Any]:
         """
@@ -5373,7 +6268,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def search_line_items_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
         """
@@ -5405,7 +6305,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_get_active_imports_page(self, after=None, before=None, limit=None) -> dict[str, Any]:
         """
@@ -5431,7 +6336,12 @@ EDIT'.
         query_params = {k: v for k, v in [('after', after), ('before', before), ('limit', limit)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def core_start_import(self, files=None, importRequest=None) -> dict[str, Any]:
         """
@@ -5467,7 +6377,12 @@ EDIT'.
         query_params = {}
         response = self._post(url, data=request_body_data, files=files_data, params=query_params, content_type='multipart/form-data')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def owners_get_page(self, email=None, after=None, limit=None, archived=None) -> dict[str, Any]:
         """
@@ -5494,7 +6409,12 @@ EDIT'.
         query_params = {k: v for k, v in [('email', email), ('after', after), ('limit', limit), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_crm_v_associations_from_object_type_to_object_type_types_get_all(self, fromObjectType, toObjectType) -> dict[str, Any]:
         """
@@ -5523,7 +6443,12 @@ EDIT'.
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def list_tools(self):
         return [self.post_crm_v_objects_emails_batch_read_read, self.get_crm_v_objects_emails_email_id_get_by_id, self.delete_crm_v_objects_emails_email_id_archive, self.patch_crm_v_objects_emails_email_id_update, self.post_crm_v_objects_emails_merge_merge, self.post_crm_v_objects_emails_batch_archive_archive, self.post_crm_v_objects_emails_batch_create_create, self.post_crm_v_objects_emails_batch_update_update, self.post_crm_v_objects_emails_gdpr_delete_purge, self.get_crm_v_objects_emails_get_page, self.post_crm_v_objects_emails_create, self.post_crm_v_objects_emails_search_do_search, self.batch_read_by_properties, self.basic_read_product_by_id, self.basic_archive_product, self.basic_update_product, self.public_object_merge_products_same_type, self.batch_archive_products_by_ids, self.batch_create_products_batch, self.batch_update_products_batch, self.gdpr_delete_contact, self.basic_list_products_page, self.basic_create_product_object, self.search_products_by_criteria, self.pipelines_get_by_id, self.pipelines_replace_pipeline_object, self.pipelines_remove_by_id, self.pipelines_update_pipeline_by_id, self.pipeline_audits_get_by_pipeline_id, self.pipeline_stages_get_all, self.pipeline_stages_create_stage_object, self.pipelines_get_all, self.pipelines_create_new_pipeline_object, self.pipeline_stages_get_by_id, self.pipeline_stages_replace_stage_object, self.pipeline_stages_delete_stage, self.pipeline_stages_update_stage_by_id, self.batch_read_companies_by_properties, self.basic_read_company_object, self.basic_archive_company, self.basic_update_company_object, self.public_object_merge_companies_same_type, self.batch_archive_companies_by_id_batch, self.batch_create_companies_batch, self.batch_update_companies_batch, self.gdpr_permanently_delete_contact_company, self.basic_list_companies_page, self.basic_create_company_object, self.search_company_objects, self.settings_get_calling_config, self.settings_configure_calling_extension, self.settings_delete_calling_extension, self.settings_update_calling_extension, self.recording_settings_get_by_app_id, self.recording_settings_set_call_recording, self.recording_settings_update_calling_settings, self.batch_read_quotes_by_property_values, self.basic_read_quote_by_id, self.basic_archive_quote_object, self.basic_update_quote_object, self.public_object_merge_two_quotes_same_type, self.batch_archive_quotes_by_id_batch, self.batch_create_quotes_batch, self.batch_update_quotes_batch, self.gdpr_permanently_delete_contact_quotes, self.basic_list_quotes_page, self.basic_create_quote_object, self.search_quotes_by_criteria, self.batch_read_deals_by_internal_id_or_property_values, self.basic_read_deal_by_id, self.basic_archive_deal_object, self.basic_update_deal_object, self.public_object_merge_deals_same_type, self.batch_archive_deals_by_ids, self.batch_create_deals_object, self.batch_update_deals_objects, self.gdpr_permanently_delete_deal, self.basic_get_deals_page, self.basic_create_deal_object, self.search_deals_by_criteria, self.core_cancel_import, self.core_get_import_record, self.public_imports_get_error_details, self.core_get_existing_schema, self.core_delete_schema, self.core_update_schema_object, self.core_create_association, self.public_object_schemas_purge_object_schema, self.core_remove_association, self.core_get_all_schemas, self.core_define_object_schema, self.batch_archive_properties, self.groups_read_property_group, self.groups_archive_property_group, self.groups_update_property_group, self.core_read_property, self.core_archive_property, self.core_update_property_by_id, self.batch_read_properties, self.batch_properties_create_batch, self.core_get_all_properties, self.core_create_property, self.groups_read_all_property, self.groups_create_copy, self.owners_get_by_id, self.events_create_multiple_batch, self.templates_get_specific_event_template, self.templates_update_event_template, self.templates_delete_event_template, self.events_create_single_event, self.tokens_add_to_event_template, self.tokens_update_existing_token_on_event_template, self.tokens_remove_from_template, self.events_render_detail_template, self.events_get_event_by_id, self.templates_list_event_templates, self.templates_create_event_template_for_app, self.events_rendering_html, self.batch_read_contacts_by_properties, self.basic_read_contact_by_id, self.basic_archive_contact, self.basic_update_contact_object, self.public_object_merge_contacts_same_type, self.batch_archive_contacts_by_id_batch, self.batch_create_contacts, self.batch_update_contacts_batch, self.gdpr_permanently_delete_contacts, self.basic_list_contacts_page, self.basic_create_contact_object, self.search_contacts_by_criteria, self.batch_read_feedback_submissions, self.basic_read_feedback_submission, self.basic_archive_feedback_submission, self.basic_update_feedback_submission, self.public_object_merge_feedback_submissions, self.batch_archive_feedback_submissions_by_id, self.batch_create_feedback_submissions, self.batch_update_feedback_submissions, self.gdpr_permanently_delete_contact_feedback_submission, self.basic_list_feedback_submissions_page, self.basic_create_feedback_submission, self.search_feedback_submissions, self.batch_read_objects_by_internal_id_or_property_values, self.basic_read_object_by_id, self.basic_archive_object, self.basic_update_object, self.public_object_merge_objects_with_type, self.batch_archive_objects_by_id, self.batch_create_objects, self.batch_update_objects_by_internal_id_or_property_values, self.gdpr_permanently_delete_contact_object, self.basic_list_objects_page, self.basic_create_crmobject, self.search_objects_by_criteria, self.settings_get_by_id, self.settings_update_video_conferencing_app_settings, self.settings_delete_video_conferencing_app_settings, self.batch_read_tickets_by_properties, self.basic_read_ticket_by_id, self.basic_archive_ticket, self.basic_update_ticket_object, self.public_object_merge_tickets_same_type, self.batch_archive_tickets_by_id, self.batch_ticket_creation_batch, self.batch_update_tickets_batch, self.gdpr_permanently_delete_contact, self.basic_list_tickets_page, self.basic_create_ticket_object, self.search_tickets_by_criteria, self.batch_read_line_items, self.basic_read_line_item_by_id, self.basic_archive_line_item, self.basic_update_line_item_object, self.public_object_merge_line_items_same_type, self.batch_archive_line_items_by_ids, self.batch_line_items_create_batch, self.batch_update_line_items, self.gdpr_delete_contact_content, self.basic_list_line_items_page, self.basic_create_line_item_object, self.search_line_items_by_criteria, self.core_get_active_imports_page, self.core_start_import, self.owners_get_page, self.get_crm_v_associations_from_object_type_to_object_type_types_get_all]

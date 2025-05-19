@@ -32,7 +32,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('sort', sort), ('after', after), ('limit', limit), ('name', name), ('properties', properties)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_campaigns(self, properties) -> dict[str, Any]:
         """
@@ -59,7 +64,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_campaigns_batch_read(self, inputs, startDate=None, endDate=None, properties=None) -> dict[str, Any]:
         """
@@ -89,7 +99,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('properties', properties)] if v is not None}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_campaigns_batch_update(self, inputs) -> dict[str, Any]:
         """
@@ -116,7 +131,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid_reports_metrics(self, campaignGuid, startDate=None, endDate=None) -> dict[str, Any]:
         """
@@ -144,7 +164,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid_assets_asset_type(self, campaignGuid, assetType, after=None, limit=None, startDate=None, endDate=None) -> dict[str, Any]:
         """
@@ -177,7 +202,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('after', after), ('limit', limit), ('startDate', startDate), ('endDate', endDate)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_campaigns_batch_archive(self, inputs) -> Any:
         """
@@ -204,7 +234,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def put_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id(self, campaignGuid, assetType, assetId) -> Any:
         """
@@ -237,7 +272,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def delete_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id(self, campaignGuid, assetType, assetId) -> Any:
         """
@@ -269,7 +309,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid_reports_revenue(self, campaignGuid, attributionModel=None, startDate=None, endDate=None) -> dict[str, Any]:
         """
@@ -298,7 +343,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('attributionModel', attributionModel), ('startDate', startDate), ('endDate', endDate)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_campaigns_batch_create(self, inputs) -> dict[str, Any]:
         """
@@ -325,7 +375,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid_budget_totals(self, campaignGuid) -> dict[str, Any]:
         """
@@ -351,7 +406,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid(self, campaignGuid, startDate=None, endDate=None, properties=None) -> dict[str, Any]:
         """
@@ -380,7 +440,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('properties', properties)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def delete_marketing_v_campaigns_campaign_guid(self, campaignGuid) -> Any:
         """
@@ -406,7 +471,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def patch_marketing_v_campaigns_campaign_guid(self, campaignGuid, properties) -> dict[str, Any]:
         """
@@ -436,7 +506,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_campaigns_campaign_guid_reports_contacts_contact_type(self, campaignGuid, contactType, startDate=None, endDate=None, limit=None, after=None) -> dict[str, Any]:
         """
@@ -469,7 +544,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('limit', limit), ('after', after)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_statistics_list(self, startTimestamp=None, endTimestamp=None, emailIds=None, property=None) -> dict[str, Any]:
         """
@@ -496,7 +576,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('startTimestamp', startTimestamp), ('endTimestamp', endTimestamp), ('emailIds', emailIds), ('property', property)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails_ab_test_create_variation(self, variationName, contentId) -> dict[str, Any]:
         """
@@ -524,7 +609,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_statistics_histogram(self, interval=None, startTimestamp=None, endTimestamp=None, emailIds=None) -> dict[str, Any]:
         """
@@ -551,7 +641,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('interval', interval), ('startTimestamp', startTimestamp), ('endTimestamp', endTimestamp), ('emailIds', emailIds)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_email_id_ab_test_get_variation(self, emailId) -> dict[str, Any]:
         """
@@ -577,7 +672,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails_email_id_draft_reset(self, emailId) -> Any:
         """
@@ -604,7 +704,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails_email_id_revisions_revision_id_restore_to_draft(self, emailId, revisionId) -> dict[str, Any]:
         """
@@ -634,7 +739,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_email_id_draft(self, emailId) -> dict[str, Any]:
         """
@@ -660,7 +770,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def patch_marketing_v_emails_email_id_draft(self, emailId, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived=None, subscriptionDetails=None, activeDomain=None, name=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
         """
@@ -707,7 +822,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_email_id_revisions(self, emailId, after=None, before=None, limit=None) -> dict[str, Any]:
         """
@@ -736,7 +856,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('after', after), ('before', before), ('limit', limit)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_email_id_revisions_revision_id(self, emailId, revisionId) -> dict[str, Any]:
         """
@@ -765,7 +890,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails_clone(self, id, cloneName=None) -> dict[str, Any]:
         """
@@ -793,7 +923,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails(self, createdAt=None, createdAfter=None, createdBefore=None, updatedAt=None, updatedAfter=None, updatedBefore=None, sort=None, after=None, limit=None, includeStats=None, type=None, isPublished=None, includedProperties=None, archived=None) -> dict[str, Any]:
         """
@@ -830,7 +965,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('createdAt', createdAt), ('createdAfter', createdAfter), ('createdBefore', createdBefore), ('updatedAt', updatedAt), ('updatedAfter', updatedAfter), ('updatedBefore', updatedBefore), ('sort', sort), ('after', after), ('limit', limit), ('includeStats', includeStats), ('type', type), ('isPublished', isPublished), ('includedProperties', includedProperties), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails(self, name, feedbackSurveyId=None, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived=None, subscriptionDetails=None, activeDomain=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
         """
@@ -875,7 +1015,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def post_marketing_v_emails_email_id_revisions_revision_id_restore(self, emailId, revisionId) -> Any:
         """
@@ -905,7 +1050,12 @@ class MarketingApi(APISegmentBase):
         query_params = {}
         response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def get_marketing_v_emails_email_id(self, emailId, includeStats=None, includedProperties=None, archived=None) -> dict[str, Any]:
         """
@@ -934,7 +1084,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('includeStats', includeStats), ('includedProperties', includedProperties), ('archived', archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def delete_marketing_v_emails_email_id(self, emailId, archived=None) -> Any:
         """
@@ -961,7 +1116,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def patch_marketing_v_emails_email_id(self, emailId, archived=None, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived_body=None, subscriptionDetails=None, activeDomain=None, name=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
         """
@@ -1009,7 +1169,12 @@ class MarketingApi(APISegmentBase):
         query_params = {k: v for k, v in [('archived', archived)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 204 or not response.content or (not response.text.strip()):
+            return None
+        try:
+            return response.json()
+        except ValueError:
+            return None
 
     def list_tools(self):
         return [self.get_marketing_v_campaigns, self.post_marketing_v_campaigns, self.post_marketing_v_campaigns_batch_read, self.post_marketing_v_campaigns_batch_update, self.get_marketing_v_campaigns_campaign_guid_reports_metrics, self.get_marketing_v_campaigns_campaign_guid_assets_asset_type, self.post_marketing_v_campaigns_batch_archive, self.put_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id, self.delete_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id, self.get_marketing_v_campaigns_campaign_guid_reports_revenue, self.post_marketing_v_campaigns_batch_create, self.get_marketing_v_campaigns_campaign_guid_budget_totals, self.get_marketing_v_campaigns_campaign_guid, self.delete_marketing_v_campaigns_campaign_guid, self.patch_marketing_v_campaigns_campaign_guid, self.get_marketing_v_campaigns_campaign_guid_reports_contacts_contact_type, self.get_marketing_v_emails_statistics_list, self.post_marketing_v_emails_ab_test_create_variation, self.get_marketing_v_emails_statistics_histogram, self.get_marketing_v_emails_email_id_ab_test_get_variation, self.post_marketing_v_emails_email_id_draft_reset, self.post_marketing_v_emails_email_id_revisions_revision_id_restore_to_draft, self.get_marketing_v_emails_email_id_draft, self.patch_marketing_v_emails_email_id_draft, self.get_marketing_v_emails_email_id_revisions, self.get_marketing_v_emails_email_id_revisions_revision_id, self.post_marketing_v_emails_clone, self.get_marketing_v_emails, self.post_marketing_v_emails, self.post_marketing_v_emails_email_id_revisions_revision_id_restore, self.get_marketing_v_emails_email_id, self.delete_marketing_v_emails_email_id, self.patch_marketing_v_emails_email_id]
