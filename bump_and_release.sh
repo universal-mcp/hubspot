@@ -40,7 +40,7 @@ else
 fi
 
 # Update version in pyproject.toml
-sed -i '' "s/^version = \".*\"/version = \"$NEW_VERSION\"/" pyproject.toml
+sed -i "s/^version = \".*\"/version = \"$NEW_VERSION\"/" pyproject.toml
 
 echo "Version bumped from $CURRENT_VERSION to $NEW_VERSION"
 
