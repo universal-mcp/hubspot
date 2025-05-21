@@ -1376,7 +1376,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
@@ -1407,7 +1407,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
@@ -1641,7 +1641,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/companies'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -2429,7 +2429,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         if dealId is None:
             raise ValueError("Missing required parameter 'dealId'.")
@@ -2694,7 +2694,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/deals'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -4208,7 +4208,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         if contactId is None:
             raise ValueError("Missing required parameter 'contactId'.")
@@ -4472,7 +4472,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -5559,7 +5559,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         if ticketId is None:
             raise ValueError("Missing required parameter 'ticketId'.")
@@ -5824,7 +5824,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
