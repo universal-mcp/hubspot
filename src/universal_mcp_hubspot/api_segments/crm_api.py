@@ -328,7 +328,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/emails'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -347,7 +347,7 @@ class CrmApi(APISegmentBase):
         Creates an email object in the CRM using the POST method, allowing for the association of metadata with the email and requiring authentication via OAuth2 or private apps to access the necessary permissions.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -733,7 +733,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/products'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -752,7 +752,7 @@ class CrmApi(APISegmentBase):
         Creates a new product in the CRM product library to manage the collection of goods and services offered by the company.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -1407,7 +1407,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
@@ -1660,7 +1660,7 @@ class CrmApi(APISegmentBase):
         Creates a new company record in the CRM system using the provided JSON data and returns a 201 status code upon successful creation.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -2308,7 +2308,7 @@ class CrmApi(APISegmentBase):
         Creates a new quote in HubSpot using the CRM API and returns a status message upon successful creation.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -2713,7 +2713,7 @@ class CrmApi(APISegmentBase):
         Creates a new deal object in the CRM using the HubSpot API, requiring a JSON payload and returning a status code indicating success.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -3861,10 +3861,10 @@ EDIT'.
             name (string): The name of the token referenced in the templates. This must be unique for the specific template. It may only contain alphanumeric characters, periods, dashes, or underscores (. - _). Example: 'petType'.
             label (string): Used for list segmentation and reporting. Example: 'Pet Type'.
             type (string): The data type of the token. You can currently choose from [string, number, date, enumeration]. Example: 'enumeration'.
-            createdAt (string): The date and time that the Event Template Token was created, as an ISO 8601 timestamp. Will be null if the template was created before Feb 18th, 2020.
+            createdAt (string): The date and time that the Event Template Token was created, as an ISO 8601 timestamp. Will be null if the template was created before Feb 18th, 2020. Example: '2020-02-12T20:58:26Z'.
             options (array): If type is `enumeration`, we should have a list of options to choose from. Example: "[{'label': 'Dog', 'value': 'dog'}, {'label': 'Cat', 'value': 'cat'}]".
             objectPropertyName (string): The name of the CRM object property. This will populate the CRM object property associated with the event. With enough of these, you can fully build CRM objects via the Timeline API. Example: 'customPropertyPetType'.
-            updatedAt (string): The date and time that the Event Template Token was last updated, as an ISO 8601 timestamp. Will be null if the template was created before Feb 18th, 2020.
+            updatedAt (string): The date and time that the Event Template Token was last updated, as an ISO 8601 timestamp. Will be null if the template was created before Feb 18th, 2020. Example: '2020-02-12T20:58:26Z'.
 
         Returns:
             dict[str, Any]: successful operation
@@ -4491,7 +4491,7 @@ EDIT'.
         Creates a new contact in the CRM system using the provided JSON data and returns a successful creation response.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -4896,7 +4896,7 @@ EDIT'.
         Searches for feedback submissions using the HubSpot CRM API and returns relevant results.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -5332,7 +5332,7 @@ EDIT'.
 
         Args:
             objectType (string): objectType
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -5559,7 +5559,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         if ticketId is None:
             raise ValueError("Missing required parameter 'ticketId'.")
@@ -5843,7 +5843,7 @@ EDIT'.
         Creates a new ticket object in the CRM using the HubSpot API, allowing for the management of customer service requests.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
@@ -6248,7 +6248,7 @@ EDIT'.
         Creates a new line item in HubSpot CRM using the POST method, allowing you to add products or services to deals and quotes.
 
         Args:
-            associations (array): associations
+            associations (array): associations Example: [{'to': {'id': '101X'}, 'types': [{'associationCategory': 'HUBSPOT_DEFINED', 'associationTypeId': 2}]}].
             properties (object): No description provided. Example: "{'description': 'Onboarding service for data product', 'name': '1 year implementation consultation', 'price': '6000.00', 'hs_sku': '191902', 'hs_cost_of_goods_sold': '600.00', 'hs_recurring_billing_period': 'P24M', 'city': 'Cambridge', 'phone': '(877) 929-0687', 'state': 'Massachusetts', 'domain': 'biglytics.net', 'industry': 'Technology', 'amount': '1500.00', 'dealname': 'Custom data integrations', 'pipeline': 'default', 'closedate': '2019-12-07T16:50:06.678Z', 'dealstage': 'presentationscheduled', 'hubspot_owner_id': '910901', 'email': 'bcooper@biglytics.net', 'company': 'Biglytics', 'website': 'biglytics.net', 'lastname': 'Cooper', 'firstname': 'Bryan', 'subject': 'troubleshoot report', 'hs_pipeline': 'support_pipeline', 'hs_pipeline_stage': 'open', 'hs_ticket_priority': 'HIGH', 'quantity': '2', 'hs_product_id': '191902', 'recurringbillingfrequency': 'monthly'}".
 
         Returns:
