@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, List, Optional
 from .api_segment_base import APISegmentBase
 
 class MarketingApi(APISegmentBase):
@@ -6,7 +6,7 @@ class MarketingApi(APISegmentBase):
     def __init__(self, main_app_client: Any):
         super().__init__(main_app_client)
 
-    def get_marketing_v_campaigns(self, sort=None, after=None, limit=None, name=None, properties=None) -> dict[str, Any]:
+    def get_marketing_campaigns(self, sort: Optional[str]=None, after: Optional[str]=None, limit: Optional[int]=None, name: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of marketing campaigns with optional filtering by name, sorting, and limiting results.
@@ -39,7 +39,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_campaigns(self, properties) -> dict[str, Any]:
+    def create_marketing_campaigns(self, properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new marketing campaign using the provided JSON data and returns a status message upon successful creation.
@@ -71,7 +71,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_campaigns_batch_read(self, inputs, startDate=None, endDate=None, properties=None) -> dict[str, Any]:
+    def batch_read_campaigns_post(self, inputs: List[dict[str, Any]], startDate: Optional[str]=None, endDate: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
         """
 
         Retrieves a batch of campaign data from the marketing API, filtering by optional start and end dates and specifying properties to include, using JSON-formatted request body.
@@ -106,7 +106,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_campaigns_batch_update(self, inputs) -> dict[str, Any]:
+    def update_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple marketing campaigns in a batch using the POST method, requiring a JSON body and authentication via OAuth2 or private apps with "marketing.campaigns.read" permissions.
@@ -138,7 +138,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid_reports_metrics(self, campaignGuid, startDate=None, endDate=None) -> dict[str, Any]:
+    def get_campaign_metrics(self, campaignGuid: str, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves campaign metrics for a specified campaign GUID, optionally filtering by start and end dates.
@@ -171,7 +171,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid_assets_asset_type(self, campaignGuid, assetType, after=None, limit=None, startDate=None, endDate=None) -> dict[str, Any]:
+    def get_campaign_asset_by_type(self, campaignGuid: str, assetType: str, after: Optional[str]=None, limit: Optional[str]=None, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves assets of a specified type for a given marketing campaign, supporting optional filtering by date range and pagination.
@@ -209,7 +209,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_campaigns_batch_archive(self, inputs) -> Any:
+    def archive_campaigns_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of marketing campaigns using the HubSpot API, requiring a JSON request body and returning a 204 status upon successful completion.
@@ -241,7 +241,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def put_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id(self, campaignGuid, assetType, assetId) -> Any:
+    def update_campaign_asset(self, campaignGuid: str, assetType: str, assetId: str) -> Any:
         """
 
         Updates a specific asset of a given type within a marketing campaign identified by campaignGuid.
@@ -279,7 +279,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def delete_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id(self, campaignGuid, assetType, assetId) -> Any:
+    def delete_campaign_asset_by_id(self, campaignGuid: str, assetType: str, assetId: str) -> Any:
         """
 
         Deletes a specific asset from a marketing campaign using the provided campaign GUID, asset type, and asset ID.
@@ -316,7 +316,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid_reports_revenue(self, campaignGuid, attributionModel=None, startDate=None, endDate=None) -> dict[str, Any]:
+    def get_campaign_revenue_report(self, campaignGuid: str, attributionModel: Optional[str]=None, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves revenue reports for a specific marketing campaign using the provided campaign GUID, with optional filtering by attribution model and date range.
@@ -350,7 +350,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_campaigns_batch_create(self, inputs) -> dict[str, Any]:
+    def create_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple marketing campaigns in a single operation using the "POST" method, accepting a JSON body with campaign details and returning a status message upon successful creation.
@@ -382,7 +382,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid_budget_totals(self, campaignGuid) -> dict[str, Any]:
+    def get_campaign_budget_totals(self, campaignGuid: str) -> dict[str, Any]:
         """
 
         Retrieves the total budget details for a marketing campaign using the campaign's GUID.
@@ -413,7 +413,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid(self, campaignGuid, startDate=None, endDate=None, properties=None) -> dict[str, Any]:
+    def get_campaign_by_guid(self, campaignGuid: str, startDate: Optional[str]=None, endDate: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific marketing campaign identified by its campaignGuid, optionally filtered by date range and selected properties.
@@ -447,7 +447,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def delete_marketing_v_campaigns_campaign_guid(self, campaignGuid) -> Any:
+    def delete_campaign_by_guid(self, campaignGuid: str) -> Any:
         """
 
         Deletes a marketing campaign using the provided campaign GUID and returns a 204 No Content response.
@@ -478,7 +478,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def patch_marketing_v_campaigns_campaign_guid(self, campaignGuid, properties) -> dict[str, Any]:
+    def patch_campaign_by_guid(self, campaignGuid: str, properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Updates specified properties of a marketing campaign identified by the campaignGuid using a JSON patch document.
@@ -513,7 +513,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_campaigns_campaign_guid_reports_contacts_contact_type(self, campaignGuid, contactType, startDate=None, endDate=None, limit=None, after=None) -> dict[str, Any]:
+    def get_campaign_contacts_report_by_type(self, campaignGuid: str, contactType: str, startDate: Optional[str]=None, endDate: Optional[str]=None, limit: Optional[int]=None, after: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a report of contacts of a specified type for a marketing campaign, allowing optional filtering by start and end dates and pagination.
@@ -551,7 +551,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_statistics_list(self, startTimestamp=None, endTimestamp=None, emailIds=None, property=None) -> dict[str, Any]:
+    def list_email_statistics(self, startTimestamp: Optional[str]=None, endTimestamp: Optional[str]=None, emailIds: Optional[List[int]]=None, property: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves email statistics for a specified time range and optional email IDs and properties using the GET method.
@@ -583,14 +583,14 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails_ab_test_create_variation(self, variationName, contentId) -> dict[str, Any]:
+    def create_ab_test_email_variation(self, variationName: str, contentId: str) -> dict[str, Any]:
         """
 
         Creates a variation for an A/B test email using the POST method and returns a successful creation status.
 
         Args:
             variationName (string): variationName
-            contentId (string): ID of the object to test.
+            contentId (string): ID of the object to test. Example: '7'.
 
         Returns:
             dict[str, Any]: successful operation
@@ -616,7 +616,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_statistics_histogram(self, interval=None, startTimestamp=None, endTimestamp=None, emailIds=None) -> dict[str, Any]:
+    def get_email_statistics_histogram(self, interval: Optional[str]=None, startTimestamp: Optional[str]=None, endTimestamp: Optional[str]=None, emailIds: Optional[List[int]]=None) -> dict[str, Any]:
         """
 
         Retrieves histogram statistics for marketing emails filtered by optional parameters such as interval, time range, and specific email IDs.
@@ -648,7 +648,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_email_id_ab_test_get_variation(self, emailId) -> dict[str, Any]:
+    def get_email_ab_test_variation(self, emailId: str) -> dict[str, Any]:
         """
 
         Retrieves the variation for an A/B test associated with a specific email by its ID using the GET method.
@@ -679,7 +679,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails_email_id_draft_reset(self, emailId) -> Any:
+    def reset_email_draft_by_id(self, emailId: str) -> Any:
         """
 
         Resets the draft status of an email using the specified email ID.
@@ -711,7 +711,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails_email_id_revisions_revision_id_restore_to_draft(self, emailId, revisionId) -> dict[str, Any]:
+    def restore_email_revision_to_draft(self, emailId: str, revisionId: str) -> dict[str, Any]:
         """
 
         Restores a specified email revision to draft status by email ID and revision ID.
@@ -746,7 +746,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_email_id_draft(self, emailId) -> dict[str, Any]:
+    def get_email_draft_by_id(self, emailId: str) -> dict[str, Any]:
         """
 
         Retrieves the draft of an email with the specified `{emailId}` using the marketing API.
@@ -777,7 +777,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def patch_marketing_v_emails_email_id_draft(self, emailId, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived=None, subscriptionDetails=None, activeDomain=None, name=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
+    def update_email_draft_by_id(self, emailId: str, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, name: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Updates a draft email identified by the specified emailId using the provided JSON data.
@@ -785,23 +785,47 @@ class MarketingApi(APISegmentBase):
         Args:
             emailId (string): emailId
             rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email.
+            subject (string): The subject of the email. Example: 'My subject'.
             testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.
+            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
             language (string): language
             businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email.
-            webversion (object): webversion
-            archived (boolean): Determines if the email is archived or not.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email.
-            activeDomain (string): The active domain of the email.
-            name (string): The name of the email, as displayed on the email dashboard.
-            campaign (string): The ID of the campaign this email is associated to.
-            from_ (object): Data structure representing the from fields on the email.
-            state (string): The email state.
-            to (object): Data structure representing the to fields of the email.
-            subcategory (string): The email subcategory.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish.
+            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+
+Hello {{ contact.firstname }},
+
+Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+
+Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+
+Link text
+
+Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+
+All the best,
+
+Your full name
+
+Your job title
+
+Other contact information
+
+{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+
+Unsubscribe ({{unsubscribe_link_all}})
+
+Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+            archived (boolean): Determines if the email is archived or not. Example: False.
+            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
+            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+            state (string): The email state. Example: 'DRAFT'.
+            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+            subcategory (string): The email subcategory. Example: 'batch'.
+            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
         Returns:
             dict[str, Any]: successful operation
@@ -829,7 +853,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_email_id_revisions(self, emailId, after=None, before=None, limit=None) -> dict[str, Any]:
+    def get_email_revisions(self, emailId: str, after: Optional[str]=None, before: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
         """
 
         Get a list of revisions for a specified marketing email, optionally filtered by date range and limited in number.
@@ -863,7 +887,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_email_id_revisions_revision_id(self, emailId, revisionId) -> dict[str, Any]:
+    def get_email_revision_by_id(self, emailId: str, revisionId: str) -> dict[str, Any]:
         """
 
         Retrieves a specific revision of an email identified by the provided email ID and revision ID using the GET method.
@@ -897,7 +921,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails_clone(self, id, cloneName=None) -> dict[str, Any]:
+    def clone_email(self, id: str, cloneName: Optional[str]=None) -> dict[str, Any]:
         """
 
         Clones a marketing email using the POST method at the "/marketing/v3/emails/clone" endpoint, creating a duplicate email with the same properties as the original but with a unique ID.
@@ -930,7 +954,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails(self, createdAt=None, createdAfter=None, createdBefore=None, updatedAt=None, updatedAfter=None, updatedBefore=None, sort=None, after=None, limit=None, includeStats=None, type=None, isPublished=None, includedProperties=None, archived=None) -> dict[str, Any]:
+    def list_marketing_emails(self, createdAt: Optional[str]=None, createdAfter: Optional[str]=None, createdBefore: Optional[str]=None, updatedAt: Optional[str]=None, updatedAfter: Optional[str]=None, updatedBefore: Optional[str]=None, sort: Optional[List[str]]=None, after: Optional[str]=None, limit: Optional[int]=None, includeStats: Optional[bool]=None, type: Optional[str]=None, isPublished: Optional[bool]=None, includedProperties: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of marketing emails with optional filtering, sorting, pagination, and inclusion of statistics.
@@ -972,31 +996,55 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails(self, name, feedbackSurveyId=None, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived=None, subscriptionDetails=None, activeDomain=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
+    def create_email_marketing_campaign(self, name: str, feedbackSurveyId: Optional[str]=None, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Creates a new email resource in the marketing system using the provided JSON data and returns a success response upon creation.
 
         Args:
-            name (string): The name of the email, as displayed on the email dashboard.
+            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
             feedbackSurveyId (string): The ID of the feedback survey linked to the email.
             rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email.
+            subject (string): The subject of the email. Example: 'My subject'.
             testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.
+            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
             language (string): language
             businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email.
-            webversion (object): webversion
-            archived (boolean): Determines if the email is archived or not.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email.
-            activeDomain (string): The active domain of the email.
-            campaign (string): The ID of the campaign this email is associated to.
-            from_ (object): Data structure representing the from fields on the email.
-            state (string): The email state.
-            to (object): Data structure representing the to fields of the email.
-            subcategory (string): The email subcategory.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish.
+            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+
+Hello {{ contact.firstname }},
+
+Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+
+Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+
+Link text
+
+Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+
+All the best,
+
+Your full name
+
+Your job title
+
+Other contact information
+
+{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+
+Unsubscribe ({{unsubscribe_link_all}})
+
+Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+            archived (boolean): Determines if the email is archived or not. Example: False.
+            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+            state (string): The email state. Example: 'DRAFT'.
+            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+            subcategory (string): The email subcategory. Example: 'batch'.
+            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
         Returns:
             dict[str, Any]: successful operation
@@ -1022,7 +1070,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_marketing_v_emails_email_id_revisions_revision_id_restore(self, emailId, revisionId) -> Any:
+    def restore_email_revision(self, emailId: str, revisionId: str) -> Any:
         """
 
         Restores a specific email revision using the provided email ID and revision ID via the POST method.
@@ -1057,7 +1105,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_marketing_v_emails_email_id(self, emailId, includeStats=None, includedProperties=None, archived=None) -> dict[str, Any]:
+    def get_email_by_id(self, emailId: str, includeStats: Optional[bool]=None, includedProperties: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific email by its ID, optionally including statistics, selected properties, and archived status.
@@ -1091,7 +1139,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def delete_marketing_v_emails_email_id(self, emailId, archived=None) -> Any:
+    def delete_email_by_id(self, emailId: str, archived: Optional[bool]=None) -> Any:
         """
 
         Deletes the specified marketing email by its emailId, optionally archiving it, and returns a 204 No Content status on success.
@@ -1123,7 +1171,7 @@ class MarketingApi(APISegmentBase):
         except ValueError:
             return None
 
-    def patch_marketing_v_emails_email_id(self, emailId, archived=None, rssData=None, subject=None, testing=None, publishDate=None, language=None, businessUnitId=None, content=None, webversion=None, archived_body=None, subscriptionDetails=None, activeDomain=None, name=None, campaign=None, from_=None, state=None, to=None, subcategory=None, sendOnPublish=None) -> dict[str, Any]:
+    def patch_email_by_id(self, emailId: str, archived: Optional[bool]=None, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived_body: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, name: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Updates an email resource identified by `{emailId}` with partial modifications using JSON in the request body and optionally sets its archived status.
@@ -1132,23 +1180,47 @@ class MarketingApi(APISegmentBase):
             emailId (string): emailId
             archived (boolean): Indicates whether the email should be marked as archived, with true meaning archived and false meaning not archived, during the PATCH operation.
             rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email.
+            subject (string): The subject of the email. Example: 'My subject'.
             testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.
+            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
             language (string): language
             businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email.
-            webversion (object): webversion
-            archived_body (boolean): Determines if the email is archived or not.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email.
-            activeDomain (string): The active domain of the email.
-            name (string): The name of the email, as displayed on the email dashboard.
-            campaign (string): The ID of the campaign this email is associated to.
-            from_ (object): Data structure representing the from fields on the email.
-            state (string): The email state.
-            to (object): Data structure representing the to fields of the email.
-            subcategory (string): The email subcategory.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish.
+            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+
+Hello {{ contact.firstname }},
+
+Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+
+Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+
+Link text
+
+Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+
+All the best,
+
+Your full name
+
+Your job title
+
+Other contact information
+
+{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+
+Unsubscribe ({{unsubscribe_link_all}})
+
+Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+            archived_body (boolean): Determines if the email is archived or not. Example: False.
+            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
+            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+            state (string): The email state. Example: 'DRAFT'.
+            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+            subcategory (string): The email subcategory. Example: 'batch'.
+            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
         Returns:
             dict[str, Any]: successful operation
@@ -1177,4 +1249,4 @@ class MarketingApi(APISegmentBase):
             return None
 
     def list_tools(self):
-        return [self.get_marketing_v_campaigns, self.post_marketing_v_campaigns, self.post_marketing_v_campaigns_batch_read, self.post_marketing_v_campaigns_batch_update, self.get_marketing_v_campaigns_campaign_guid_reports_metrics, self.get_marketing_v_campaigns_campaign_guid_assets_asset_type, self.post_marketing_v_campaigns_batch_archive, self.put_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id, self.delete_marketing_v_campaigns_campaign_guid_assets_asset_type_asset_id, self.get_marketing_v_campaigns_campaign_guid_reports_revenue, self.post_marketing_v_campaigns_batch_create, self.get_marketing_v_campaigns_campaign_guid_budget_totals, self.get_marketing_v_campaigns_campaign_guid, self.delete_marketing_v_campaigns_campaign_guid, self.patch_marketing_v_campaigns_campaign_guid, self.get_marketing_v_campaigns_campaign_guid_reports_contacts_contact_type, self.get_marketing_v_emails_statistics_list, self.post_marketing_v_emails_ab_test_create_variation, self.get_marketing_v_emails_statistics_histogram, self.get_marketing_v_emails_email_id_ab_test_get_variation, self.post_marketing_v_emails_email_id_draft_reset, self.post_marketing_v_emails_email_id_revisions_revision_id_restore_to_draft, self.get_marketing_v_emails_email_id_draft, self.patch_marketing_v_emails_email_id_draft, self.get_marketing_v_emails_email_id_revisions, self.get_marketing_v_emails_email_id_revisions_revision_id, self.post_marketing_v_emails_clone, self.get_marketing_v_emails, self.post_marketing_v_emails, self.post_marketing_v_emails_email_id_revisions_revision_id_restore, self.get_marketing_v_emails_email_id, self.delete_marketing_v_emails_email_id, self.patch_marketing_v_emails_email_id]
+        return [self.get_marketing_campaigns, self.create_marketing_campaigns, self.batch_read_campaigns_post, self.update_campaigns_batch, self.get_campaign_metrics, self.get_campaign_asset_by_type, self.archive_campaigns_batch, self.update_campaign_asset, self.delete_campaign_asset_by_id, self.get_campaign_revenue_report, self.create_campaigns_batch, self.get_campaign_budget_totals, self.get_campaign_by_guid, self.delete_campaign_by_guid, self.patch_campaign_by_guid, self.get_campaign_contacts_report_by_type, self.list_email_statistics, self.create_ab_test_email_variation, self.get_email_statistics_histogram, self.get_email_ab_test_variation, self.reset_email_draft_by_id, self.restore_email_revision_to_draft, self.get_email_draft_by_id, self.update_email_draft_by_id, self.get_email_revisions, self.get_email_revision_by_id, self.clone_email, self.list_marketing_emails, self.create_email_marketing_campaign, self.restore_email_revision, self.get_email_by_id, self.delete_email_by_id, self.patch_email_by_id]

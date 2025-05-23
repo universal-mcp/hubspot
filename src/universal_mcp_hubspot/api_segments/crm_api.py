@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, List, Optional
 from .api_segment_base import APISegmentBase
 
 class CrmApi(APISegmentBase):
@@ -6,7 +6,7 @@ class CrmApi(APISegmentBase):
     def __init__(self, main_app_client: Any):
         super().__init__(main_app_client)
 
-    def post_crm_v_objects_emails_batch_read_read(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_emails(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a batch of emails from a CRM system using the "POST" method, allowing optional filtering by archived status, and returns the results in a multipart response.
@@ -42,7 +42,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_crm_v_objects_emails_email_id_get_by_id(self, emailId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_email_by_id(self, emailId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific email object in a CRM system, allowing optional filtering by properties, associations, and archival status.
@@ -78,7 +78,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def delete_crm_v_objects_emails_email_id_archive(self, emailId) -> Any:
+    def delete_email_by_id(self, emailId: str) -> Any:
         """
 
         Deletes an email object identified by the specified emailId from a CRM system.
@@ -109,7 +109,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def patch_crm_v_objects_emails_email_id_update(self, emailId, properties, idProperty=None) -> dict[str, Any]:
+    def update_email_by_id(self, emailId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates specific properties of an existing email record in the CRM by its emailId using a PATCH request with JSON data.
@@ -145,7 +145,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_merge_merge(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_emails_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges email records using the provided JSON payload, utilizing OAuth2 or private app authentication to manage contact data in the CRM system.
@@ -178,7 +178,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_batch_archive_archive(self, inputs) -> Any:
+    def archive_emails_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of emails by sending a POST request to the "/crm/v3/objects/emails/batch/archive" endpoint with a JSON payload containing the email IDs to be archived.
@@ -210,7 +210,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_batch_create_create(self, inputs) -> dict[str, Any]:
+    def create_emails_batch_post(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of email objects in the CRM using the POST method, requiring JSON content and authorization through OAuth2 or private apps.
@@ -242,7 +242,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_batch_update_update(self, inputs) -> dict[str, Any]:
+    def update_emails_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple email objects in a CRM system using a batch operation via the POST method, returning status messages for each update.
@@ -274,7 +274,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_gdpr_delete_purge(self, objectId, idProperty=None) -> Any:
+    def delete_email_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Deletes a contact and associated data from the CRM in compliance with GDPR guidelines using the provided JSON payload, requiring the "crm.objects.contacts.write" permission.
@@ -307,7 +307,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def get_crm_v_objects_emails_get_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def list_emails_with_filters(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a paginated list of email objects with optional filtering by properties, associations, and archival status from the CRM email records.
@@ -328,7 +328,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/emails'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -341,7 +341,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_create(self, associations, properties) -> dict[str, Any]:
+    def create_email(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates an email object in the CRM using the POST method, allowing for the association of metadata with the email and requiring authentication via OAuth2 or private apps to access the necessary permissions.
@@ -374,7 +374,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def post_crm_v_objects_emails_search_do_search(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_emails_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for email objects in a CRM system using specific criteria, returning relevant results.
@@ -411,7 +411,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_read_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_products_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a batch of product records from the CRM using the POST method, optionally filtering by archived status, and returns the results in a multi-status response.
@@ -447,7 +447,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_read_product_by_id(self, productId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_product_by_id(self, productId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific product by its ID, allowing optional filtering by properties, properties with history, associations, and archived status.
@@ -483,7 +483,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_archive_product(self, productId) -> Any:
+    def delete_product_by_id(self, productId: str) -> Any:
         """
 
         Deletes a product from the CRM using its product ID.
@@ -514,7 +514,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_update_product(self, productId, properties, idProperty=None) -> dict[str, Any]:
+    def patch_product_by_id(self, productId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates specified properties of a product identified by productId using a JSON PATCH request.
@@ -550,7 +550,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_object_merge_products_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_products(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges two or more product records in a CRM system using the POST method, allowing for the consolidation of data into a single, unified record.
@@ -583,7 +583,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_archive_products_by_ids(self, inputs) -> Any:
+    def archive_products_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of products by ID using the POST method, accepting JSON-formatted request bodies and returning a 204 status upon successful execution.
@@ -615,7 +615,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_create_products_batch(self, inputs) -> dict[str, Any]:
+    def create_products_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple product records in a single batch request within the CRM system.
@@ -647,7 +647,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_update_products_batch(self, inputs) -> dict[str, Any]:
+    def update_products_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple product records in a batch using the HubSpot CRM v3 API and returns a status response indicating success or partial failure.
@@ -679,7 +679,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def gdpr_delete_contact(self, objectId, idProperty=None) -> Any:
+    def delete_product_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Performs a GDPR-compliant deletion of product records in the CRM using the POST method, requiring a JSON request body and authentication.
@@ -712,7 +712,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_list_products_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def list_products(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of products from a CRM system using the "GET" method, allowing for optional filtering and customization of the returned data based on parameters such as limit, after, properties, properties with history, associations, and archived status.
@@ -733,7 +733,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/products'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -746,7 +746,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_create_product_object(self, associations, properties) -> dict[str, Any]:
+    def create_product(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new product in the CRM product library to manage the collection of goods and services offered by the company.
@@ -779,7 +779,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def search_products_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_products(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for products in a CRM using a POST request to the "/crm/v3/objects/products/search" endpoint, allowing for filtering and retrieval of product data in a JSON format.
@@ -816,7 +816,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_get_by_id(self, objectType, pipelineId) -> dict[str, Any]:
+    def get_pipeline_by_id_for_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
         """
 
         Retrieves details about a specific CRM pipeline by its ID and object type, providing information about the stages and records within that pipeline.
@@ -850,7 +850,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_replace_pipeline_object(self, objectType, pipelineId, displayOrder, stages, label, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None) -> dict[str, Any]:
+    def update_pipeline(self, objectType: str, pipelineId: str, displayOrder: int, stages: List[dict[str, Any]], label: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Updates the details of a specified pipeline for a given CRM object type by replacing its properties using the provided JSON payload.
@@ -892,7 +892,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_remove_by_id(self, objectType, pipelineId, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None) -> Any:
+    def delete_pipeline_by_id_and_type(self, objectType: str, pipelineId: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None) -> Any:
         """
 
         Deletes a pipeline by its ID and object type in the CRM system using the specified security permissions, optionally validating references and deal stage usages before deletion.
@@ -928,7 +928,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_update_pipeline_by_id(self, objectType, pipelineId, validateReferencesBeforeDelete=None, validateDealStageUsagesBeforeDelete=None, archived=None, displayOrder=None, label=None) -> dict[str, Any]:
+    def patch_pipeline_by_object_type(self, objectType: str, pipelineId: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None, archived: Optional[bool]=None, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a CRM pipeline by specifying the object type and pipeline ID, allowing modifications to its configuration with optional validation checks for references and deal stage usage before deletion.
@@ -970,7 +970,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_audits_get_by_pipeline_id(self, objectType, pipelineId) -> dict[str, Any]:
+    def get_pipeline_audit_by_object_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
         """
 
         Retrieves an audit of all changes to a specific pipeline in HubSpot CRM, based on the provided object type and pipeline ID.
@@ -1004,7 +1004,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_get_all(self, objectType, pipelineId) -> dict[str, Any]:
+    def get_pipeline_stages_by_object_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
         """
 
         Retrieves the list of stages within a specified pipeline for a given object type in the CRM system.
@@ -1038,7 +1038,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_create_stage_object(self, objectType, pipelineId, metadata, displayOrder, label) -> dict[str, Any]:
+    def create_pipeline_stage(self, objectType: str, pipelineId: str, metadata: dict[str, str], displayOrder: int, label: str) -> dict[str, Any]:
         """
 
         Creates a new stage in a specified CRM pipeline using the POST method, requiring the object type and pipeline ID, and a JSON-formatted request body.
@@ -1082,7 +1082,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_get_all(self, objectType) -> dict[str, Any]:
+    def list_pipelines_by_type(self, objectType: str) -> dict[str, Any]:
         """
 
         Retrieves a list of pipelines for a specified object type in the CRM, allowing for the management and inspection of pipelines relevant to that object type.
@@ -1113,7 +1113,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipelines_create_new_pipeline_object(self, objectType, displayOrder, stages, label) -> dict[str, Any]:
+    def create_pipeline_by_object_type(self, objectType: str, displayOrder: int, stages: List[dict[str, Any]], label: str) -> dict[str, Any]:
         """
 
         Creates a new pipeline for the specified CRM object type with the provided pipeline details.
@@ -1150,7 +1150,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_get_by_id(self, objectType, pipelineId, stageId) -> dict[str, Any]:
+    def get_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific stage within a given pipeline and object type in the CRM system.
@@ -1187,7 +1187,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_replace_stage_object(self, objectType, pipelineId, stageId, metadata, displayOrder, label) -> dict[str, Any]:
+    def update_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str, metadata: dict[str, str], displayOrder: int, label: str) -> dict[str, Any]:
         """
 
         Updates a specific stage in a CRM pipeline using the provided JSON data and returns a status message.
@@ -1234,7 +1234,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_delete_stage(self, objectType, pipelineId, stageId) -> Any:
+    def delete_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str) -> Any:
         """
 
         Deletes a specific stage from a pipeline for the given object type in the CRM system.
@@ -1271,7 +1271,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def pipeline_stages_update_stage_by_id(self, objectType, pipelineId, stageId, metadata, archived=None, displayOrder=None, label=None) -> dict[str, Any]:
+    def update_pipeline_stage(self, objectType: str, pipelineId: str, stageId: str, metadata: dict[str, str], archived: Optional[bool]=None, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a specific stage in a CRM pipeline using a PATCH request to the "/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}" endpoint, requiring a JSON body with the necessary updates.
@@ -1319,7 +1319,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_read_companies_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_companies_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Reads a batch of companies by internal ID or unique property values using the HubSpot CRM API and returns the results in a JSON format.
@@ -1355,7 +1355,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_read_company_object(self, companyId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_company_by_id(self, companyId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a specific company record by ID from the CRM system, optionally including additional properties, associations, and historical data, depending on the query parameters provided.
@@ -1376,7 +1376,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
@@ -1391,7 +1391,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_archive_company(self, companyId) -> Any:
+    def delete_company_by_id(self, companyId: str) -> Any:
         """
 
         Deletes a company by its ID using the DELETE method, requiring the company ID as a path parameter and authorization through OAuth2 or private apps with the "crm.objects.companies.write" permission.
@@ -1422,7 +1422,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_update_company_object(self, companyId, properties, idProperty=None) -> dict[str, Any]:
+    def patch_company_by_id(self, companyId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a company in the CRM using the PATCH method, allowing partial modifications to the company's properties.
@@ -1458,7 +1458,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_object_merge_companies_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_companies_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges two or more company records into a single unified record using the CRM API, requiring a JSON payload and appropriate write permissions.
@@ -1491,7 +1491,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_archive_companies_by_id_batch(self, inputs) -> Any:
+    def archive_companies_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of companies using the HubSpot CRM API, requiring a JSON body and returning a 204 status on successful operation.
@@ -1523,7 +1523,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_create_companies_batch(self, inputs) -> dict[str, Any]:
+    def create_companies_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple company records in batch using the HubSpot CRM API and returns a status message, requiring authorization via OAuth2 or private apps.
@@ -1555,7 +1555,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_update_companies_batch(self, inputs) -> dict[str, Any]:
+    def update_companies_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple company records in a single request using the HubSpot CRM API.
@@ -1587,7 +1587,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contact_company(self, objectId, idProperty=None) -> Any:
+    def delete_company_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Performs a GDPR-compliant deletion of a company record in the CRM, permanently removing the associated personal data.
@@ -1620,7 +1620,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_list_companies_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_companies(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of company records from a CRM system, allowing for filtering by properties, associations, and archived status.
@@ -1641,7 +1641,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/companies'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -1654,7 +1654,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_create_company_object(self, associations, properties) -> dict[str, Any]:
+    def create_company(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new company record in the CRM system using the provided JSON data and returns a 201 status code upon successful creation.
@@ -1687,7 +1687,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def search_company_objects(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_companies_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for and retrieves company records and their associated properties in the CRM based on specified criteria.
@@ -1724,7 +1724,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def settings_get_calling_config(self, appId) -> dict[str, Any]:
+    def get_calling_app_settings(self, appId: str) -> dict[str, Any]:
         """
 
         Retrieves the calling settings for a specified application in HubSpot CRM using the provided app ID.
@@ -1755,7 +1755,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def settings_configure_calling_extension(self, appId, name, url, supportsCustomObjects=None, isReady=None, width=None, height=None) -> dict[str, Any]:
+    def update_calling_app_settings(self, appId: str, name: str, url: str, supportsCustomObjects: Optional[bool]=None, isReady: Optional[bool]=None, width: Optional[int]=None, height: Optional[int]=None) -> dict[str, Any]:
         """
 
         Configures calling settings for a specified application ID in the CRM using a POST request with a JSON body.
@@ -1795,7 +1795,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def settings_delete_calling_extension(self, appId) -> Any:
+    def delete_calling_app_settings_by_id(self, appId: str) -> Any:
         """
 
         Deletes the settings for a specified CRM application identified by `{appId}`, returning a successful response with no content if the operation is completed.
@@ -1826,7 +1826,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def settings_update_calling_extension(self, appId, supportsCustomObjects=None, isReady=None, name=None, width=None, url=None, height=None) -> dict[str, Any]:
+    def update_calling_settings(self, appId: str, supportsCustomObjects: Optional[bool]=None, isReady: Optional[bool]=None, name: Optional[str]=None, width: Optional[int]=None, url: Optional[str]=None, height: Optional[int]=None) -> dict[str, Any]:
         """
 
         Updates specific settings for the calling extension of the specified application by applying partial modifications to its resource.
@@ -1866,7 +1866,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def recording_settings_get_by_app_id(self, appId) -> dict[str, Any]:
+    def get_calling_app_recording_settings(self, appId: str) -> dict[str, Any]:
         """
 
         Retrieves the recording settings for a calling extension with the specified `appId` in the HubSpot CRM.
@@ -1897,7 +1897,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def recording_settings_set_call_recording(self, appId, urlToRetrieveAuthedRecording) -> dict[str, Any]:
+    def post_calling_app_recording_settings(self, appId: str, urlToRetrieveAuthedRecording: str) -> dict[str, Any]:
         """
 
         Configures call recording settings for a specific application ID in the CRM using a POST request to update the recording settings.
@@ -1932,7 +1932,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def recording_settings_update_calling_settings(self, appId, urlToRetrieveAuthedRecording=None) -> dict[str, Any]:
+    def update_recording_settings(self, appId: str, urlToRetrieveAuthedRecording: Optional[str]=None) -> dict[str, Any]:
         """
 
         Modifies the recording settings for a specific CRM application using the provided JSON body.
@@ -1967,7 +1967,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_read_quotes_by_property_values(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def read_quotes_batch(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Reads a batch of quote objects by their internal IDs or unique property values, optionally including archived quotes, in a single POST request.
@@ -2003,7 +2003,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_read_quote_by_id(self, quoteId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_quote_by_id(self, quoteId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a specific sales quote by its ID, optionally including custom properties, property history, associations, and archived status, using the HubSpot CRM API.
@@ -2039,7 +2039,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_archive_quote_object(self, quoteId) -> Any:
+    def delete_quote_by_id(self, quoteId: str) -> Any:
         """
 
         Deletes a sales quote with the specified ID using the HubSpot CRM API, requiring "crm.objects.quotes.write" permission.
@@ -2070,7 +2070,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_update_quote_object(self, quoteId, properties, idProperty=None) -> dict[str, Any]:
+    def update_quote(self, quoteId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a quote object with the specified ID in the CRM system using partial modifications, requiring a JSON body with the changes and returning a status message upon success.
@@ -2106,7 +2106,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_object_merge_two_quotes_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_quotes(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges quote objects in a CRM system using the POST method, allowing for the integration of data from multiple quotes into a single unified quote.
@@ -2139,7 +2139,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_archive_quotes_by_id_batch(self, inputs) -> Any:
+    def archive_quotes_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of quotes by sending a POST request to the "/crm/v3/objects/quotes/batch/archive" endpoint, requiring a JSON body and authentication via OAuth2 or private apps with the "crm.objects.quotes.write" permission.
@@ -2171,7 +2171,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_create_quotes_batch(self, inputs) -> dict[str, Any]:
+    def create_quote_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of sales quotes using the HubSpot CRM API, requiring a JSON body and returning a status message upon successful creation.
@@ -2203,7 +2203,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_update_quotes_batch(self, inputs) -> dict[str, Any]:
+    def update_quotes_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates a batch of quote objects in the CRM system using a single POST request, returning a status code indicating success or partial failure.
@@ -2235,7 +2235,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contact_quotes(self, objectId, idProperty=None) -> Any:
+    def delete_quote_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Performs a GDPR-compliant deletion of a quote object in the CRM system, permanently removing the associated personal data.
@@ -2268,7 +2268,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_list_quotes_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_quotes(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of quotes from the CRM, allowing for optional filtering by limit, after, properties, properties with history, associations, and archived status.
@@ -2302,7 +2302,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_create_quote_object(self, associations, properties) -> dict[str, Any]:
+    def create_quote(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new quote in HubSpot using the CRM API and returns a status message upon successful creation.
@@ -2335,7 +2335,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def search_quotes_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_quotes(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for quotes in a CRM system using specified criteria and returns the results, requiring authentication via OAuth2 or private apps with read permissions for quotes.
@@ -2372,7 +2372,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_read_deals_by_internal_id_or_property_values(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_deals_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Reads a batch of deals from the CRM using the provided IDs and returns the specified properties, allowing for optional filtering by archived status.
@@ -2408,7 +2408,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_read_deal_by_id(self, dealId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_deal_by_id(self, dealId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a deal by its ID and returns its details, supporting optional parameters for specifying properties, associations, and archived status.
@@ -2429,7 +2429,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         if dealId is None:
             raise ValueError("Missing required parameter 'dealId'.")
@@ -2444,7 +2444,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_archive_deal_object(self, dealId) -> Any:
+    def delete_deal_by_id(self, dealId: str) -> Any:
         """
 
         Deletes a specific deal by its ID from the CRM system.
@@ -2475,7 +2475,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_update_deal_object(self, dealId, properties, idProperty=None) -> dict[str, Any]:
+    def update_deal_by_id(self, dealId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates an individual deal in the CRM by its record ID using the PATCH method.
@@ -2511,7 +2511,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_object_merge_deals_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_deals(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges two or more deal records into a single master deal record, consolidating data and deleting duplicates in the CRM system.
@@ -2544,7 +2544,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_archive_deals_by_ids(self, inputs) -> Any:
+    def archive_deals_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of deal records in the CRM by their IDs using the POST method.
@@ -2576,7 +2576,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_create_deals_object(self, inputs) -> dict[str, Any]:
+    def create_deals_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple deals in a CRM using a batch operation via the POST method, requiring a JSON body with deal data and appropriate permissions for writing deals.
@@ -2608,7 +2608,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_update_deals_objects(self, inputs) -> dict[str, Any]:
+    def batch_update_deals(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple deals in HubSpot CRM in a single operation using a POST request to "/crm/v3/objects/deals/batch/update", requiring a JSON body with deal identifiers and updates, and supports OAuth2 and private app authentication for the "crm.objects.deals.write" scope.
@@ -2640,7 +2640,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_deal(self, objectId, idProperty=None) -> Any:
+    def post_deal_gdpr_delete(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Deletes a deal record in compliance with GDPR requirements using the provided JSON payload, requiring a valid OAuth2 or private app authentication with the necessary write permissions.
@@ -2673,7 +2673,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_get_deals_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def list_deals(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM deal objects from HubSpot using the GET method, allowing optional filtering by parameters such as limit, after, properties, propertiesWithHistory, associations, and archived status.
@@ -2694,7 +2694,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/deals'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -2707,7 +2707,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def basic_create_deal_object(self, associations, properties) -> dict[str, Any]:
+    def create_deal(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new deal object in the CRM using the HubSpot API, requiring a JSON payload and returning a status code indicating success.
@@ -2740,7 +2740,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def search_deals_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_deals(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches and retrieves deal records in the CRM using filters and criteria provided in the request body.
@@ -2777,7 +2777,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_cancel_import(self, importId) -> dict[str, Any]:
+    def cancel_import_by_id(self, importId: str) -> dict[str, Any]:
         """
 
         Cancels an active import operation in a CRM system using the provided import ID.
@@ -2809,7 +2809,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_get_import_record(self, importId) -> dict[str, Any]:
+    def get_import_by_id(self, importId: str) -> dict[str, Any]:
         """
 
         Retrieves the status and details of a specific CRM import operation identified by the import ID.
@@ -2840,7 +2840,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_imports_get_error_details(self, importId, after=None, limit=None) -> dict[str, Any]:
+    def get_import_errors_by_id(self, importId: str, after: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of errors associated with a specific CRM import operation, using the import ID, and allows filtering by optional parameters such as "after" and "limit".
@@ -2873,7 +2873,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_get_existing_schema(self, objectType) -> dict[str, Any]:
+    def get_schema_by_object_type(self, objectType: str) -> dict[str, Any]:
         """
 
         Retrieves the schema definition for a specified CRM object type, including its properties and metadata.
@@ -2904,7 +2904,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_delete_schema(self, objectType, archived=None) -> Any:
+    def delete_schema_by_type(self, objectType: str, archived: Optional[bool]=None) -> Any:
         """
 
         Deletes the specified CRM object schema by its type, optionally including archived versions, to remove its definition from the system.
@@ -2936,7 +2936,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_update_schema_object(self, objectType, description=None, secondaryDisplayProperties=None, requiredProperties=None, searchableProperties=None, primaryDisplayProperty=None, restorable=None, labels=None) -> dict[str, Any]:
+    def patch_crm_schema_by_object_type(self, objectType: str, description: Optional[str]=None, secondaryDisplayProperties: Optional[List[str]]=None, requiredProperties: Optional[List[str]]=None, searchableProperties: Optional[List[str]]=None, primaryDisplayProperty: Optional[str]=None, restorable: Optional[bool]=None, labels: Optional[dict[str, Any]]=None) -> dict[str, Any]:
         """
 
         Updates a custom CRM object schema in HubSpot using the PATCH method, allowing for partial modifications to the schema of a specified object type.
@@ -2977,7 +2977,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_create_association(self, objectType, fromObjectTypeId, toObjectTypeId, name=None) -> dict[str, Any]:
+    def create_object_type_association(self, objectType: str, fromObjectTypeId: str, toObjectTypeId: str, name: Optional[str]=None) -> dict[str, Any]:
         """
 
         Creates a new association definition for the specified CRM object type to define relationships between that object and others.
@@ -3014,7 +3014,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def public_object_schemas_purge_object_schema(self, objectType) -> Any:
+    def delete_schema_object_type_purge(self, objectType: str) -> Any:
         """
 
         Purges a schema for a specific object type in the CRM system using the DELETE method, requiring the objectType as a path parameter and a custom write permission.
@@ -3045,7 +3045,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_remove_association(self, objectType, associationIdentifier) -> Any:
+    def delete_association_by_object_type_id(self, objectType: str, associationIdentifier: str) -> Any:
         """
 
         Removes an association identified by the associationIdentifier from a CRM object schema of the specified objectType using the HubSpot API.
@@ -3079,7 +3079,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_get_all_schemas(self, archived=None) -> dict[str, Any]:
+    def list_schemas(self, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of custom object schemas in the CRM, optionally filtering by archived status, using either legacy private apps or OAuth2 credentials for authentication.
@@ -3108,7 +3108,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_define_object_schema(self, requiredProperties, name, associatedObjects, properties, labels, description=None, secondaryDisplayProperties=None, searchableProperties=None, primaryDisplayProperty=None) -> dict[str, Any]:
+    def create_crm_schema(self, requiredProperties: List[str], name: str, associatedObjects: List[str], properties: List[dict[str, Any]], labels: dict[str, Any], description: Optional[str]=None, secondaryDisplayProperties: Optional[List[str]]=None, searchableProperties: Optional[List[str]]=None, primaryDisplayProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Creates a new custom object schema in the CRM to define a new type of CRM record.
@@ -3148,7 +3148,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_archive_properties(self, objectType, inputs) -> Any:
+    def archive_properties_batch_post(self, objectType: str, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of properties for a specified object type in CRM using a POST request.
@@ -3183,7 +3183,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def groups_read_property_group(self, objectType, groupName) -> dict[str, Any]:
+    def get_property_group(self, objectType: str, groupName: str) -> dict[str, Any]:
         """
 
         Retrieves details of a specified property group for a given CRM object type.
@@ -3217,7 +3217,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def groups_archive_property_group(self, objectType, groupName) -> Any:
+    def remove_property_group(self, objectType: str, groupName: str) -> Any:
         """
 
         Deletes a property group identified by the given object type and group name from the CRM schema.
@@ -3251,7 +3251,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def groups_update_property_group(self, objectType, groupName, displayOrder=None, label=None) -> dict[str, Any]:
+    def update_property_group_by_identifier(self, objectType: str, groupName: str, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
         """
 
         Modifies the properties of a specified group in a CRM object type using the PATCH method, requiring authentication and a JSON request body to update the group's properties.
@@ -3290,7 +3290,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_read_property(self, objectType, propertyName, archived=None, properties=None) -> dict[str, Any]:
+    def get_crm_property(self, objectType: str, propertyName: str, archived: Optional[bool]=None, properties: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves the details of a specific property for a given CRM object type, optionally including archived properties and additional specified fields.
@@ -3326,7 +3326,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_archive_property(self, objectType, propertyName) -> Any:
+    def delete_property_by_object_type(self, objectType: str, propertyName: str) -> Any:
         """
 
         Deletes a specified property of a given object type in the CRM system.
@@ -3360,7 +3360,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_update_property_by_id(self, objectType, propertyName, description=None, groupName=None, hidden=None, options=None, displayOrder=None, calculationFormula=None, label=None, type=None, fieldType=None, formField=None) -> dict[str, Any]:
+    def patch_crm_property_by_name(self, objectType: str, propertyName: str, description: Optional[str]=None, groupName: Optional[str]=None, hidden: Optional[bool]=None, options: Optional[List[dict[str, Any]]]=None, displayOrder: Optional[int]=None, calculationFormula: Optional[str]=None, label: Optional[str]=None, type: Optional[str]=None, fieldType: Optional[str]=None, formField: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Updates the specified property of a given CRM object type by applying partial modifications using a JSON Patch request.
@@ -3407,7 +3407,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_read_properties(self, objectType, archived, inputs) -> dict[str, Any]:
+    def batch_read_properties_by_object_type(self, objectType: str, archived: bool, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Performs a batch read operation on CRM properties for a specified object type using a POST request, returning the results in a batch format.
@@ -3443,7 +3443,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def batch_properties_create_batch(self, objectType, inputs) -> dict[str, Any]:
+    def create_batch_properties(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple properties in batches for a specified object type in the CRM using a POST request to the "/crm/v3/properties/{objectType}/batch/create" endpoint.
@@ -3478,7 +3478,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_get_all_properties(self, objectType, archived=None, properties=None) -> dict[str, Any]:
+    def get_properties_by_object_type(self, objectType: str, archived: Optional[bool]=None, properties: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of properties for a specified CRM object type using the HubSpot API, allowing for optional filtering by archived status and specific properties.
@@ -3511,7 +3511,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def core_create_property(self, objectType, label, type, groupName, name, fieldType, description=None, hidden=None, displayOrder=None, formField=None, referencedObjectType=None, options=None, calculationFormula=None, hasUniqueValue=None, externalOptions=None) -> dict[str, Any]:
+    def create_property_schema(self, objectType: str, label: str, type: str, groupName: str, name: str, fieldType: str, description: Optional[str]=None, hidden: Optional[bool]=None, displayOrder: Optional[int]=None, formField: Optional[bool]=None, referencedObjectType: Optional[str]=None, options: Optional[List[dict[str, Any]]]=None, calculationFormula: Optional[str]=None, hasUniqueValue: Optional[bool]=None, externalOptions: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Creates a new custom property for a specified CRM object type.
@@ -3559,7 +3559,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def groups_read_all_property(self, objectType) -> dict[str, Any]:
+    def get_property_groups_by_object_type(self, objectType: str) -> dict[str, Any]:
         """
 
         Retrieves a list of groups for a specified object type in the CRM using the "GET" method at the path "/crm/v3/properties/{objectType}/groups".
@@ -3590,7 +3590,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def groups_create_copy(self, objectType, name, label, displayOrder=None) -> dict[str, Any]:
+    def create_property_group(self, objectType: str, name: str, label: str, displayOrder: Optional[int]=None) -> dict[str, Any]:
         """
 
         Creates a new property group for the specified CRM object type to organize related properties within HubSpot records.
@@ -3627,7 +3627,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def owners_get_by_id(self, ownerId, idProperty=None, archived=None) -> dict[str, Any]:
+    def get_owner_by_id(self, ownerId: str, idProperty: Optional[str]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific CRM owner by their ID using the HubSpot API.
@@ -3660,7 +3660,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def events_create_multiple_batch(self, inputs) -> dict[str, Any]:
+    def batch_create_timeline_events(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple timeline events in a batch using the provided event templates and returns a response with the created events.
@@ -3692,7 +3692,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def templates_get_specific_event_template(self, appId, eventTemplateId) -> dict[str, Any]:
+    def get_timeline_event_template_by_id(self, appId: str, eventTemplateId: str) -> dict[str, Any]:
         """
 
         Retrieves a specific event template by its ID for an application in HubSpot CRM, using the provided app ID and event template ID.
@@ -3726,7 +3726,7 @@ class CrmApi(APISegmentBase):
         except ValueError:
             return None
 
-    def templates_update_event_template(self, appId, eventTemplateId, name, tokens, id, detailTemplate=None, headerTemplate=None) -> dict[str, Any]:
+    def update_timeline_event_template_by_id(self, appId: str, eventTemplateId: str, name: str, tokens: List[dict[str, Any]], id: str, detailTemplate: Optional[str]=None, headerTemplate: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates an existing event template in the HubSpot CRM timeline for a specific app, using the provided event template ID and app ID, and returns a status message.
@@ -3775,7 +3775,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def templates_delete_event_template(self, appId, eventTemplateId) -> Any:
+    def delete_event_template_by_id(self, appId: str, eventTemplateId: str) -> Any:
         """
 
         Deletes an event template with the specified `eventTemplateId` associated with the application identified by `appId` in a CRM system, returning a successful response with no content upon completion.
@@ -3809,7 +3809,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def events_create_single_event(self, eventTemplateId, tokens, extraData=None, timelineIFrame=None, domain=None, id=None, utk=None, email=None, objectId=None, timestamp=None) -> dict[str, Any]:
+    def create_event(self, eventTemplateId: str, tokens: dict[str, str], extraData: Optional[dict[str, Any]]=None, timelineIFrame: Optional[dict[str, Any]]=None, domain: Optional[str]=None, id: Optional[str]=None, utk: Optional[str]=None, email: Optional[str]=None, objectId: Optional[str]=None, timestamp: Optional[str]=None) -> dict[str, Any]:
         """
 
         Creates a new timeline event in a CRM record based on an event template, adding custom event information to the timeline of a contact, company, or deal.
@@ -3850,7 +3850,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def tokens_add_to_event_template(self, appId, eventTemplateId, name, label, type, createdAt=None, options=None, objectPropertyName=None, updatedAt=None) -> dict[str, Any]:
+    def create_token_template(self, appId: str, eventTemplateId: str, name: str, label: str, type: str, createdAt: Optional[str]=None, options: Optional[List[dict[str, Any]]]=None, objectPropertyName: Optional[str]=None, updatedAt: Optional[str]=None) -> dict[str, Any]:
         """
 
         Creates a new token for an event template in the HubSpot CRM timeline using the provided JSON data.
@@ -3894,7 +3894,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def tokens_update_existing_token_on_event_template(self, appId, eventTemplateId, tokenName, label, options=None, objectPropertyName=None) -> dict[str, Any]:
+    def update_event_template_token(self, appId: str, eventTemplateId: str, tokenName: str, label: str, options: Optional[List[dict[str, Any]]]=None, objectPropertyName: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a specific token in an event template within a CRM timeline using the provided JSON data.
@@ -3937,7 +3937,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def tokens_remove_from_template(self, appId, eventTemplateId, tokenName) -> Any:
+    def delete_timeline_event_template_token(self, appId: str, eventTemplateId: str, tokenName: str) -> Any:
         """
 
         Deletes a token by the specified name from an event template in the CRM timeline for a given application ID.
@@ -3974,7 +3974,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def events_render_detail_template(self, eventTemplateId, eventId) -> dict[str, Any]:
+    def get_timeline_event_detail_by_id(self, eventTemplateId: str, eventId: str) -> dict[str, Any]:
         """
 
         Retrieves detailed information for a specific timeline event identified by its event template ID and event ID in the CRM.
@@ -4008,7 +4008,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def events_get_event_by_id(self, eventTemplateId, eventId) -> dict[str, Any]:
+    def get_timeline_event_by_id(self, eventTemplateId: str, eventId: str) -> dict[str, Any]:
         """
 
         Retrieves a specific timeline event by its event template ID and event ID, returning detailed information about that event in the CRM.
@@ -4042,7 +4042,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def templates_list_event_templates(self, appId) -> dict[str, Any]:
+    def get_timeline_event_templates_by_app_id(self, appId: str) -> dict[str, Any]:
         """
 
         Retrieves a list of event templates for a specified app ID in the HubSpot CRM API.
@@ -4073,7 +4073,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def templates_create_event_template_for_app(self, appId, name, tokens, objectType, detailTemplate=None, headerTemplate=None) -> dict[str, Any]:
+    def create_timeline_event_template(self, appId: str, name: str, tokens: List[dict[str, Any]], objectType: str, detailTemplate: Optional[str]=None, headerTemplate: Optional[str]=None) -> dict[str, Any]:
         """
 
         Creates a new event template for a specified application ID in HubSpot's CRM timeline using the provided JSON payload.
@@ -4117,7 +4117,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def events_rendering_html(self, eventTemplateId, eventId, detail=None) -> Any:
+    def get_timeline_event_render(self, eventTemplateId: str, eventId: str, detail: Optional[bool]=None) -> Any:
         """
 
         Retrieves and renders a specific timeline event from a CRM object using an event template and event ID, allowing for optional detailed rendering.
@@ -4152,7 +4152,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_read_contacts_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_contacts_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a batch of contacts from the CRM using the provided identifiers and properties, supporting optional filtering by archived status.
@@ -4188,7 +4188,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_read_contact_by_id(self, contactId, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_contact_by_id(self, contactId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a contact by ID from the CRM, allowing for optional filtering by properties, properties with history, associations, and archived status.
@@ -4208,7 +4208,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         if contactId is None:
             raise ValueError("Missing required parameter 'contactId'.")
@@ -4223,7 +4223,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_archive_contact(self, contactId) -> Any:
+    def delete_contact_by_id(self, contactId: str) -> Any:
         """
 
         Deletes a contact by its ID from the CRM system, permanently removing all associated content in compliance with GDPR, and requires the "crm.objects.contacts.write" permission.
@@ -4254,7 +4254,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_update_contact_object(self, contactId, properties) -> dict[str, Any]:
+    def update_contact_by_id(self, contactId: str, properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Updates an individual contact by its record ID using a PATCH request to the "/crm/v3/objects/contacts/{contactId}" endpoint, requiring a JSON body with the fields to be updated.
@@ -4289,7 +4289,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def public_object_merge_contacts_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_contacts(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges two or more duplicate contact records into a single record in the CRM system, retaining the most relevant data while discarding redundant information.
@@ -4322,7 +4322,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_archive_contacts_by_id_batch(self, inputs) -> Any:
+    def archive_contacts_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of contacts by ID using the HubSpot CRM API, returning a "204 No Content" response upon success.
@@ -4354,7 +4354,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_create_contacts(self, inputs) -> dict[str, Any]:
+    def create_contacts_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of contacts in HubSpot using the CRM API, requiring a JSON payload and OAuth2 or private app authentication.
@@ -4386,7 +4386,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_update_contacts_batch(self, inputs) -> dict[str, Any]:
+    def batch_update_contacts(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple contact records in a single request by providing their IDs or unique property values, overwriting specified properties in batch.
@@ -4418,7 +4418,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contacts(self, objectId, idProperty=None) -> Any:
+    def delete_contact_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Permanently deletes a contact and all associated data from the CRM to comply with GDPR requirements.
@@ -4451,7 +4451,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_list_contacts_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_contacts(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of contacts from a CRM system, allowing for optional filtering by limit, pagination, specific properties, property history, associations, and archived status.
@@ -4472,7 +4472,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -4485,7 +4485,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_create_contact_object(self, associations, properties) -> dict[str, Any]:
+    def create_contact(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new contact in the CRM system using the provided JSON data and returns a successful creation response.
@@ -4518,7 +4518,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def search_contacts_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_contacts_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for contact records in the CRM system based on specified criteria and returns matching contacts.
@@ -4555,7 +4555,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_read_feedback_submissions(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_feedback_submissions(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Reads a batch of feedback submissions by sending a POST request, allowing for optional filtering by archived status, and returns the relevant data in JSON format.
@@ -4591,7 +4591,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_read_feedback_submission(self, feedbackSubmissionId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_feedback_submission_by_id(self, feedbackSubmissionId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific feedback submission using its ID, with optional parameters to include properties, history, associations, and archived status.
@@ -4627,7 +4627,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_archive_feedback_submission(self, feedbackSubmissionId) -> Any:
+    def delete_feedback_submission_by_id(self, feedbackSubmissionId: str) -> Any:
         """
 
         Deletes a specific feedback submission identified by the provided `feedbackSubmissionId` from the CRM system.
@@ -4658,7 +4658,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_update_feedback_submission(self, feedbackSubmissionId, properties, idProperty=None) -> dict[str, Any]:
+    def patch_feedback_submission_by_id(self, feedbackSubmissionId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates specific fields of a feedback submission by ID using partial modifications with a JSON request body.
@@ -4694,7 +4694,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def public_object_merge_feedback_submissions(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_feedback_submissions(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges feedback submission records using the POST method, requiring a JSON body and supporting OAuth2 and private apps for authentication.
@@ -4727,7 +4727,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_archive_feedback_submissions_by_id(self, inputs) -> Any:
+    def archive_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of feedback submissions by ID using the HubSpot API and returns a status response with a 204 status code upon successful completion.
@@ -4759,7 +4759,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_create_feedback_submissions(self, inputs) -> dict[str, Any]:
+    def create_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of feedback submissions using the HubSpot API, allowing for the simultaneous creation of multiple feedback submissions.
@@ -4791,7 +4791,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_update_feedback_submissions(self, inputs) -> dict[str, Any]:
+    def update_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple feedback submissions in batches using the HubSpot CRM API.
@@ -4823,7 +4823,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contact_feedback_submission(self, objectId, idProperty=None) -> Any:
+    def post_feedback_submissions_gdpr_delete(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Permanently deletes feedback submissions and associated data to comply with GDPR regulations using the provided JSON body.
@@ -4856,7 +4856,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_list_feedback_submissions_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_feedback_submissions(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of feedback submissions from HubSpot CRM, allowing for optional filtering by limit, pagination, specific properties, property history, associations, and archived status.
@@ -4890,7 +4890,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_create_feedback_submission(self, associations, properties) -> dict[str, Any]:
+    def create_feedback_submission(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Searches for feedback submissions using the HubSpot CRM API and returns relevant results.
@@ -4923,7 +4923,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def search_feedback_submissions(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_feedback_submissions(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for feedback submissions in HubSpot CRM using the POST method, allowing developers to filter and retrieve specific feedback data.
@@ -4960,7 +4960,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_read_objects_by_internal_id_or_property_values(self, objectType, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def read_batch_objects(self, objectType: str, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Performs a batch read operation on CRM objects of the specified type, allowing for the retrieval of multiple records in a single request, with optional filtering by archived status.
@@ -4999,7 +4999,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_read_object_by_id(self, objectType, objectId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_object_details(self, objectType: str, objectId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a specific CRM object record by its object type and ID, allowing for optional specification of properties, associations, and other query parameters.
@@ -5038,7 +5038,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_archive_object(self, objectType, objectId) -> Any:
+    def delete_object_by_id(self, objectType: str, objectId: str) -> Any:
         """
 
         Deletes a specified CRM object of the given type and ID using the DELETE method.
@@ -5072,7 +5072,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_update_object(self, objectType, objectId, properties, idProperty=None) -> dict[str, Any]:
+    def patch_object_by_id(self, objectType: str, objectId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates a specific CRM object using the PATCH method by modifying its properties based on the provided JSON body.
@@ -5111,7 +5111,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def public_object_merge_objects_with_type(self, objectType, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_objects(self, objectType: str, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges duplicate records of a specified object type into a single record using the provided JSON body.
@@ -5147,7 +5147,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_archive_objects_by_id(self, objectType, inputs) -> Any:
+    def archive_batch_objects_by_type(self, objectType: str, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of objects of a specified type in CRM using the POST method, requiring a JSON body and returning a 204 status code upon successful archiving.
@@ -5182,7 +5182,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_create_objects(self, objectType, inputs) -> dict[str, Any]:
+    def batch_create_object_records(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates multiple records of a specified object type in a CRM system using a single POST request, supporting batch creation and returning a status message based on the outcome.
@@ -5217,7 +5217,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_update_objects_by_internal_id_or_property_values(self, objectType, inputs) -> dict[str, Any]:
+    def update_batch_object(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple records of a specified object type in a CRM system using a batch operation via the POST method.
@@ -5252,7 +5252,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contact_object(self, objectType, objectId, idProperty=None) -> Any:
+    def gdpr_delete_object(self, objectType: str, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Permanently deletes an object of the specified type from the CRM, adhering to GDPR guidelines for data removal, using the "POST" method with the object type specified in the path and additional details in the request body.
@@ -5288,7 +5288,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_list_objects_page(self, objectType, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def list_objects_by_type(self, objectType: str, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of records for a specified CRM object type with optional filtering, pagination, property selection, association inclusion, and archived status.
@@ -5325,7 +5325,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_create_crmobject(self, objectType, associations, properties) -> dict[str, Any]:
+    def create_object_by_type(self, objectType: str, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new object of the specified type in a CRM system using the provided JSON data, returning a status message upon successful creation.
@@ -5361,7 +5361,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def search_objects_by_criteria(self, objectType, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_objects_by_type_post(self, objectType: str, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches for objects of a specified type within a CRM using the provided JSON payload, filtering by various criteria to return a list of matching objects.
@@ -5401,7 +5401,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def settings_get_by_id(self, appId) -> dict[str, Any]:
+    def get_video_conferencing_settings_by_app_id(self, appId: str) -> dict[str, Any]:
         """
 
         Retrieves the video conferencing settings for a specific application identified by the provided appId using the HubSpot API.
@@ -5432,7 +5432,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def settings_update_video_conferencing_app_settings(self, appId, createMeetingUrl, userVerifyUrl=None, fetchAccountsUri=None, updateMeetingUrl=None, deleteMeetingUrl=None) -> dict[str, Any]:
+    def update_video_conferencing_settings_by_app_id(self, appId: str, createMeetingUrl: str, userVerifyUrl: Optional[str]=None, fetchAccountsUri: Optional[str]=None, updateMeetingUrl: Optional[str]=None, deleteMeetingUrl: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates video conferencing settings for a specific application identified by its `appId` using the provided JSON data.
@@ -5471,7 +5471,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def settings_delete_video_conferencing_app_settings(self, appId) -> Any:
+    def delete_video_conf_settings_by_app_id(self, appId: str) -> Any:
         """
 
         Deletes the video conferencing settings for the specified app identified by the appId.
@@ -5502,7 +5502,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_read_tickets_by_properties(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_tickets_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves and formats a batch of tickets from HubSpot CRM using a POST request to the "/crm/v3/objects/tickets/batch/read" endpoint.
@@ -5538,7 +5538,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_read_ticket_by_id(self, ticketId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_ticket_by_id(self, ticketId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a specific ticket record by ID from the CRM, optionally including specified properties, property history, associations, and archived status.
@@ -5574,7 +5574,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_archive_ticket(self, ticketId) -> Any:
+    def delete_ticket_by_id(self, ticketId: str) -> Any:
         """
 
         Deletes a ticket by its ID using the CRM API.
@@ -5605,7 +5605,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_update_ticket_object(self, ticketId, properties, idProperty=None) -> dict[str, Any]:
+    def update_ticket(self, ticketId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates an individual ticket by its ID using the HubSpot CRM API, allowing modification of specific fields via a JSON payload.
@@ -5641,7 +5641,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def public_object_merge_tickets_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_tickets(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges two or more tickets into a single ticket in the CRM system using the POST method, allowing for the consolidation of related customer service requests.
@@ -5674,7 +5674,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_archive_tickets_by_id(self, inputs) -> Any:
+    def archive_tickets_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of tickets by ID using the HubSpot API and returns a status message.
@@ -5706,7 +5706,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_ticket_creation_batch(self, inputs) -> dict[str, Any]:
+    def create_tickets_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of tickets in the CRM using the HubSpot API and returns a status message.
@@ -5738,7 +5738,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_update_tickets_batch(self, inputs) -> dict[str, Any]:
+    def update_tickets_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates multiple tickets in a single request using the HubSpot CRM API, returning a status message indicating the success or partial success of the operation.
@@ -5770,7 +5770,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def gdpr_permanently_delete_contact(self, objectId, idProperty=None) -> Any:
+    def delete_ticket_gdpr(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Permanently deletes a ticket and associated data in compliance with GDPR guidelines using the POST method.
@@ -5803,7 +5803,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_list_tickets_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def get_tickets(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of tickets from the CRM, allowing for filtering by limit, after cursor, specific properties, properties with history, associations, and archived status.
@@ -5824,7 +5824,7 @@ EDIT'.
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets'
         query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
@@ -5837,7 +5837,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_create_ticket_object(self, associations, properties) -> dict[str, Any]:
+    def create_ticket(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new ticket object in the CRM using the HubSpot API, allowing for the management of customer service requests.
@@ -5870,7 +5870,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def search_tickets_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_tickets_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches and filters ticket records within the CRM system based on specified criteria, returning matching ticket results.
@@ -5907,7 +5907,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_read_line_items(self, propertiesWithHistory, inputs, properties, archived=None, idProperty=None) -> dict[str, Any]:
+    def batch_read_line_items_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a batch of line items by internal ID or unique property values using the HubSpot CRM API.
@@ -5943,7 +5943,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_read_line_item_by_id(self, lineItemId, properties=None, propertiesWithHistory=None, associations=None, archived=None, idProperty=None) -> dict[str, Any]:
+    def get_line_item_by_id(self, lineItemId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Retrieves a specific line item by its ID from the CRM, optionally including additional properties, associations, and history, using the CRM API with appropriate permissions.
@@ -5979,7 +5979,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_archive_line_item(self, lineItemId) -> Any:
+    def delete_line_item_by_id(self, lineItemId: str) -> Any:
         """
 
         Deletes a line item from HubSpot CRM using its ID, requiring the "crm.objects.line_items.write" permission.
@@ -6010,7 +6010,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_update_line_item_object(self, lineItemId, properties, idProperty=None) -> dict[str, Any]:
+    def patch_line_item_by_id(self, lineItemId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
         """
 
         Updates properties of a specific line item in the CRM system using a partial JSON patch request.
@@ -6046,7 +6046,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def public_object_merge_line_items_same_type(self, objectIdToMerge, primaryObjectId) -> dict[str, Any]:
+    def merge_line_items_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
 
         Merges duplicate line items into a single instance using the specified parameters via the POST method.
@@ -6079,7 +6079,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_archive_line_items_by_ids(self, inputs) -> Any:
+    def archive_line_items_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
 
         Archives a batch of line items by their IDs in the CRM using a POST request.
@@ -6111,7 +6111,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_line_items_create_batch(self, inputs) -> dict[str, Any]:
+    def create_line_items_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Creates a batch of line items using the HubSpot API and returns a status message upon successful creation.
@@ -6143,7 +6143,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def batch_update_line_items(self, inputs) -> dict[str, Any]:
+    def batch_update_line_items(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
 
         Updates a batch of line items using their internal IDs or unique property values via the POST method, requiring authentication with the "crm.objects.line_items.write" scope.
@@ -6175,7 +6175,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def gdpr_delete_contact_content(self, objectId, idProperty=None) -> Any:
+    def gdpr_delete_line_items(self, objectId: str, idProperty: Optional[str]=None) -> Any:
         """
 
         Deletes line item records from the CRM to comply with GDPR requirements, using the POST method with OAuth2 or private app authentication.
@@ -6208,7 +6208,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_list_line_items_page(self, limit=None, after=None, properties=None, propertiesWithHistory=None, associations=None, archived=None) -> dict[str, Any]:
+    def list_line_items(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a paginated list of line items with optional filters for properties, associations, and archival status in the CRM.
@@ -6242,7 +6242,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def basic_create_line_item_object(self, associations, properties) -> dict[str, Any]:
+    def create_line_item(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
         """
 
         Creates a new line item in HubSpot CRM using the POST method, allowing you to add products or services to deals and quotes.
@@ -6275,7 +6275,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def search_line_items_by_criteria(self, limit, after, sorts, properties, filterGroups, query=None) -> dict[str, Any]:
+    def search_line_items(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
         """
 
         Searches and retrieves line items and their associated properties in the CRM based on specified filter criteria.
@@ -6312,7 +6312,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def core_get_active_imports_page(self, after=None, before=None, limit=None) -> dict[str, Any]:
+    def get_crm_imports(self, after: Optional[str]=None, before: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM import operations using the HubSpot API, allowing optional filtering by date and limit on the number of results returned.
@@ -6343,7 +6343,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def core_start_import(self, files=None, importRequest=None) -> dict[str, Any]:
+    def create_crm_import(self, files: Optional[bytes]=None, importRequest: Optional[str]=None) -> dict[str, Any]:
         """
 
         Imports data into a HubSpot CRM using a POST request with a multipart/form-data payload, allowing bulk creation or update of records via uploaded files such as CSV or Excel.
@@ -6384,7 +6384,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def owners_get_page(self, email=None, after=None, limit=None, archived=None) -> dict[str, Any]:
+    def get_owners_list(self, email: Optional[str]=None, after: Optional[str]=None, limit: Optional[int]=None, archived: Optional[bool]=None) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM owners using the "GET" method, allowing optional filtering by email, pagination, and archived status, and returns a response with owner details.
@@ -6416,7 +6416,7 @@ EDIT'.
         except ValueError:
             return None
 
-    def get_crm_v_associations_from_object_type_to_object_type_types_get_all(self, fromObjectType, toObjectType) -> dict[str, Any]:
+    def get_association_types_by_object_types(self, fromObjectType: str, toObjectType: str) -> dict[str, Any]:
         """
 
         Retrieves the association types between two specified object types in HubSpot CRM using the "GET" method.
@@ -6451,4 +6451,4 @@ EDIT'.
             return None
 
     def list_tools(self):
-        return [self.post_crm_v_objects_emails_batch_read_read, self.get_crm_v_objects_emails_email_id_get_by_id, self.delete_crm_v_objects_emails_email_id_archive, self.patch_crm_v_objects_emails_email_id_update, self.post_crm_v_objects_emails_merge_merge, self.post_crm_v_objects_emails_batch_archive_archive, self.post_crm_v_objects_emails_batch_create_create, self.post_crm_v_objects_emails_batch_update_update, self.post_crm_v_objects_emails_gdpr_delete_purge, self.get_crm_v_objects_emails_get_page, self.post_crm_v_objects_emails_create, self.post_crm_v_objects_emails_search_do_search, self.batch_read_by_properties, self.basic_read_product_by_id, self.basic_archive_product, self.basic_update_product, self.public_object_merge_products_same_type, self.batch_archive_products_by_ids, self.batch_create_products_batch, self.batch_update_products_batch, self.gdpr_delete_contact, self.basic_list_products_page, self.basic_create_product_object, self.search_products_by_criteria, self.pipelines_get_by_id, self.pipelines_replace_pipeline_object, self.pipelines_remove_by_id, self.pipelines_update_pipeline_by_id, self.pipeline_audits_get_by_pipeline_id, self.pipeline_stages_get_all, self.pipeline_stages_create_stage_object, self.pipelines_get_all, self.pipelines_create_new_pipeline_object, self.pipeline_stages_get_by_id, self.pipeline_stages_replace_stage_object, self.pipeline_stages_delete_stage, self.pipeline_stages_update_stage_by_id, self.batch_read_companies_by_properties, self.basic_read_company_object, self.basic_archive_company, self.basic_update_company_object, self.public_object_merge_companies_same_type, self.batch_archive_companies_by_id_batch, self.batch_create_companies_batch, self.batch_update_companies_batch, self.gdpr_permanently_delete_contact_company, self.basic_list_companies_page, self.basic_create_company_object, self.search_company_objects, self.settings_get_calling_config, self.settings_configure_calling_extension, self.settings_delete_calling_extension, self.settings_update_calling_extension, self.recording_settings_get_by_app_id, self.recording_settings_set_call_recording, self.recording_settings_update_calling_settings, self.batch_read_quotes_by_property_values, self.basic_read_quote_by_id, self.basic_archive_quote_object, self.basic_update_quote_object, self.public_object_merge_two_quotes_same_type, self.batch_archive_quotes_by_id_batch, self.batch_create_quotes_batch, self.batch_update_quotes_batch, self.gdpr_permanently_delete_contact_quotes, self.basic_list_quotes_page, self.basic_create_quote_object, self.search_quotes_by_criteria, self.batch_read_deals_by_internal_id_or_property_values, self.basic_read_deal_by_id, self.basic_archive_deal_object, self.basic_update_deal_object, self.public_object_merge_deals_same_type, self.batch_archive_deals_by_ids, self.batch_create_deals_object, self.batch_update_deals_objects, self.gdpr_permanently_delete_deal, self.basic_get_deals_page, self.basic_create_deal_object, self.search_deals_by_criteria, self.core_cancel_import, self.core_get_import_record, self.public_imports_get_error_details, self.core_get_existing_schema, self.core_delete_schema, self.core_update_schema_object, self.core_create_association, self.public_object_schemas_purge_object_schema, self.core_remove_association, self.core_get_all_schemas, self.core_define_object_schema, self.batch_archive_properties, self.groups_read_property_group, self.groups_archive_property_group, self.groups_update_property_group, self.core_read_property, self.core_archive_property, self.core_update_property_by_id, self.batch_read_properties, self.batch_properties_create_batch, self.core_get_all_properties, self.core_create_property, self.groups_read_all_property, self.groups_create_copy, self.owners_get_by_id, self.events_create_multiple_batch, self.templates_get_specific_event_template, self.templates_update_event_template, self.templates_delete_event_template, self.events_create_single_event, self.tokens_add_to_event_template, self.tokens_update_existing_token_on_event_template, self.tokens_remove_from_template, self.events_render_detail_template, self.events_get_event_by_id, self.templates_list_event_templates, self.templates_create_event_template_for_app, self.events_rendering_html, self.batch_read_contacts_by_properties, self.basic_read_contact_by_id, self.basic_archive_contact, self.basic_update_contact_object, self.public_object_merge_contacts_same_type, self.batch_archive_contacts_by_id_batch, self.batch_create_contacts, self.batch_update_contacts_batch, self.gdpr_permanently_delete_contacts, self.basic_list_contacts_page, self.basic_create_contact_object, self.search_contacts_by_criteria, self.batch_read_feedback_submissions, self.basic_read_feedback_submission, self.basic_archive_feedback_submission, self.basic_update_feedback_submission, self.public_object_merge_feedback_submissions, self.batch_archive_feedback_submissions_by_id, self.batch_create_feedback_submissions, self.batch_update_feedback_submissions, self.gdpr_permanently_delete_contact_feedback_submission, self.basic_list_feedback_submissions_page, self.basic_create_feedback_submission, self.search_feedback_submissions, self.batch_read_objects_by_internal_id_or_property_values, self.basic_read_object_by_id, self.basic_archive_object, self.basic_update_object, self.public_object_merge_objects_with_type, self.batch_archive_objects_by_id, self.batch_create_objects, self.batch_update_objects_by_internal_id_or_property_values, self.gdpr_permanently_delete_contact_object, self.basic_list_objects_page, self.basic_create_crmobject, self.search_objects_by_criteria, self.settings_get_by_id, self.settings_update_video_conferencing_app_settings, self.settings_delete_video_conferencing_app_settings, self.batch_read_tickets_by_properties, self.basic_read_ticket_by_id, self.basic_archive_ticket, self.basic_update_ticket_object, self.public_object_merge_tickets_same_type, self.batch_archive_tickets_by_id, self.batch_ticket_creation_batch, self.batch_update_tickets_batch, self.gdpr_permanently_delete_contact, self.basic_list_tickets_page, self.basic_create_ticket_object, self.search_tickets_by_criteria, self.batch_read_line_items, self.basic_read_line_item_by_id, self.basic_archive_line_item, self.basic_update_line_item_object, self.public_object_merge_line_items_same_type, self.batch_archive_line_items_by_ids, self.batch_line_items_create_batch, self.batch_update_line_items, self.gdpr_delete_contact_content, self.basic_list_line_items_page, self.basic_create_line_item_object, self.search_line_items_by_criteria, self.core_get_active_imports_page, self.core_start_import, self.owners_get_page, self.get_crm_v_associations_from_object_type_to_object_type_types_get_all]
+        return [self.batch_read_emails, self.get_email_by_id, self.delete_email_by_id, self.update_email_by_id, self.merge_emails_post, self.archive_emails_batch, self.create_emails_batch_post, self.update_emails_batch, self.delete_email_gdpr_data, self.list_emails_with_filters, self.create_email, self.search_emails_post, self.batch_read_products_post, self.get_product_by_id, self.delete_product_by_id, self.patch_product_by_id, self.merge_products, self.archive_products_batch_post, self.create_products_batch, self.update_products_batch, self.delete_product_gdpr_data, self.list_products, self.create_product, self.search_products, self.get_pipeline_by_id_for_type, self.update_pipeline, self.delete_pipeline_by_id_and_type, self.patch_pipeline_by_object_type, self.get_pipeline_audit_by_object_type, self.get_pipeline_stages_by_object_type, self.create_pipeline_stage, self.list_pipelines_by_type, self.create_pipeline_by_object_type, self.get_pipeline_stage_by_id, self.update_pipeline_stage_by_id, self.delete_pipeline_stage_by_id, self.update_pipeline_stage, self.batch_read_companies_post, self.get_company_by_id, self.delete_company_by_id, self.patch_company_by_id, self.merge_companies_post, self.archive_companies_batch_post, self.create_companies_batch, self.update_companies_batch, self.delete_company_gdpr_data, self.get_companies, self.create_company, self.search_companies_post, self.get_calling_app_settings, self.update_calling_app_settings, self.delete_calling_app_settings_by_id, self.update_calling_settings, self.get_calling_app_recording_settings, self.post_calling_app_recording_settings, self.update_recording_settings, self.read_quotes_batch, self.get_quote_by_id, self.delete_quote_by_id, self.update_quote, self.merge_quotes, self.archive_quotes_batch, self.create_quote_batch, self.update_quotes_batch, self.delete_quote_gdpr_data, self.get_quotes, self.create_quote, self.search_quotes, self.batch_read_deals_post, self.get_deal_by_id, self.delete_deal_by_id, self.update_deal_by_id, self.merge_deals, self.archive_deals_batch_post, self.create_deals_batch, self.batch_update_deals, self.post_deal_gdpr_delete, self.list_deals, self.create_deal, self.search_deals, self.cancel_import_by_id, self.get_import_by_id, self.get_import_errors_by_id, self.get_schema_by_object_type, self.delete_schema_by_type, self.patch_crm_schema_by_object_type, self.create_object_type_association, self.delete_schema_object_type_purge, self.delete_association_by_object_type_id, self.list_schemas, self.create_crm_schema, self.archive_properties_batch_post, self.get_property_group, self.remove_property_group, self.update_property_group_by_identifier, self.get_crm_property, self.delete_property_by_object_type, self.patch_crm_property_by_name, self.batch_read_properties_by_object_type, self.create_batch_properties, self.get_properties_by_object_type, self.create_property_schema, self.get_property_groups_by_object_type, self.create_property_group, self.get_owner_by_id, self.batch_create_timeline_events, self.get_timeline_event_template_by_id, self.update_timeline_event_template_by_id, self.delete_event_template_by_id, self.create_event, self.create_token_template, self.update_event_template_token, self.delete_timeline_event_template_token, self.get_timeline_event_detail_by_id, self.get_timeline_event_by_id, self.get_timeline_event_templates_by_app_id, self.create_timeline_event_template, self.get_timeline_event_render, self.batch_read_contacts_post, self.get_contact_by_id, self.delete_contact_by_id, self.update_contact_by_id, self.merge_contacts, self.archive_contacts_batch_post, self.create_contacts_batch, self.batch_update_contacts, self.delete_contact_gdpr_data, self.get_contacts, self.create_contact, self.search_contacts_post, self.batch_read_feedback_submissions, self.get_feedback_submission_by_id, self.delete_feedback_submission_by_id, self.patch_feedback_submission_by_id, self.merge_feedback_submissions, self.archive_feedback_submissions_batch, self.create_feedback_submissions_batch, self.update_feedback_submissions_batch, self.post_feedback_submissions_gdpr_delete, self.get_feedback_submissions, self.create_feedback_submission, self.search_feedback_submissions, self.read_batch_objects, self.get_object_details, self.delete_object_by_id, self.patch_object_by_id, self.merge_objects, self.archive_batch_objects_by_type, self.batch_create_object_records, self.update_batch_object, self.gdpr_delete_object, self.list_objects_by_type, self.create_object_by_type, self.search_objects_by_type_post, self.get_video_conferencing_settings_by_app_id, self.update_video_conferencing_settings_by_app_id, self.delete_video_conf_settings_by_app_id, self.batch_read_tickets_post, self.get_ticket_by_id, self.delete_ticket_by_id, self.update_ticket, self.merge_tickets, self.archive_tickets_batch_post, self.create_tickets_batch, self.update_tickets_batch, self.delete_ticket_gdpr, self.get_tickets, self.create_ticket, self.search_tickets_post, self.batch_read_line_items_post, self.get_line_item_by_id, self.delete_line_item_by_id, self.patch_line_item_by_id, self.merge_line_items_post, self.archive_line_items_batch_post, self.create_line_items_batch, self.batch_update_line_items, self.gdpr_delete_line_items, self.list_line_items, self.create_line_item, self.search_line_items, self.get_crm_imports, self.create_crm_import, self.get_owners_list, self.get_association_types_by_object_types]
