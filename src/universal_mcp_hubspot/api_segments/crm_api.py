@@ -1,12 +1,20 @@
 from typing import Any, List, Optional
 from .api_segment_base import APISegmentBase
 
+
 class CrmApi(APISegmentBase):
 
     def __init__(self, main_app_client: Any):
         super().__init__(main_app_client)
 
-    def batch_read_emails(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_emails(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a batch of emails from a CRM system using the "POST" method, allowing optional filtering by archived status, and returns the results in a multipart response.
@@ -29,20 +37,44 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_email_by_id(self, emailId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_email_by_id(
+        self,
+        emailId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific email object in a CRM system, allowing optional filtering by properties, associations, and archival status.
@@ -67,11 +99,25 @@ class CrmApi(APISegmentBase):
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -98,18 +144,24 @@ class CrmApi(APISegmentBase):
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_email_by_id(self, emailId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def update_email_by_id(
+        self, emailId: str, properties: dict[str, str], idProperty: Optional[str] = None
+    ) -> dict[str, Any]:
         """
 
         Updates specific properties of an existing email record in the CRM by its emailId using a PATCH request with JSON data.
@@ -132,20 +184,28 @@ class CrmApi(APISegmentBase):
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_emails_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_emails_post(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges email records using the provided JSON payload, utilizing OAuth2 or private app authentication to manage contact data in the CRM system.
@@ -165,13 +225,27 @@ class CrmApi(APISegmentBase):
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -197,13 +271,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -229,13 +314,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -261,20 +357,33 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_email_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_email_gdpr_data(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Deletes a contact and associated data from the CRM in compliance with GDPR guidelines using the provided JSON payload, requiring the "crm.objects.contacts.write" permission.
@@ -294,20 +403,39 @@ class CrmApi(APISegmentBase):
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_emails_with_filters(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_emails_with_filters(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a paginated list of email objects with optional filtering by properties, associations, and archival status from the CRM email records.
@@ -330,18 +458,35 @@ class CrmApi(APISegmentBase):
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_email(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_email(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates an email object in the CRM using the POST method, allowing for the association of metadata with the email and requiring authentication via OAuth2 or private apps to access the necessary permissions.
@@ -361,20 +506,39 @@ class CrmApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_emails_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_emails_post(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for email objects in a CRM system using specific criteria, returning relevant results.
@@ -398,20 +562,45 @@ class CrmApi(APISegmentBase):
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/emails/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_products_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_products_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a batch of product records from the CRM using the POST method, optionally filtering by archived status, and returns the results in a multi-status response.
@@ -434,20 +623,44 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_product_by_id(self, productId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_product_by_id(
+        self,
+        productId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific product by its ID, allowing optional filtering by properties, properties with history, associations, and archived status.
@@ -472,11 +685,25 @@ class CrmApi(APISegmentBase):
         """
         if productId is None:
             raise ValueError("Missing required parameter 'productId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/{productId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/{productId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -503,18 +730,27 @@ class CrmApi(APISegmentBase):
         """
         if productId is None:
             raise ValueError("Missing required parameter 'productId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/{productId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/{productId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_product_by_id(self, productId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def patch_product_by_id(
+        self,
+        productId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates specified properties of a product identified by productId using a JSON PATCH request.
@@ -537,20 +773,28 @@ class CrmApi(APISegmentBase):
         if productId is None:
             raise ValueError("Missing required parameter 'productId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/{productId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/{productId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_products(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_products(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges two or more product records in a CRM system using the POST method, allowing for the consolidation of data into a single, unified record.
@@ -570,13 +814,27 @@ class CrmApi(APISegmentBase):
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -602,13 +860,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -634,13 +903,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -666,20 +946,33 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_product_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_product_gdpr_data(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Performs a GDPR-compliant deletion of product records in the CRM using the POST method, requiring a JSON request body and authentication.
@@ -699,20 +992,39 @@ class CrmApi(APISegmentBase):
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_products(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_products(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of products from a CRM system using the "GET" method, allowing for optional filtering and customization of the returned data based on parameters such as limit, after, properties, properties with history, associations, and archived status.
@@ -735,18 +1047,35 @@ class CrmApi(APISegmentBase):
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_product(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_product(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new product in the CRM product library to manage the collection of goods and services offered by the company.
@@ -766,20 +1095,39 @@ class CrmApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_products(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_products(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for products in a CRM using a POST request to the "/crm/v3/objects/products/search" endpoint, allowing for filtering and retrieval of product data in a JSON format.
@@ -803,20 +1151,40 @@ class CrmApi(APISegmentBase):
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/products/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/products/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_pipeline_by_id_for_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
+    def get_pipeline_by_id_for_type(
+        self, objectType: str, pipelineId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves details about a specific CRM pipeline by its ID and object type, providing information about the stages and records within that pipeline.
@@ -839,18 +1207,31 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_pipeline(self, objectType: str, pipelineId: str, displayOrder: int, stages: List[dict[str, Any]], label: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None) -> dict[str, Any]:
+    def update_pipeline(
+        self,
+        objectType: str,
+        pipelineId: str,
+        displayOrder: int,
+        stages: List[dict[str, Any]],
+        label: str,
+        validateReferencesBeforeDelete: Optional[bool] = None,
+        validateDealStageUsagesBeforeDelete: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates the details of a specified pipeline for a given CRM object type by replacing its properties using the provided JSON payload.
@@ -879,20 +1260,51 @@ class CrmApi(APISegmentBase):
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
         request_body_data = None
-        request_body_data = {'displayOrder': displayOrder, 'stages': stages, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}'
-        query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "displayOrder": displayOrder,
+            "stages": stages,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("validateReferencesBeforeDelete", validateReferencesBeforeDelete),
+                (
+                    "validateDealStageUsagesBeforeDelete",
+                    validateDealStageUsagesBeforeDelete,
+                ),
+            ]
+            if v is not None
+        }
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_pipeline_by_id_and_type(self, objectType: str, pipelineId: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None) -> Any:
+    def delete_pipeline_by_id_and_type(
+        self,
+        objectType: str,
+        pipelineId: str,
+        validateReferencesBeforeDelete: Optional[bool] = None,
+        validateDealStageUsagesBeforeDelete: Optional[bool] = None,
+    ) -> Any:
         """
 
         Deletes a pipeline by its ID and object type in the CRM system using the specified security permissions, optionally validating references and deal stage usages before deletion.
@@ -917,18 +1329,41 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}'
-        query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("validateReferencesBeforeDelete", validateReferencesBeforeDelete),
+                (
+                    "validateDealStageUsagesBeforeDelete",
+                    validateDealStageUsagesBeforeDelete,
+                ),
+            ]
+            if v is not None
+        }
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_pipeline_by_object_type(self, objectType: str, pipelineId: str, validateReferencesBeforeDelete: Optional[bool]=None, validateDealStageUsagesBeforeDelete: Optional[bool]=None, archived: Optional[bool]=None, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
+    def patch_pipeline_by_object_type(
+        self,
+        objectType: str,
+        pipelineId: str,
+        validateReferencesBeforeDelete: Optional[bool] = None,
+        validateDealStageUsagesBeforeDelete: Optional[bool] = None,
+        archived: Optional[bool] = None,
+        displayOrder: Optional[int] = None,
+        label: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a CRM pipeline by specifying the object type and pipeline ID, allowing modifications to its configuration with optional validation checks for references and deal stage usage before deletion.
@@ -957,20 +1392,42 @@ class CrmApi(APISegmentBase):
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
         request_body_data = None
-        request_body_data = {'archived': archived, 'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}'
-        query_params = {k: v for k, v in [('validateReferencesBeforeDelete', validateReferencesBeforeDelete), ('validateDealStageUsagesBeforeDelete', validateDealStageUsagesBeforeDelete)] if v is not None}
+        request_body_data = {
+            "archived": archived,
+            "displayOrder": displayOrder,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("validateReferencesBeforeDelete", validateReferencesBeforeDelete),
+                (
+                    "validateDealStageUsagesBeforeDelete",
+                    validateDealStageUsagesBeforeDelete,
+                ),
+            ]
+            if v is not None
+        }
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_pipeline_audit_by_object_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
+    def get_pipeline_audit_by_object_type(
+        self, objectType: str, pipelineId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves an audit of all changes to a specific pipeline in HubSpot CRM, based on the provided object type and pipeline ID.
@@ -993,18 +1450,24 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/audit'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/audit"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_pipeline_stages_by_object_type(self, objectType: str, pipelineId: str) -> dict[str, Any]:
+    def get_pipeline_stages_by_object_type(
+        self, objectType: str, pipelineId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves the list of stages within a specified pipeline for a given object type in the CRM system.
@@ -1027,18 +1490,29 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_pipeline_stage(self, objectType: str, pipelineId: str, metadata: dict[str, str], displayOrder: int, label: str) -> dict[str, Any]:
+    def create_pipeline_stage(
+        self,
+        objectType: str,
+        pipelineId: str,
+        metadata: dict[str, str],
+        displayOrder: int,
+        label: str,
+    ) -> dict[str, Any]:
         """
 
         Creates a new stage in a specified CRM pipeline using the POST method, requiring the object type and pipeline ID, and a JSON-formatted request body.
@@ -1069,13 +1543,28 @@ class CrmApi(APISegmentBase):
         if pipelineId is None:
             raise ValueError("Missing required parameter 'pipelineId'.")
         request_body_data = None
-        request_body_data = {'metadata': metadata, 'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages'
+        request_body_data = {
+            "metadata": metadata,
+            "displayOrder": displayOrder,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1102,18 +1591,28 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_pipeline_by_object_type(self, objectType: str, displayOrder: int, stages: List[dict[str, Any]], label: str) -> dict[str, Any]:
+    def create_pipeline_by_object_type(
+        self,
+        objectType: str,
+        displayOrder: int,
+        stages: List[dict[str, Any]],
+        label: str,
+    ) -> dict[str, Any]:
         """
 
         Creates a new pipeline for the specified CRM object type with the provided pipeline details.
@@ -1137,20 +1636,37 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'displayOrder': displayOrder, 'stages': stages, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}'
+        request_body_data = {
+            "displayOrder": displayOrder,
+            "stages": stages,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str) -> dict[str, Any]:
+    def get_pipeline_stage_by_id(
+        self, objectType: str, pipelineId: str, stageId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific stage within a given pipeline and object type in the CRM system.
@@ -1176,18 +1692,30 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'pipelineId'.")
         if stageId is None:
             raise ValueError("Missing required parameter 'stageId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str, metadata: dict[str, str], displayOrder: int, label: str) -> dict[str, Any]:
+    def update_pipeline_stage_by_id(
+        self,
+        objectType: str,
+        pipelineId: str,
+        stageId: str,
+        metadata: dict[str, str],
+        displayOrder: int,
+        label: str,
+    ) -> dict[str, Any]:
         """
 
         Updates a specific stage in a CRM pipeline using the provided JSON data and returns a status message.
@@ -1221,20 +1749,37 @@ class CrmApi(APISegmentBase):
         if stageId is None:
             raise ValueError("Missing required parameter 'stageId'.")
         request_body_data = None
-        request_body_data = {'metadata': metadata, 'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}'
+        request_body_data = {
+            "metadata": metadata,
+            "displayOrder": displayOrder,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_pipeline_stage_by_id(self, objectType: str, pipelineId: str, stageId: str) -> Any:
+    def delete_pipeline_stage_by_id(
+        self, objectType: str, pipelineId: str, stageId: str
+    ) -> Any:
         """
 
         Deletes a specific stage from a pipeline for the given object type in the CRM system.
@@ -1260,18 +1805,31 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'pipelineId'.")
         if stageId is None:
             raise ValueError("Missing required parameter 'stageId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_pipeline_stage(self, objectType: str, pipelineId: str, stageId: str, metadata: dict[str, str], archived: Optional[bool]=None, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
+    def update_pipeline_stage(
+        self,
+        objectType: str,
+        pipelineId: str,
+        stageId: str,
+        metadata: dict[str, str],
+        archived: Optional[bool] = None,
+        displayOrder: Optional[int] = None,
+        label: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a specific stage in a CRM pipeline using a PATCH request to the "/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}" endpoint, requiring a JSON body with the necessary updates.
@@ -1306,20 +1864,38 @@ class CrmApi(APISegmentBase):
         if stageId is None:
             raise ValueError("Missing required parameter 'stageId'.")
         request_body_data = None
-        request_body_data = {'archived': archived, 'metadata': metadata, 'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}'
+        request_body_data = {
+            "archived": archived,
+            "metadata": metadata,
+            "displayOrder": displayOrder,
+            "label": label,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_companies_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_companies_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Reads a batch of companies by internal ID or unique property values using the HubSpot CRM API and returns the results in a JSON format.
@@ -1342,20 +1918,44 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_company_by_id(self, companyId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_company_by_id(
+        self,
+        companyId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific company record by ID from the CRM system, optionally including additional properties, associations, and historical data, depending on the query parameters provided.
@@ -1380,11 +1980,25 @@ class CrmApi(APISegmentBase):
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1411,18 +2025,27 @@ class CrmApi(APISegmentBase):
         """
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_company_by_id(self, companyId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def patch_company_by_id(
+        self,
+        companyId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a company in the CRM using the PATCH method, allowing partial modifications to the company's properties.
@@ -1445,20 +2068,28 @@ class CrmApi(APISegmentBase):
         if companyId is None:
             raise ValueError("Missing required parameter 'companyId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_companies_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_companies_post(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges two or more company records into a single unified record using the CRM API, requiring a JSON payload and appropriate write permissions.
@@ -1478,13 +2109,27 @@ class CrmApi(APISegmentBase):
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1510,13 +2155,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1542,13 +2198,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1574,20 +2241,33 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_company_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_company_gdpr_data(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Performs a GDPR-compliant deletion of a company record in the CRM, permanently removing the associated personal data.
@@ -1607,20 +2287,39 @@ class CrmApi(APISegmentBase):
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_companies(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_companies(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of company records from a CRM system, allowing for filtering by properties, associations, and archived status.
@@ -1643,18 +2342,35 @@ class CrmApi(APISegmentBase):
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_company(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_company(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new company record in the CRM system using the provided JSON data and returns a 201 status code upon successful creation.
@@ -1674,20 +2390,39 @@ class CrmApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_companies_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_companies_post(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for and retrieves company records and their associated properties in the CRM based on specified criteria.
@@ -1711,13 +2446,31 @@ class CrmApi(APISegmentBase):
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/companies/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1744,18 +2497,31 @@ class CrmApi(APISegmentBase):
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings'
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_calling_app_settings(self, appId: str, name: str, url: str, supportsCustomObjects: Optional[bool]=None, isReady: Optional[bool]=None, width: Optional[int]=None, height: Optional[int]=None) -> dict[str, Any]:
+    def update_calling_app_settings(
+        self,
+        appId: str,
+        name: str,
+        url: str,
+        supportsCustomObjects: Optional[bool] = None,
+        isReady: Optional[bool] = None,
+        width: Optional[int] = None,
+        height: Optional[int] = None,
+    ) -> dict[str, Any]:
         """
 
         Configures calling settings for a specified application ID in the CRM using a POST request with a JSON body.
@@ -1782,13 +2548,31 @@ class CrmApi(APISegmentBase):
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'supportsCustomObjects': supportsCustomObjects, 'isReady': isReady, 'name': name, 'width': width, 'url': url, 'height': height}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings'
+        request_body_data = {
+            "supportsCustomObjects": supportsCustomObjects,
+            "isReady": isReady,
+            "name": name,
+            "width": width,
+            "url": url,
+            "height": height,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1815,18 +2599,31 @@ class CrmApi(APISegmentBase):
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings'
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_calling_settings(self, appId: str, supportsCustomObjects: Optional[bool]=None, isReady: Optional[bool]=None, name: Optional[str]=None, width: Optional[int]=None, url: Optional[str]=None, height: Optional[int]=None) -> dict[str, Any]:
+    def update_calling_settings(
+        self,
+        appId: str,
+        supportsCustomObjects: Optional[bool] = None,
+        isReady: Optional[bool] = None,
+        name: Optional[str] = None,
+        width: Optional[int] = None,
+        url: Optional[str] = None,
+        height: Optional[int] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates specific settings for the calling extension of the specified application by applying partial modifications to its resource.
@@ -1853,13 +2650,26 @@ class CrmApi(APISegmentBase):
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'supportsCustomObjects': supportsCustomObjects, 'isReady': isReady, 'name': name, 'width': width, 'url': url, 'height': height}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings'
+        request_body_data = {
+            "supportsCustomObjects": supportsCustomObjects,
+            "isReady": isReady,
+            "name": name,
+            "width": width,
+            "url": url,
+            "height": height,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1886,18 +2696,24 @@ class CrmApi(APISegmentBase):
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording'
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def post_calling_app_recording_settings(self, appId: str, urlToRetrieveAuthedRecording: str) -> dict[str, Any]:
+    def post_calling_app_recording_settings(
+        self, appId: str, urlToRetrieveAuthedRecording: str
+    ) -> dict[str, Any]:
         """
 
         Configures call recording settings for a specific application ID in the CRM using a POST request to update the recording settings.
@@ -1919,20 +2735,35 @@ class CrmApi(APISegmentBase):
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'urlToRetrieveAuthedRecording': urlToRetrieveAuthedRecording}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording'
+        request_body_data = {
+            "urlToRetrieveAuthedRecording": urlToRetrieveAuthedRecording
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_recording_settings(self, appId: str, urlToRetrieveAuthedRecording: Optional[str]=None) -> dict[str, Any]:
+    def update_recording_settings(
+        self, appId: str, urlToRetrieveAuthedRecording: Optional[str] = None
+    ) -> dict[str, Any]:
         """
 
         Modifies the recording settings for a specific CRM application using the provided JSON body.
@@ -1954,20 +2785,35 @@ class CrmApi(APISegmentBase):
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'urlToRetrieveAuthedRecording': urlToRetrieveAuthedRecording}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording'
+        request_body_data = {
+            "urlToRetrieveAuthedRecording": urlToRetrieveAuthedRecording
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def read_quotes_batch(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def read_quotes_batch(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Reads a batch of quote objects by their internal IDs or unique property values, optionally including archived quotes, in a single POST request.
@@ -1990,20 +2836,44 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_quote_by_id(self, quoteId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_quote_by_id(
+        self,
+        quoteId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific sales quote by its ID, optionally including custom properties, property history, associations, and archived status, using the HubSpot CRM API.
@@ -2028,11 +2898,25 @@ class CrmApi(APISegmentBase):
         """
         if quoteId is None:
             raise ValueError("Missing required parameter 'quoteId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2059,18 +2943,24 @@ class CrmApi(APISegmentBase):
         """
         if quoteId is None:
             raise ValueError("Missing required parameter 'quoteId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_quote(self, quoteId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def update_quote(
+        self, quoteId: str, properties: dict[str, str], idProperty: Optional[str] = None
+    ) -> dict[str, Any]:
         """
 
         Updates a quote object with the specified ID in the CRM system using partial modifications, requiring a JSON body with the changes and returning a status message upon success.
@@ -2093,20 +2983,28 @@ class CrmApi(APISegmentBase):
         if quoteId is None:
             raise ValueError("Missing required parameter 'quoteId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_quotes(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_quotes(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges quote objects in a CRM system using the POST method, allowing for the integration of data from multiple quotes into a single unified quote.
@@ -2126,13 +3024,27 @@ class CrmApi(APISegmentBase):
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2158,13 +3070,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2190,13 +3113,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2222,20 +3156,33 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_quote_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_quote_gdpr_data(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Performs a GDPR-compliant deletion of a quote object in the CRM system, permanently removing the associated personal data.
@@ -2255,20 +3202,39 @@ class CrmApi(APISegmentBase):
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_quotes(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_quotes(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of quotes from the CRM, allowing for optional filtering by limit, after, properties, properties with history, associations, and archived status.
@@ -2291,18 +3257,35 @@ class CrmApi(APISegmentBase):
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_quote(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_quote(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new quote in HubSpot using the CRM API and returns a status message upon successful creation.
@@ -2322,20 +3305,39 @@ class CrmApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_quotes(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_quotes(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for quotes in a CRM system using specified criteria and returns the results, requiring authentication via OAuth2 or private apps with read permissions for quotes.
@@ -2359,20 +3361,45 @@ class CrmApi(APISegmentBase):
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/quotes/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_deals_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_deals_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Reads a batch of deals from the CRM using the provided IDs and returns the specified properties, allowing for optional filtering by archived status.
@@ -2395,20 +3422,44 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_deal_by_id(self, dealId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_deal_by_id(
+        self,
+        dealId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a deal by its ID and returns its details, supporting optional parameters for specifying properties, associations, and archived status.
@@ -2433,11 +3484,25 @@ class CrmApi(APISegmentBase):
         """
         if dealId is None:
             raise ValueError("Missing required parameter 'dealId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2464,18 +3529,24 @@ class CrmApi(APISegmentBase):
         """
         if dealId is None:
             raise ValueError("Missing required parameter 'dealId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_deal_by_id(self, dealId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def update_deal_by_id(
+        self, dealId: str, properties: dict[str, str], idProperty: Optional[str] = None
+    ) -> dict[str, Any]:
         """
 
         Updates an individual deal in the CRM by its record ID using the PATCH method.
@@ -2498,13 +3569,19 @@ class CrmApi(APISegmentBase):
         if dealId is None:
             raise ValueError("Missing required parameter 'dealId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2531,13 +3608,27 @@ class CrmApi(APISegmentBase):
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2563,13 +3654,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2595,13 +3697,24 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2627,20 +3740,33 @@ class CrmApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def post_deal_gdpr_delete(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def post_deal_gdpr_delete(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Deletes a deal record in compliance with GDPR requirements using the provided JSON payload, requiring a valid OAuth2 or private app authentication with the necessary write permissions.
@@ -2660,20 +3786,39 @@ class CrmApi(APISegmentBase):
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_deals(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_deals(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM deal objects from HubSpot using the GET method, allowing optional filtering by parameters such as limit, after, properties, propertiesWithHistory, associations, and archived status.
@@ -2696,18 +3841,35 @@ class CrmApi(APISegmentBase):
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_deal(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_deal(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new deal object in the CRM using the HubSpot API, requiring a JSON payload and returning a status code indicating success.
@@ -2727,20 +3889,39 @@ class CrmApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_deals(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_deals(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches and retrieves deal records in the CRM using filters and criteria provided in the request body.
@@ -2764,13 +3945,31 @@ class CrmApi(APISegmentBase):
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/deals/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2798,11 +3997,20 @@ class CrmApi(APISegmentBase):
         if importId is None:
             raise ValueError("Missing required parameter 'importId'.")
         request_body_data = None
-        url = f'{self.main_app_client.base_url}/crm/v3/imports/{importId}/cancel'
+        url = f"{self.main_app_client.base_url}/crm/v3/imports/{importId}/cancel"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2829,18 +4037,24 @@ class CrmApi(APISegmentBase):
         """
         if importId is None:
             raise ValueError("Missing required parameter 'importId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/imports/{importId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/imports/{importId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_import_errors_by_id(self, importId: str, after: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
+    def get_import_errors_by_id(
+        self, importId: str, after: Optional[str] = None, limit: Optional[int] = None
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of errors associated with a specific CRM import operation, using the import ID, and allows filtering by optional parameters such as "after" and "limit".
@@ -2862,11 +4076,17 @@ class CrmApi(APISegmentBase):
         """
         if importId is None:
             raise ValueError("Missing required parameter 'importId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/imports/{importId}/errors'
-        query_params = {k: v for k, v in [('after', after), ('limit', limit)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/imports/{importId}/errors"
+        query_params = {
+            k: v for k, v in [("after", after), ("limit", limit)] if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -2893,18 +4113,24 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}'
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_schema_by_type(self, objectType: str, archived: Optional[bool]=None) -> Any:
+    def delete_schema_by_type(
+        self, objectType: str, archived: Optional[bool] = None
+    ) -> Any:
         """
 
         Deletes the specified CRM object schema by its type, optionally including archived versions, to remove its definition from the system.
@@ -2925,18 +4151,32 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_crm_schema_by_object_type(self, objectType: str, description: Optional[str]=None, secondaryDisplayProperties: Optional[List[str]]=None, requiredProperties: Optional[List[str]]=None, searchableProperties: Optional[List[str]]=None, primaryDisplayProperty: Optional[str]=None, restorable: Optional[bool]=None, labels: Optional[dict[str, Any]]=None) -> dict[str, Any]:
+    def patch_crm_schema_by_object_type(
+        self,
+        objectType: str,
+        description: Optional[str] = None,
+        secondaryDisplayProperties: Optional[List[str]] = None,
+        requiredProperties: Optional[List[str]] = None,
+        searchableProperties: Optional[List[str]] = None,
+        primaryDisplayProperty: Optional[str] = None,
+        restorable: Optional[bool] = None,
+        labels: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a custom CRM object schema in HubSpot using the PATCH method, allowing for partial modifications to the schema of a specified object type.
@@ -2964,20 +4204,40 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'description': description, 'secondaryDisplayProperties': secondaryDisplayProperties, 'requiredProperties': requiredProperties, 'searchableProperties': searchableProperties, 'primaryDisplayProperty': primaryDisplayProperty, 'restorable': restorable, 'labels': labels}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}'
+        request_body_data = {
+            "description": description,
+            "secondaryDisplayProperties": secondaryDisplayProperties,
+            "requiredProperties": requiredProperties,
+            "searchableProperties": searchableProperties,
+            "primaryDisplayProperty": primaryDisplayProperty,
+            "restorable": restorable,
+            "labels": labels,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_object_type_association(self, objectType: str, fromObjectTypeId: str, toObjectTypeId: str, name: Optional[str]=None) -> dict[str, Any]:
+    def create_object_type_association(
+        self,
+        objectType: str,
+        fromObjectTypeId: str,
+        toObjectTypeId: str,
+        name: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Creates a new association definition for the specified CRM object type to define relationships between that object and others.
@@ -3001,13 +4261,30 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'fromObjectTypeId': fromObjectTypeId, 'name': name, 'toObjectTypeId': toObjectTypeId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations'
+        request_body_data = {
+            "fromObjectTypeId": fromObjectTypeId,
+            "name": name,
+            "toObjectTypeId": toObjectTypeId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3034,18 +4311,24 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/purge'
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/purge"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_association_by_object_type_id(self, objectType: str, associationIdentifier: str) -> Any:
+    def delete_association_by_object_type_id(
+        self, objectType: str, associationIdentifier: str
+    ) -> Any:
         """
 
         Removes an association identified by the associationIdentifier from a CRM object schema of the specified objectType using the HubSpot API.
@@ -3068,18 +4351,22 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if associationIdentifier is None:
             raise ValueError("Missing required parameter 'associationIdentifier'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations/{associationIdentifier}'
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations/{associationIdentifier}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_schemas(self, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_schemas(self, archived: Optional[bool] = None) -> dict[str, Any]:
         """
 
         Retrieves a list of custom object schemas in the CRM, optionally filtering by archived status, using either legacy private apps or OAuth2 credentials for authentication.
@@ -3097,18 +4384,33 @@ class CrmApi(APISegmentBase):
         Tags:
             Core
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_crm_schema(self, requiredProperties: List[str], name: str, associatedObjects: List[str], properties: List[dict[str, Any]], labels: dict[str, Any], description: Optional[str]=None, secondaryDisplayProperties: Optional[List[str]]=None, searchableProperties: Optional[List[str]]=None, primaryDisplayProperty: Optional[str]=None) -> dict[str, Any]:
+    def create_crm_schema(
+        self,
+        requiredProperties: List[str],
+        name: str,
+        associatedObjects: List[str],
+        properties: List[dict[str, Any]],
+        labels: dict[str, Any],
+        description: Optional[str] = None,
+        secondaryDisplayProperties: Optional[List[str]] = None,
+        searchableProperties: Optional[List[str]] = None,
+        primaryDisplayProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Creates a new custom object schema in the CRM to define a new type of CRM record.
@@ -3135,20 +4437,43 @@ class CrmApi(APISegmentBase):
             Core
         """
         request_body_data = None
-        request_body_data = {'description': description, 'secondaryDisplayProperties': secondaryDisplayProperties, 'requiredProperties': requiredProperties, 'searchableProperties': searchableProperties, 'primaryDisplayProperty': primaryDisplayProperty, 'name': name, 'associatedObjects': associatedObjects, 'properties': properties, 'labels': labels}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/schemas'
+        request_body_data = {
+            "description": description,
+            "secondaryDisplayProperties": secondaryDisplayProperties,
+            "requiredProperties": requiredProperties,
+            "searchableProperties": searchableProperties,
+            "primaryDisplayProperty": primaryDisplayProperty,
+            "name": name,
+            "associatedObjects": associatedObjects,
+            "properties": properties,
+            "labels": labels,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/schemas"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def archive_properties_batch_post(self, objectType: str, inputs: List[dict[str, Any]]) -> Any:
+    def archive_properties_batch_post(
+        self, objectType: str, inputs: List[dict[str, Any]]
+    ) -> Any:
         """
 
         Archives a batch of properties for a specified object type in CRM using a POST request.
@@ -3170,13 +4495,24 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3206,11 +4542,15 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if groupName is None:
             raise ValueError("Missing required parameter 'groupName'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}'
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3240,18 +4580,28 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if groupName is None:
             raise ValueError("Missing required parameter 'groupName'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}'
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_property_group_by_identifier(self, objectType: str, groupName: str, displayOrder: Optional[int]=None, label: Optional[str]=None) -> dict[str, Any]:
+    def update_property_group_by_identifier(
+        self,
+        objectType: str,
+        groupName: str,
+        displayOrder: Optional[int] = None,
+        label: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Modifies the properties of a specified group in a CRM object type using the PATCH method, requiring authentication and a JSON request body to update the group's properties.
@@ -3277,20 +4627,32 @@ class CrmApi(APISegmentBase):
         if groupName is None:
             raise ValueError("Missing required parameter 'groupName'.")
         request_body_data = None
-        request_body_data = {'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}'
+        request_body_data = {"displayOrder": displayOrder, "label": label}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_crm_property(self, objectType: str, propertyName: str, archived: Optional[bool]=None, properties: Optional[str]=None) -> dict[str, Any]:
+    def get_crm_property(
+        self,
+        objectType: str,
+        propertyName: str,
+        archived: Optional[bool] = None,
+        properties: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves the details of a specific property for a given CRM object type, optionally including archived properties and additional specified fields.
@@ -3315,11 +4677,19 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if propertyName is None:
             raise ValueError("Missing required parameter 'propertyName'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}'
-        query_params = {k: v for k, v in [('archived', archived), ('properties', properties)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}"
+        query_params = {
+            k: v
+            for k, v in [("archived", archived), ("properties", properties)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3349,18 +4719,36 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         if propertyName is None:
             raise ValueError("Missing required parameter 'propertyName'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}'
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_crm_property_by_name(self, objectType: str, propertyName: str, description: Optional[str]=None, groupName: Optional[str]=None, hidden: Optional[bool]=None, options: Optional[List[dict[str, Any]]]=None, displayOrder: Optional[int]=None, calculationFormula: Optional[str]=None, label: Optional[str]=None, type: Optional[str]=None, fieldType: Optional[str]=None, formField: Optional[bool]=None) -> dict[str, Any]:
+    def patch_crm_property_by_name(
+        self,
+        objectType: str,
+        propertyName: str,
+        description: Optional[str] = None,
+        groupName: Optional[str] = None,
+        hidden: Optional[bool] = None,
+        options: Optional[List[dict[str, Any]]] = None,
+        displayOrder: Optional[int] = None,
+        calculationFormula: Optional[str] = None,
+        label: Optional[str] = None,
+        type: Optional[str] = None,
+        fieldType: Optional[str] = None,
+        formField: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates the specified property of a given CRM object type by applying partial modifications using a JSON Patch request.
@@ -3394,20 +4782,39 @@ class CrmApi(APISegmentBase):
         if propertyName is None:
             raise ValueError("Missing required parameter 'propertyName'.")
         request_body_data = None
-        request_body_data = {'description': description, 'groupName': groupName, 'hidden': hidden, 'options': options, 'displayOrder': displayOrder, 'calculationFormula': calculationFormula, 'label': label, 'type': type, 'fieldType': fieldType, 'formField': formField}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}'
+        request_body_data = {
+            "description": description,
+            "groupName": groupName,
+            "hidden": hidden,
+            "options": options,
+            "displayOrder": displayOrder,
+            "calculationFormula": calculationFormula,
+            "label": label,
+            "type": type,
+            "fieldType": fieldType,
+            "formField": formField,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_properties_by_object_type(self, objectType: str, archived: bool, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def batch_read_properties_by_object_type(
+        self, objectType: str, archived: bool, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Performs a batch read operation on CRM properties for a specified object type using a POST request, returning the results in a batch format.
@@ -3430,20 +4837,35 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'archived': archived, 'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/read'
+        request_body_data = {"archived": archived, "inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/read"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_batch_properties(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def create_batch_properties(
+        self, objectType: str, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Creates multiple properties in batches for a specified object type in the CRM using a POST request to the "/crm/v3/properties/{objectType}/batch/create" endpoint.
@@ -3465,20 +4887,36 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_properties_by_object_type(self, objectType: str, archived: Optional[bool]=None, properties: Optional[str]=None) -> dict[str, Any]:
+    def get_properties_by_object_type(
+        self,
+        objectType: str,
+        archived: Optional[bool] = None,
+        properties: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of properties for a specified CRM object type using the HubSpot API, allowing for optional filtering by archived status and specific properties.
@@ -3500,18 +4938,43 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}'
-        query_params = {k: v for k, v in [('archived', archived), ('properties', properties)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}"
+        query_params = {
+            k: v
+            for k, v in [("archived", archived), ("properties", properties)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_property_schema(self, objectType: str, label: str, type: str, groupName: str, name: str, fieldType: str, description: Optional[str]=None, hidden: Optional[bool]=None, displayOrder: Optional[int]=None, formField: Optional[bool]=None, referencedObjectType: Optional[str]=None, options: Optional[List[dict[str, Any]]]=None, calculationFormula: Optional[str]=None, hasUniqueValue: Optional[bool]=None, externalOptions: Optional[bool]=None) -> dict[str, Any]:
+    def create_property_schema(
+        self,
+        objectType: str,
+        label: str,
+        type: str,
+        groupName: str,
+        name: str,
+        fieldType: str,
+        description: Optional[str] = None,
+        hidden: Optional[bool] = None,
+        displayOrder: Optional[int] = None,
+        formField: Optional[bool] = None,
+        referencedObjectType: Optional[str] = None,
+        options: Optional[List[dict[str, Any]]] = None,
+        calculationFormula: Optional[str] = None,
+        hasUniqueValue: Optional[bool] = None,
+        externalOptions: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Creates a new custom property for a specified CRM object type.
@@ -3546,13 +5009,39 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'description': description, 'hidden': hidden, 'displayOrder': displayOrder, 'label': label, 'type': type, 'formField': formField, 'groupName': groupName, 'referencedObjectType': referencedObjectType, 'name': name, 'options': options, 'calculationFormula': calculationFormula, 'hasUniqueValue': hasUniqueValue, 'fieldType': fieldType, 'externalOptions': externalOptions}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}'
+        request_body_data = {
+            "description": description,
+            "hidden": hidden,
+            "displayOrder": displayOrder,
+            "label": label,
+            "type": type,
+            "formField": formField,
+            "groupName": groupName,
+            "referencedObjectType": referencedObjectType,
+            "name": name,
+            "options": options,
+            "calculationFormula": calculationFormula,
+            "hasUniqueValue": hasUniqueValue,
+            "fieldType": fieldType,
+            "externalOptions": externalOptions,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3579,18 +5068,24 @@ class CrmApi(APISegmentBase):
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups'
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_property_group(self, objectType: str, name: str, label: str, displayOrder: Optional[int]=None) -> dict[str, Any]:
+    def create_property_group(
+        self, objectType: str, name: str, label: str, displayOrder: Optional[int] = None
+    ) -> dict[str, Any]:
         """
 
         Creates a new property group for the specified CRM object type to organize related properties within HubSpot records.
@@ -3614,20 +5109,36 @@ class CrmApi(APISegmentBase):
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'name': name, 'displayOrder': displayOrder, 'label': label}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups'
+        request_body_data = {"name": name, "displayOrder": displayOrder, "label": label}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_owner_by_id(self, ownerId: str, idProperty: Optional[str]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_owner_by_id(
+        self,
+        ownerId: str,
+        idProperty: Optional[str] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific CRM owner by their ID using the HubSpot API.
@@ -3649,18 +5160,28 @@ class CrmApi(APISegmentBase):
         """
         if ownerId is None:
             raise ValueError("Missing required parameter 'ownerId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/owners/{ownerId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/owners/{ownerId}"
+        query_params = {
+            k: v
+            for k, v in [("idProperty", idProperty), ("archived", archived)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_create_timeline_events(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def batch_create_timeline_events(
+        self, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Creates multiple timeline events in a batch using the provided event templates and returns a response with the created events.
@@ -3679,20 +5200,33 @@ class CrmApi(APISegmentBase):
             Events
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/events/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_timeline_event_template_by_id(self, appId: str, eventTemplateId: str) -> dict[str, Any]:
+    def get_timeline_event_template_by_id(
+        self, appId: str, eventTemplateId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific event template by its ID for an application in HubSpot CRM, using the provided app ID and event template ID.
@@ -3715,60 +5249,90 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         if eventTemplateId is None:
             raise ValueError("Missing required parameter 'eventTemplateId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_timeline_event_template_by_id(self, appId: str, eventTemplateId: str, name: str, tokens: List[dict[str, Any]], id: str, detailTemplate: Optional[str]=None, headerTemplate: Optional[str]=None) -> dict[str, Any]:
+    def update_timeline_event_template_by_id(
+        self,
+        appId: str,
+        eventTemplateId: str,
+        name: str,
+        tokens: List[dict[str, Any]],
+        id: str,
+        detailTemplate: Optional[str] = None,
+        headerTemplate: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
-        Updates an existing event template in the HubSpot CRM timeline for a specific app, using the provided event template ID and app ID, and returns a status message.
+                Updates an existing event template in the HubSpot CRM timeline for a specific app, using the provided event template ID and app ID, and returns a status message.
 
-        Args:
-            appId (string): appId
-            eventTemplateId (string): eventTemplateId
-            name (string): The template name. Example: 'PetSpot Registration'.
-            tokens (array): A collection of tokens that can be used as custom properties on the event and to create fully fledged CRM objects. Example: "[{'name': 'petName', 'type': 'string', 'label': 'Pet Name', 'objectPropertyName': 'firstname'}, {'name': 'petAge', 'type': 'number', 'label': 'Pet Age'}, {'name': 'petColor', 'type': 'enumeration', 'label': 'Pet Color', 'options': [{'label': 'White', 'value': 'white'}, {'label': 'Black', 'value': 'black'}, {'label': 'Brown', 'value': 'brown'}, {'label': 'Yellow', 'value': 'yellow'}, {'label': 'Other', 'value': 'other'}]}]".
-            id (string): The template ID. Example: '1001298'.
-            detailTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline when you expand the details. Example: 'Registration occurred at {{#formatDate timestamp}}{{/formatDate}}
+                Args:
+                    appId (string): appId
+                    eventTemplateId (string): eventTemplateId
+                    name (string): The template name. Example: 'PetSpot Registration'.
+                    tokens (array): A collection of tokens that can be used as custom properties on the event and to create fully fledged CRM objects. Example: "[{'name': 'petName', 'type': 'string', 'label': 'Pet Name', 'objectPropertyName': 'firstname'}, {'name': 'petAge', 'type': 'number', 'label': 'Pet Age'}, {'name': 'petColor', 'type': 'enumeration', 'label': 'Pet Color', 'options': [{'label': 'White', 'value': 'white'}, {'label': 'Black', 'value': 'black'}, {'label': 'Brown', 'value': 'brown'}, {'label': 'Yellow', 'value': 'yellow'}, {'label': 'Other', 'value': 'other'}]}]".
+                    id (string): The template ID. Example: '1001298'.
+                    detailTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline when you expand the details. Example: 'Registration occurred at {{#formatDate timestamp}}{{/formatDate}}
 
-#### Questions
-{{#each extraData.questions}}
-  **{{question}}**: {{answer}}
-{{/each}}
+        #### Questions
+        {{#each extraData.questions}}
+          **{{question}}**: {{answer}}
+        {{/each}}
 
-EDIT'.
-            headerTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline as a header. Example: 'Registered for [{{petName}}](https://my.petspot.com/pets/{{petName}})'.
+        EDIT'.
+                    headerTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline as a header. Example: 'Registered for [{{petName}}](https://my.petspot.com/pets/{{petName}})'.
 
-        Returns:
-            dict[str, Any]: successful operation
+                Returns:
+                    dict[str, Any]: successful operation
 
-        Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                Raises:
+                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
-        Tags:
-            Templates
+                Tags:
+                    Templates
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         if eventTemplateId is None:
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         request_body_data = None
-        request_body_data = {'detailTemplate': detailTemplate, 'name': name, 'tokens': tokens, 'id': id, 'headerTemplate': headerTemplate}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}'
+        request_body_data = {
+            "detailTemplate": detailTemplate,
+            "name": name,
+            "tokens": tokens,
+            "id": id,
+            "headerTemplate": headerTemplate,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -3798,18 +5362,34 @@ EDIT'.
             raise ValueError("Missing required parameter 'appId'.")
         if eventTemplateId is None:
             raise ValueError("Missing required parameter 'eventTemplateId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_event(self, eventTemplateId: str, tokens: dict[str, str], extraData: Optional[dict[str, Any]]=None, timelineIFrame: Optional[dict[str, Any]]=None, domain: Optional[str]=None, id: Optional[str]=None, utk: Optional[str]=None, email: Optional[str]=None, objectId: Optional[str]=None, timestamp: Optional[str]=None) -> dict[str, Any]:
+    def create_event(
+        self,
+        eventTemplateId: str,
+        tokens: dict[str, str],
+        extraData: Optional[dict[str, Any]] = None,
+        timelineIFrame: Optional[dict[str, Any]] = None,
+        domain: Optional[str] = None,
+        id: Optional[str] = None,
+        utk: Optional[str] = None,
+        email: Optional[str] = None,
+        objectId: Optional[str] = None,
+        timestamp: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Creates a new timeline event in a CRM record based on an event template, adding custom event information to the timeline of a contact, company, or deal.
@@ -3837,20 +5417,53 @@ EDIT'.
             Events
         """
         request_body_data = None
-        request_body_data = {'eventTemplateId': eventTemplateId, 'extraData': extraData, 'timelineIFrame': timelineIFrame, 'domain': domain, 'tokens': tokens, 'id': id, 'utk': utk, 'email': email, 'objectId': objectId, 'timestamp': timestamp}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/events'
+        request_body_data = {
+            "eventTemplateId": eventTemplateId,
+            "extraData": extraData,
+            "timelineIFrame": timelineIFrame,
+            "domain": domain,
+            "tokens": tokens,
+            "id": id,
+            "utk": utk,
+            "email": email,
+            "objectId": objectId,
+            "timestamp": timestamp,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/events"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_token_template(self, appId: str, eventTemplateId: str, name: str, label: str, type: str, createdAt: Optional[str]=None, options: Optional[List[dict[str, Any]]]=None, objectPropertyName: Optional[str]=None, updatedAt: Optional[str]=None) -> dict[str, Any]:
+    def create_token_template(
+        self,
+        appId: str,
+        eventTemplateId: str,
+        name: str,
+        label: str,
+        type: str,
+        createdAt: Optional[str] = None,
+        options: Optional[List[dict[str, Any]]] = None,
+        objectPropertyName: Optional[str] = None,
+        updatedAt: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Creates a new token for an event template in the HubSpot CRM timeline using the provided JSON data.
@@ -3881,20 +5494,47 @@ EDIT'.
         if eventTemplateId is None:
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         request_body_data = None
-        request_body_data = {'createdAt': createdAt, 'options': options, 'name': name, 'label': label, 'objectPropertyName': objectPropertyName, 'type': type, 'updatedAt': updatedAt}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens'
+        request_body_data = {
+            "createdAt": createdAt,
+            "options": options,
+            "name": name,
+            "label": label,
+            "objectPropertyName": objectPropertyName,
+            "type": type,
+            "updatedAt": updatedAt,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_event_template_token(self, appId: str, eventTemplateId: str, tokenName: str, label: str, options: Optional[List[dict[str, Any]]]=None, objectPropertyName: Optional[str]=None) -> dict[str, Any]:
+    def update_event_template_token(
+        self,
+        appId: str,
+        eventTemplateId: str,
+        tokenName: str,
+        label: str,
+        options: Optional[List[dict[str, Any]]] = None,
+        objectPropertyName: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a specific token in an event template within a CRM timeline using the provided JSON data.
@@ -3924,20 +5564,37 @@ EDIT'.
         if tokenName is None:
             raise ValueError("Missing required parameter 'tokenName'.")
         request_body_data = None
-        request_body_data = {'options': options, 'label': label, 'objectPropertyName': objectPropertyName}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}'
+        request_body_data = {
+            "options": options,
+            "label": label,
+            "objectPropertyName": objectPropertyName,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}"
         query_params = {}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_timeline_event_template_token(self, appId: str, eventTemplateId: str, tokenName: str) -> Any:
+    def delete_timeline_event_template_token(
+        self, appId: str, eventTemplateId: str, tokenName: str
+    ) -> Any:
         """
 
         Deletes a token by the specified name from an event template in the CRM timeline for a given application ID.
@@ -3963,18 +5620,24 @@ EDIT'.
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         if tokenName is None:
             raise ValueError("Missing required parameter 'tokenName'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_timeline_event_detail_by_id(self, eventTemplateId: str, eventId: str) -> dict[str, Any]:
+    def get_timeline_event_detail_by_id(
+        self, eventTemplateId: str, eventId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information for a specific timeline event identified by its event template ID and event ID in the CRM.
@@ -3997,18 +5660,24 @@ EDIT'.
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         if eventId is None:
             raise ValueError("Missing required parameter 'eventId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/detail'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/detail"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_timeline_event_by_id(self, eventTemplateId: str, eventId: str) -> dict[str, Any]:
+    def get_timeline_event_by_id(
+        self, eventTemplateId: str, eventId: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific timeline event by its event template ID and event ID, returning detailed information about that event in the CRM.
@@ -4031,11 +5700,15 @@ EDIT'.
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         if eventId is None:
             raise ValueError("Missing required parameter 'eventId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4062,62 +5735,93 @@ EDIT'.
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates'
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_timeline_event_template(self, appId: str, name: str, tokens: List[dict[str, Any]], objectType: str, detailTemplate: Optional[str]=None, headerTemplate: Optional[str]=None) -> dict[str, Any]:
+    def create_timeline_event_template(
+        self,
+        appId: str,
+        name: str,
+        tokens: List[dict[str, Any]],
+        objectType: str,
+        detailTemplate: Optional[str] = None,
+        headerTemplate: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
-        Creates a new event template for a specified application ID in HubSpot's CRM timeline using the provided JSON payload.
+                Creates a new event template for a specified application ID in HubSpot's CRM timeline using the provided JSON payload.
 
-        Args:
-            appId (string): appId
-            name (string): The template name. Example: 'PetSpot Registration'.
-            tokens (array): A collection of tokens that can be used as custom properties on the event and to create fully fledged CRM objects. Example: "[{'name': 'petName', 'type': 'string', 'label': 'Pet Name'}, {'name': 'petAge', 'type': 'number', 'label': 'Pet Age'}, {'name': 'petColor', 'type': 'enumeration', 'label': 'Pet Color', 'options': [{'label': 'White', 'value': 'white'}, {'label': 'Black', 'value': 'black'}, {'label': 'Brown', 'value': 'brown'}, {'label': 'Other', 'value': 'other'}]}]".
-            objectType (string): The type of CRM object this template is for. [Contacts, companies, tickets, and deals] are supported. Example: 'contacts'.
-            detailTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline when you expand the details. Example: 'Registration occurred at {{#formatDate timestamp}}{{/formatDate}}
+                Args:
+                    appId (string): appId
+                    name (string): The template name. Example: 'PetSpot Registration'.
+                    tokens (array): A collection of tokens that can be used as custom properties on the event and to create fully fledged CRM objects. Example: "[{'name': 'petName', 'type': 'string', 'label': 'Pet Name'}, {'name': 'petAge', 'type': 'number', 'label': 'Pet Age'}, {'name': 'petColor', 'type': 'enumeration', 'label': 'Pet Color', 'options': [{'label': 'White', 'value': 'white'}, {'label': 'Black', 'value': 'black'}, {'label': 'Brown', 'value': 'brown'}, {'label': 'Other', 'value': 'other'}]}]".
+                    objectType (string): The type of CRM object this template is for. [Contacts, companies, tickets, and deals] are supported. Example: 'contacts'.
+                    detailTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline when you expand the details. Example: 'Registration occurred at {{#formatDate timestamp}}{{/formatDate}}
 
-#### Questions
-{{#each extraData.questions}}
-  **{{question}}**: {{answer}}
-{{/each}}'.
-            headerTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline as a header. Example: 'Registered for [{{petName}}](https://my.petspot.com/pets/{{petName}})'.
+        #### Questions
+        {{#each extraData.questions}}
+          **{{question}}**: {{answer}}
+        {{/each}}'.
+                    headerTemplate (string): This uses Markdown syntax with Handlebars and event-specific data to render HTML on a timeline as a header. Example: 'Registered for [{{petName}}](https://my.petspot.com/pets/{{petName}})'.
 
-        Returns:
-            dict[str, Any]: successful operation
+                Returns:
+                    dict[str, Any]: successful operation
 
-        Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                Raises:
+                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
-        Tags:
-            Templates
+                Tags:
+                    Templates
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'detailTemplate': detailTemplate, 'name': name, 'tokens': tokens, 'headerTemplate': headerTemplate, 'objectType': objectType}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates'
+        request_body_data = {
+            "detailTemplate": detailTemplate,
+            "name": name,
+            "tokens": tokens,
+            "headerTemplate": headerTemplate,
+            "objectType": objectType,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_timeline_event_render(self, eventTemplateId: str, eventId: str, detail: Optional[bool]=None) -> Any:
+    def get_timeline_event_render(
+        self, eventTemplateId: str, eventId: str, detail: Optional[bool] = None
+    ) -> Any:
         """
 
         Retrieves and renders a specific timeline event from a CRM object using an event template and event ID, allowing for optional detailed rendering.
@@ -4141,18 +5845,29 @@ EDIT'.
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         if eventId is None:
             raise ValueError("Missing required parameter 'eventId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/render'
-        query_params = {k: v for k, v in [('detail', detail)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/render"
+        query_params = {k: v for k, v in [("detail", detail)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_contacts_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_contacts_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a batch of contacts from the CRM using the provided identifiers and properties, supporting optional filtering by archived status.
@@ -4175,20 +5890,43 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_contact_by_id(self, contactId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_contact_by_id(
+        self,
+        contactId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a contact by ID from the CRM, allowing for optional filtering by properties, properties with history, associations, and archived status.
@@ -4212,11 +5950,24 @@ EDIT'.
         """
         if contactId is None:
             raise ValueError("Missing required parameter 'contactId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4243,18 +5994,24 @@ EDIT'.
         """
         if contactId is None:
             raise ValueError("Missing required parameter 'contactId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_contact_by_id(self, contactId: str, properties: dict[str, str]) -> dict[str, Any]:
+    def update_contact_by_id(
+        self, contactId: str, properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Updates an individual contact by its record ID using a PATCH request to the "/crm/v3/objects/contacts/{contactId}" endpoint, requiring a JSON body with the fields to be updated.
@@ -4276,20 +6033,28 @@ EDIT'.
         if contactId is None:
             raise ValueError("Missing required parameter 'contactId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}'
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_contacts(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_contacts(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges two or more duplicate contact records into a single record in the CRM system, retaining the most relevant data while discarding redundant information.
@@ -4309,13 +6074,27 @@ EDIT'.
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4341,13 +6120,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4373,13 +6163,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4405,20 +6206,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_contact_gdpr_data(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_contact_gdpr_data(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Permanently deletes a contact and all associated data from the CRM to comply with GDPR requirements.
@@ -4438,20 +6252,39 @@ EDIT'.
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_contacts(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_contacts(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of contacts from a CRM system, allowing for optional filtering by limit, pagination, specific properties, property history, associations, and archived status.
@@ -4474,18 +6307,35 @@ EDIT'.
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_contact(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_contact(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new contact in the CRM system using the provided JSON data and returns a successful creation response.
@@ -4505,20 +6355,39 @@ EDIT'.
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_contacts_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_contacts_post(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for contact records in the CRM system based on specified criteria and returns matching contacts.
@@ -4542,20 +6411,45 @@ EDIT'.
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/contacts/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_feedback_submissions(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_feedback_submissions(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Reads a batch of feedback submissions by sending a POST request, allowing for optional filtering by archived status, and returns the relevant data in JSON format.
@@ -4578,20 +6472,44 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_feedback_submission_by_id(self, feedbackSubmissionId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_feedback_submission_by_id(
+        self,
+        feedbackSubmissionId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific feedback submission using its ID, with optional parameters to include properties, history, associations, and archived status.
@@ -4616,11 +6534,25 @@ EDIT'.
         """
         if feedbackSubmissionId is None:
             raise ValueError("Missing required parameter 'feedbackSubmissionId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4647,18 +6579,27 @@ EDIT'.
         """
         if feedbackSubmissionId is None:
             raise ValueError("Missing required parameter 'feedbackSubmissionId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_feedback_submission_by_id(self, feedbackSubmissionId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def patch_feedback_submission_by_id(
+        self,
+        feedbackSubmissionId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates specific fields of a feedback submission by ID using partial modifications with a JSON request body.
@@ -4681,20 +6622,28 @@ EDIT'.
         if feedbackSubmissionId is None:
             raise ValueError("Missing required parameter 'feedbackSubmissionId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_feedback_submissions(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_feedback_submissions(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges feedback submission records using the POST method, requiring a JSON body and supporting OAuth2 and private apps for authentication.
@@ -4714,13 +6663,29 @@ EDIT'.
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/merge"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -4746,20 +6711,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def create_feedback_submissions_batch(
+        self, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Creates a batch of feedback submissions using the HubSpot API, allowing for the simultaneous creation of multiple feedback submissions.
@@ -4778,20 +6756,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def update_feedback_submissions_batch(
+        self, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Updates multiple feedback submissions in batches using the HubSpot CRM API.
@@ -4810,20 +6801,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def post_feedback_submissions_gdpr_delete(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def post_feedback_submissions_gdpr_delete(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Permanently deletes feedback submissions and associated data to comply with GDPR regulations using the provided JSON body.
@@ -4843,20 +6847,39 @@ EDIT'.
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_feedback_submissions(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_feedback_submissions(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of feedback submissions from HubSpot CRM, allowing for optional filtering by limit, pagination, specific properties, property history, associations, and archived status.
@@ -4879,18 +6902,35 @@ EDIT'.
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_feedback_submission(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_feedback_submission(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Searches for feedback submissions using the HubSpot CRM API and returns relevant results.
@@ -4910,20 +6950,39 @@ EDIT'.
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_feedback_submissions(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_feedback_submissions(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for feedback submissions in HubSpot CRM using the POST method, allowing developers to filter and retrieve specific feedback data.
@@ -4947,20 +7006,46 @@ EDIT'.
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def read_batch_objects(self, objectType: str, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def read_batch_objects(
+        self,
+        objectType: str,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Performs a batch read operation on CRM objects of the specified type, allowing for the retrieval of multiple records in a single request, with optional filtering by archived status.
@@ -4986,20 +7071,45 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_object_details(self, objectType: str, objectId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_object_details(
+        self,
+        objectType: str,
+        objectId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific CRM object record by its object type and ID, allowing for optional specification of properties, associations, and other query parameters.
@@ -5027,11 +7137,25 @@ EDIT'.
             raise ValueError("Missing required parameter 'objectType'.")
         if objectId is None:
             raise ValueError("Missing required parameter 'objectId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5061,18 +7185,28 @@ EDIT'.
             raise ValueError("Missing required parameter 'objectType'.")
         if objectId is None:
             raise ValueError("Missing required parameter 'objectId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_object_by_id(self, objectType: str, objectId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def patch_object_by_id(
+        self,
+        objectType: str,
+        objectId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates a specific CRM object using the PATCH method by modifying its properties based on the provided JSON body.
@@ -5098,20 +7232,28 @@ EDIT'.
         if objectId is None:
             raise ValueError("Missing required parameter 'objectId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_objects(self, objectType: str, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_objects(
+        self, objectType: str, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges duplicate records of a specified object type into a single record using the provided JSON body.
@@ -5134,20 +7276,36 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def archive_batch_objects_by_type(self, objectType: str, inputs: List[dict[str, Any]]) -> Any:
+    def archive_batch_objects_by_type(
+        self, objectType: str, inputs: List[dict[str, Any]]
+    ) -> Any:
         """
 
         Archives a batch of objects of a specified type in CRM using the POST method, requiring a JSON body and returning a 204 status code upon successful archiving.
@@ -5169,20 +7327,35 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/archive"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_create_object_records(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def batch_create_object_records(
+        self, objectType: str, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Creates multiple records of a specified object type in a CRM system using a single POST request, supporting batch creation and returning a status message based on the outcome.
@@ -5204,20 +7377,35 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/create"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_batch_object(self, objectType: str, inputs: List[dict[str, Any]]) -> dict[str, Any]:
+    def update_batch_object(
+        self, objectType: str, inputs: List[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
 
         Updates multiple records of a specified object type in a CRM system using a batch operation via the POST method.
@@ -5239,20 +7427,35 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = (
+            f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/update"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def gdpr_delete_object(self, objectType: str, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def gdpr_delete_object(
+        self, objectType: str, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Permanently deletes an object of the specified type from the CRM, adhering to GDPR guidelines for data removal, using the "POST" method with the object type specified in the path and additional details in the request body.
@@ -5275,20 +7478,40 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_objects_by_type(self, objectType: str, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_objects_by_type(
+        self,
+        objectType: str,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of records for a specified CRM object type with optional filtering, pagination, property selection, association inclusion, and archived status.
@@ -5314,18 +7537,38 @@ EDIT'.
         """
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_object_by_type(self, objectType: str, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_object_by_type(
+        self,
+        objectType: str,
+        associations: List[dict[str, Any]],
+        properties: dict[str, str],
+    ) -> dict[str, Any]:
         """
 
         Creates a new object of the specified type in a CRM system using the provided JSON data, returning a status message upon successful creation.
@@ -5348,20 +7591,40 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_objects_by_type_post(self, objectType: str, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_objects_by_type_post(
+        self,
+        objectType: str,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches for objects of a specified type within a CRM using the provided JSON payload, filtering by various criteria to return a list of matching objects.
@@ -5388,13 +7651,31 @@ EDIT'.
         if objectType is None:
             raise ValueError("Missing required parameter 'objectType'.")
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/{objectType}/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5421,18 +7702,30 @@ EDIT'.
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_video_conferencing_settings_by_app_id(self, appId: str, createMeetingUrl: str, userVerifyUrl: Optional[str]=None, fetchAccountsUri: Optional[str]=None, updateMeetingUrl: Optional[str]=None, deleteMeetingUrl: Optional[str]=None) -> dict[str, Any]:
+    def update_video_conferencing_settings_by_app_id(
+        self,
+        appId: str,
+        createMeetingUrl: str,
+        userVerifyUrl: Optional[str] = None,
+        fetchAccountsUri: Optional[str] = None,
+        updateMeetingUrl: Optional[str] = None,
+        deleteMeetingUrl: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates video conferencing settings for a specific application identified by its `appId` using the provided JSON data.
@@ -5458,13 +7751,30 @@ EDIT'.
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
         request_body_data = None
-        request_body_data = {'userVerifyUrl': userVerifyUrl, 'fetchAccountsUri': fetchAccountsUri, 'createMeetingUrl': createMeetingUrl, 'updateMeetingUrl': updateMeetingUrl, 'deleteMeetingUrl': deleteMeetingUrl}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}'
+        request_body_data = {
+            "userVerifyUrl": userVerifyUrl,
+            "fetchAccountsUri": fetchAccountsUri,
+            "createMeetingUrl": createMeetingUrl,
+            "updateMeetingUrl": updateMeetingUrl,
+            "deleteMeetingUrl": deleteMeetingUrl,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5491,18 +7801,29 @@ EDIT'.
         """
         if appId is None:
             raise ValueError("Missing required parameter 'appId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_tickets_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_tickets_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves and formats a batch of tickets from HubSpot CRM using a POST request to the "/crm/v3/objects/tickets/batch/read" endpoint.
@@ -5525,20 +7846,44 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_ticket_by_id(self, ticketId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_ticket_by_id(
+        self,
+        ticketId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific ticket record by ID from the CRM, optionally including specified properties, property history, associations, and archived status.
@@ -5563,11 +7908,25 @@ EDIT'.
         """
         if ticketId is None:
             raise ValueError("Missing required parameter 'ticketId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5594,18 +7953,27 @@ EDIT'.
         """
         if ticketId is None:
             raise ValueError("Missing required parameter 'ticketId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_ticket(self, ticketId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def update_ticket(
+        self,
+        ticketId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates an individual ticket by its ID using the HubSpot CRM API, allowing modification of specific fields via a JSON payload.
@@ -5628,20 +7996,28 @@ EDIT'.
         if ticketId is None:
             raise ValueError("Missing required parameter 'ticketId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_tickets(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_tickets(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges two or more tickets into a single ticket in the CRM system using the POST method, allowing for the consolidation of related customer service requests.
@@ -5661,13 +8037,27 @@ EDIT'.
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5693,13 +8083,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5725,13 +8126,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5757,20 +8169,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_ticket_gdpr(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def delete_ticket_gdpr(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Permanently deletes a ticket and associated data in compliance with GDPR guidelines using the POST method.
@@ -5790,20 +8215,39 @@ EDIT'.
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_tickets(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_tickets(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of tickets from the CRM, allowing for filtering by limit, after cursor, specific properties, properties with history, associations, and archived status.
@@ -5826,18 +8270,35 @@ EDIT'.
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_ticket(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_ticket(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new ticket object in the CRM using the HubSpot API, allowing for the management of customer service requests.
@@ -5857,20 +8318,39 @@ EDIT'.
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_tickets_post(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_tickets_post(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches and filters ticket records within the CRM system based on specified criteria, returning matching ticket results.
@@ -5894,20 +8374,45 @@ EDIT'.
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/tickets/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_line_items_post(self, propertiesWithHistory: List[str], inputs: List[dict[str, Any]], properties: List[str], archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def batch_read_line_items_post(
+        self,
+        propertiesWithHistory: List[str],
+        inputs: List[dict[str, Any]],
+        properties: List[str],
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a batch of line items by internal ID or unique property values using the HubSpot CRM API.
@@ -5930,20 +8435,44 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'propertiesWithHistory': propertiesWithHistory, 'idProperty': idProperty, 'inputs': inputs, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/read'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {
+            "propertiesWithHistory": propertiesWithHistory,
+            "idProperty": idProperty,
+            "inputs": inputs,
+            "properties": properties,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/read"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_line_item_by_id(self, lineItemId: str, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None, idProperty: Optional[str]=None) -> dict[str, Any]:
+    def get_line_item_by_id(
+        self,
+        lineItemId: str,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a specific line item by its ID from the CRM, optionally including additional properties, associations, and history, using the CRM API with appropriate permissions.
@@ -5968,11 +8497,25 @@ EDIT'.
         """
         if lineItemId is None:
             raise ValueError("Missing required parameter 'lineItemId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}'
-        query_params = {k: v for k, v in [('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived), ('idProperty', idProperty)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+                ("idProperty", idProperty),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -5999,18 +8542,27 @@ EDIT'.
         """
         if lineItemId is None:
             raise ValueError("Missing required parameter 'lineItemId'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}'
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_line_item_by_id(self, lineItemId: str, properties: dict[str, str], idProperty: Optional[str]=None) -> dict[str, Any]:
+    def patch_line_item_by_id(
+        self,
+        lineItemId: str,
+        properties: dict[str, str],
+        idProperty: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Updates properties of a specific line item in the CRM system using a partial JSON patch request.
@@ -6033,20 +8585,28 @@ EDIT'.
         if lineItemId is None:
             raise ValueError("Missing required parameter 'lineItemId'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}'
-        query_params = {k: v for k, v in [('idProperty', idProperty)] if v is not None}
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}"
+        query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def merge_line_items_post(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
+    def merge_line_items_post(
+        self, objectIdToMerge: str, primaryObjectId: str
+    ) -> dict[str, Any]:
         """
 
         Merges duplicate line items into a single instance using the specified parameters via the POST method.
@@ -6066,13 +8626,27 @@ EDIT'.
             Public_Object
         """
         request_body_data = None
-        request_body_data = {'objectIdToMerge': objectIdToMerge, 'primaryObjectId': primaryObjectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/merge'
+        request_body_data = {
+            "objectIdToMerge": objectIdToMerge,
+            "primaryObjectId": primaryObjectId,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/merge"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -6098,13 +8672,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -6130,13 +8715,24 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -6162,20 +8758,33 @@ EDIT'.
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def gdpr_delete_line_items(self, objectId: str, idProperty: Optional[str]=None) -> Any:
+    def gdpr_delete_line_items(
+        self, objectId: str, idProperty: Optional[str] = None
+    ) -> Any:
         """
 
         Deletes line item records from the CRM to comply with GDPR requirements, using the POST method with OAuth2 or private app authentication.
@@ -6195,20 +8804,39 @@ EDIT'.
             GDPR
         """
         request_body_data = None
-        request_body_data = {'idProperty': idProperty, 'objectId': objectId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/gdpr-delete'
+        request_body_data = {"idProperty": idProperty, "objectId": objectId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/gdpr-delete"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_line_items(self, limit: Optional[int]=None, after: Optional[str]=None, properties: Optional[List[str]]=None, propertiesWithHistory: Optional[List[str]]=None, associations: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_line_items(
+        self,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+        propertiesWithHistory: Optional[List[str]] = None,
+        associations: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a paginated list of line items with optional filters for properties, associations, and archival status in the CRM.
@@ -6231,18 +8859,35 @@ EDIT'.
         Tags:
             Basic
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items'
-        query_params = {k: v for k, v in [('limit', limit), ('after', after), ('properties', properties), ('propertiesWithHistory', propertiesWithHistory), ('associations', associations), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items"
+        query_params = {
+            k: v
+            for k, v in [
+                ("limit", limit),
+                ("after", after),
+                ("properties", properties),
+                ("propertiesWithHistory", propertiesWithHistory),
+                ("associations", associations),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_line_item(self, associations: List[dict[str, Any]], properties: dict[str, str]) -> dict[str, Any]:
+    def create_line_item(
+        self, associations: List[dict[str, Any]], properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Creates a new line item in HubSpot CRM using the POST method, allowing you to add products or services to deals and quotes.
@@ -6262,20 +8907,39 @@ EDIT'.
             Basic
         """
         request_body_data = None
-        request_body_data = {'associations': associations, 'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items'
+        request_body_data = {"associations": associations, "properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def search_line_items(self, limit: int, after: str, sorts: List[str], properties: List[str], filterGroups: List[dict[str, Any]], query: Optional[str]=None) -> dict[str, Any]:
+    def search_line_items(
+        self,
+        limit: int,
+        after: str,
+        sorts: List[str],
+        properties: List[str],
+        filterGroups: List[dict[str, Any]],
+        query: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Searches and retrieves line items and their associated properties in the CRM based on specified filter criteria.
@@ -6299,20 +8963,43 @@ EDIT'.
             Search
         """
         request_body_data = None
-        request_body_data = {'query': query, 'limit': limit, 'after': after, 'sorts': sorts, 'properties': properties, 'filterGroups': filterGroups}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/crm/v3/objects/line_items/search'
+        request_body_data = {
+            "query": query,
+            "limit": limit,
+            "after": after,
+            "sorts": sorts,
+            "properties": properties,
+            "filterGroups": filterGroups,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/search"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_crm_imports(self, after: Optional[str]=None, before: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
+    def get_crm_imports(
+        self,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM import operations using the HubSpot API, allowing optional filtering by date and limit on the number of results returned.
@@ -6332,18 +9019,28 @@ EDIT'.
         Tags:
             Core
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/imports'
-        query_params = {k: v for k, v in [('after', after), ('before', before), ('limit', limit)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/imports"
+        query_params = {
+            k: v
+            for k, v in [("after", after), ("before", before), ("limit", limit)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_crm_import(self, files: Optional[bytes]=None, importRequest: Optional[str]=None) -> dict[str, Any]:
+    def create_crm_import(
+        self, files: Optional[bytes] = None, importRequest: Optional[str] = None
+    ) -> dict[str, Any]:
         """
 
         Imports data into a HubSpot CRM using a POST request with a multipart/form-data payload, allowing bulk creation or update of records via uploaded files such as CSV or Excel.
@@ -6367,24 +9064,40 @@ EDIT'.
         request_body_data = {}
         files_data = {}
         if files is not None:
-            files_data['files'] = files
+            files_data["files"] = files
         if importRequest is not None:
-            request_body_data['importRequest'] = importRequest
+            request_body_data["importRequest"] = importRequest
         files_data = {k: v for k, v in files_data.items() if v is not None}
         if not files_data:
             files_data = None
-        url = f'{self.main_app_client.base_url}/crm/v3/imports'
+        url = f"{self.main_app_client.base_url}/crm/v3/imports"
         query_params = {}
-        response = self._post(url, data=request_body_data, files=files_data, params=query_params, content_type='multipart/form-data')
+        response = self._post(
+            url,
+            data=request_body_data,
+            files=files_data,
+            params=query_params,
+            content_type="multipart/form-data",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_owners_list(self, email: Optional[str]=None, after: Optional[str]=None, limit: Optional[int]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_owners_list(
+        self,
+        email: Optional[str] = None,
+        after: Optional[str] = None,
+        limit: Optional[int] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of CRM owners using the "GET" method, allowing optional filtering by email, pagination, and archived status, and returns a response with owner details.
@@ -6405,18 +9118,33 @@ EDIT'.
         Tags:
             Owners
         """
-        url = f'{self.main_app_client.base_url}/crm/v3/owners'
-        query_params = {k: v for k, v in [('email', email), ('after', after), ('limit', limit), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/crm/v3/owners"
+        query_params = {
+            k: v
+            for k, v in [
+                ("email", email),
+                ("after", after),
+                ("limit", limit),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_association_types_by_object_types(self, fromObjectType: str, toObjectType: str) -> dict[str, Any]:
+    def get_association_types_by_object_types(
+        self, fromObjectType: str, toObjectType: str
+    ) -> dict[str, Any]:
         """
 
         Retrieves the association types between two specified object types in HubSpot CRM using the "GET" method.
@@ -6439,11 +9167,15 @@ EDIT'.
             raise ValueError("Missing required parameter 'fromObjectType'.")
         if toObjectType is None:
             raise ValueError("Missing required parameter 'toObjectType'.")
-        url = f'{self.main_app_client.base_url}/crm/v3/associations/{fromObjectType}/{toObjectType}/types'
+        url = f"{self.main_app_client.base_url}/crm/v3/associations/{fromObjectType}/{toObjectType}/types"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -6451,4 +9183,190 @@ EDIT'.
             return None
 
     def list_tools(self):
-        return [self.batch_read_emails, self.get_email_by_id, self.delete_email_by_id, self.update_email_by_id, self.merge_emails_post, self.archive_emails_batch, self.create_emails_batch_post, self.update_emails_batch, self.delete_email_gdpr_data, self.list_emails_with_filters, self.create_email, self.search_emails_post, self.batch_read_products_post, self.get_product_by_id, self.delete_product_by_id, self.patch_product_by_id, self.merge_products, self.archive_products_batch_post, self.create_products_batch, self.update_products_batch, self.delete_product_gdpr_data, self.list_products, self.create_product, self.search_products, self.get_pipeline_by_id_for_type, self.update_pipeline, self.delete_pipeline_by_id_and_type, self.patch_pipeline_by_object_type, self.get_pipeline_audit_by_object_type, self.get_pipeline_stages_by_object_type, self.create_pipeline_stage, self.list_pipelines_by_type, self.create_pipeline_by_object_type, self.get_pipeline_stage_by_id, self.update_pipeline_stage_by_id, self.delete_pipeline_stage_by_id, self.update_pipeline_stage, self.batch_read_companies_post, self.get_company_by_id, self.delete_company_by_id, self.patch_company_by_id, self.merge_companies_post, self.archive_companies_batch_post, self.create_companies_batch, self.update_companies_batch, self.delete_company_gdpr_data, self.get_companies, self.create_company, self.search_companies_post, self.get_calling_app_settings, self.update_calling_app_settings, self.delete_calling_app_settings_by_id, self.update_calling_settings, self.get_calling_app_recording_settings, self.post_calling_app_recording_settings, self.update_recording_settings, self.read_quotes_batch, self.get_quote_by_id, self.delete_quote_by_id, self.update_quote, self.merge_quotes, self.archive_quotes_batch, self.create_quote_batch, self.update_quotes_batch, self.delete_quote_gdpr_data, self.get_quotes, self.create_quote, self.search_quotes, self.batch_read_deals_post, self.get_deal_by_id, self.delete_deal_by_id, self.update_deal_by_id, self.merge_deals, self.archive_deals_batch_post, self.create_deals_batch, self.batch_update_deals, self.post_deal_gdpr_delete, self.list_deals, self.create_deal, self.search_deals, self.cancel_import_by_id, self.get_import_by_id, self.get_import_errors_by_id, self.get_schema_by_object_type, self.delete_schema_by_type, self.patch_crm_schema_by_object_type, self.create_object_type_association, self.delete_schema_object_type_purge, self.delete_association_by_object_type_id, self.list_schemas, self.create_crm_schema, self.archive_properties_batch_post, self.get_property_group, self.remove_property_group, self.update_property_group_by_identifier, self.get_crm_property, self.delete_property_by_object_type, self.patch_crm_property_by_name, self.batch_read_properties_by_object_type, self.create_batch_properties, self.get_properties_by_object_type, self.create_property_schema, self.get_property_groups_by_object_type, self.create_property_group, self.get_owner_by_id, self.batch_create_timeline_events, self.get_timeline_event_template_by_id, self.update_timeline_event_template_by_id, self.delete_event_template_by_id, self.create_event, self.create_token_template, self.update_event_template_token, self.delete_timeline_event_template_token, self.get_timeline_event_detail_by_id, self.get_timeline_event_by_id, self.get_timeline_event_templates_by_app_id, self.create_timeline_event_template, self.get_timeline_event_render, self.batch_read_contacts_post, self.get_contact_by_id, self.delete_contact_by_id, self.update_contact_by_id, self.merge_contacts, self.archive_contacts_batch_post, self.create_contacts_batch, self.batch_update_contacts, self.delete_contact_gdpr_data, self.get_contacts, self.create_contact, self.search_contacts_post, self.batch_read_feedback_submissions, self.get_feedback_submission_by_id, self.delete_feedback_submission_by_id, self.patch_feedback_submission_by_id, self.merge_feedback_submissions, self.archive_feedback_submissions_batch, self.create_feedback_submissions_batch, self.update_feedback_submissions_batch, self.post_feedback_submissions_gdpr_delete, self.get_feedback_submissions, self.create_feedback_submission, self.search_feedback_submissions, self.read_batch_objects, self.get_object_details, self.delete_object_by_id, self.patch_object_by_id, self.merge_objects, self.archive_batch_objects_by_type, self.batch_create_object_records, self.update_batch_object, self.gdpr_delete_object, self.list_objects_by_type, self.create_object_by_type, self.search_objects_by_type_post, self.get_video_conferencing_settings_by_app_id, self.update_video_conferencing_settings_by_app_id, self.delete_video_conf_settings_by_app_id, self.batch_read_tickets_post, self.get_ticket_by_id, self.delete_ticket_by_id, self.update_ticket, self.merge_tickets, self.archive_tickets_batch_post, self.create_tickets_batch, self.update_tickets_batch, self.delete_ticket_gdpr, self.get_tickets, self.create_ticket, self.search_tickets_post, self.batch_read_line_items_post, self.get_line_item_by_id, self.delete_line_item_by_id, self.patch_line_item_by_id, self.merge_line_items_post, self.archive_line_items_batch_post, self.create_line_items_batch, self.batch_update_line_items, self.gdpr_delete_line_items, self.list_line_items, self.create_line_item, self.search_line_items, self.get_crm_imports, self.create_crm_import, self.get_owners_list, self.get_association_types_by_object_types]
+        return [
+            self.batch_read_emails,
+            self.get_email_by_id,
+            self.delete_email_by_id,
+            self.update_email_by_id,
+            self.merge_emails_post,
+            self.archive_emails_batch,
+            self.create_emails_batch_post,
+            self.update_emails_batch,
+            self.delete_email_gdpr_data,
+            self.list_emails_with_filters,
+            self.create_email,
+            self.search_emails_post,
+            self.batch_read_products_post,
+            self.get_product_by_id,
+            self.delete_product_by_id,
+            self.patch_product_by_id,
+            self.merge_products,
+            self.archive_products_batch_post,
+            self.create_products_batch,
+            self.update_products_batch,
+            self.delete_product_gdpr_data,
+            self.list_products,
+            self.create_product,
+            self.search_products,
+            self.get_pipeline_by_id_for_type,
+            self.update_pipeline,
+            self.delete_pipeline_by_id_and_type,
+            self.patch_pipeline_by_object_type,
+            self.get_pipeline_audit_by_object_type,
+            self.get_pipeline_stages_by_object_type,
+            self.create_pipeline_stage,
+            self.list_pipelines_by_type,
+            self.create_pipeline_by_object_type,
+            self.get_pipeline_stage_by_id,
+            self.update_pipeline_stage_by_id,
+            self.delete_pipeline_stage_by_id,
+            self.update_pipeline_stage,
+            self.batch_read_companies_post,
+            self.get_company_by_id,
+            self.delete_company_by_id,
+            self.patch_company_by_id,
+            self.merge_companies_post,
+            self.archive_companies_batch_post,
+            self.create_companies_batch,
+            self.update_companies_batch,
+            self.delete_company_gdpr_data,
+            self.get_companies,
+            self.create_company,
+            self.search_companies_post,
+            self.get_calling_app_settings,
+            self.update_calling_app_settings,
+            self.delete_calling_app_settings_by_id,
+            self.update_calling_settings,
+            self.get_calling_app_recording_settings,
+            self.post_calling_app_recording_settings,
+            self.update_recording_settings,
+            self.read_quotes_batch,
+            self.get_quote_by_id,
+            self.delete_quote_by_id,
+            self.update_quote,
+            self.merge_quotes,
+            self.archive_quotes_batch,
+            self.create_quote_batch,
+            self.update_quotes_batch,
+            self.delete_quote_gdpr_data,
+            self.get_quotes,
+            self.create_quote,
+            self.search_quotes,
+            self.batch_read_deals_post,
+            self.get_deal_by_id,
+            self.delete_deal_by_id,
+            self.update_deal_by_id,
+            self.merge_deals,
+            self.archive_deals_batch_post,
+            self.create_deals_batch,
+            self.batch_update_deals,
+            self.post_deal_gdpr_delete,
+            self.list_deals,
+            self.create_deal,
+            self.search_deals,
+            self.cancel_import_by_id,
+            self.get_import_by_id,
+            self.get_import_errors_by_id,
+            self.get_schema_by_object_type,
+            self.delete_schema_by_type,
+            self.patch_crm_schema_by_object_type,
+            self.create_object_type_association,
+            self.delete_schema_object_type_purge,
+            self.delete_association_by_object_type_id,
+            self.list_schemas,
+            self.create_crm_schema,
+            self.archive_properties_batch_post,
+            self.get_property_group,
+            self.remove_property_group,
+            self.update_property_group_by_identifier,
+            self.get_crm_property,
+            self.delete_property_by_object_type,
+            self.patch_crm_property_by_name,
+            self.batch_read_properties_by_object_type,
+            self.create_batch_properties,
+            self.get_properties_by_object_type,
+            self.create_property_schema,
+            self.get_property_groups_by_object_type,
+            self.create_property_group,
+            self.get_owner_by_id,
+            self.batch_create_timeline_events,
+            self.get_timeline_event_template_by_id,
+            self.update_timeline_event_template_by_id,
+            self.delete_event_template_by_id,
+            self.create_event,
+            self.create_token_template,
+            self.update_event_template_token,
+            self.delete_timeline_event_template_token,
+            self.get_timeline_event_detail_by_id,
+            self.get_timeline_event_by_id,
+            self.get_timeline_event_templates_by_app_id,
+            self.create_timeline_event_template,
+            self.get_timeline_event_render,
+            self.batch_read_contacts_post,
+            self.get_contact_by_id,
+            self.delete_contact_by_id,
+            self.update_contact_by_id,
+            self.merge_contacts,
+            self.archive_contacts_batch_post,
+            self.create_contacts_batch,
+            self.batch_update_contacts,
+            self.delete_contact_gdpr_data,
+            self.get_contacts,
+            self.create_contact,
+            self.search_contacts_post,
+            self.batch_read_feedback_submissions,
+            self.get_feedback_submission_by_id,
+            self.delete_feedback_submission_by_id,
+            self.patch_feedback_submission_by_id,
+            self.merge_feedback_submissions,
+            self.archive_feedback_submissions_batch,
+            self.create_feedback_submissions_batch,
+            self.update_feedback_submissions_batch,
+            self.post_feedback_submissions_gdpr_delete,
+            self.get_feedback_submissions,
+            self.create_feedback_submission,
+            self.search_feedback_submissions,
+            self.read_batch_objects,
+            self.get_object_details,
+            self.delete_object_by_id,
+            self.patch_object_by_id,
+            self.merge_objects,
+            self.archive_batch_objects_by_type,
+            self.batch_create_object_records,
+            self.update_batch_object,
+            self.gdpr_delete_object,
+            self.list_objects_by_type,
+            self.create_object_by_type,
+            self.search_objects_by_type_post,
+            self.get_video_conferencing_settings_by_app_id,
+            self.update_video_conferencing_settings_by_app_id,
+            self.delete_video_conf_settings_by_app_id,
+            self.batch_read_tickets_post,
+            self.get_ticket_by_id,
+            self.delete_ticket_by_id,
+            self.update_ticket,
+            self.merge_tickets,
+            self.archive_tickets_batch_post,
+            self.create_tickets_batch,
+            self.update_tickets_batch,
+            self.delete_ticket_gdpr,
+            self.get_tickets,
+            self.create_ticket,
+            self.search_tickets_post,
+            self.batch_read_line_items_post,
+            self.get_line_item_by_id,
+            self.delete_line_item_by_id,
+            self.patch_line_item_by_id,
+            self.merge_line_items_post,
+            self.archive_line_items_batch_post,
+            self.create_line_items_batch,
+            self.batch_update_line_items,
+            self.gdpr_delete_line_items,
+            self.list_line_items,
+            self.create_line_item,
+            self.search_line_items,
+            self.get_crm_imports,
+            self.create_crm_import,
+            self.get_owners_list,
+            self.get_association_types_by_object_types,
+        ]

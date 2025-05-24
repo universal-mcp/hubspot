@@ -1,4 +1,3 @@
-
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
 from .api_segments.crm_api import CrmApi

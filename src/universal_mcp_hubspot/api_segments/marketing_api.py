@@ -1,12 +1,20 @@
 from typing import Any, List, Optional
 from .api_segment_base import APISegmentBase
 
+
 class MarketingApi(APISegmentBase):
 
     def __init__(self, main_app_client: Any):
         super().__init__(main_app_client)
 
-    def get_marketing_campaigns(self, sort: Optional[str]=None, after: Optional[str]=None, limit: Optional[int]=None, name: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
+    def get_marketing_campaigns(
+        self,
+        sort: Optional[str] = None,
+        after: Optional[str] = None,
+        limit: Optional[int] = None,
+        name: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of marketing campaigns with optional filtering by name, sorting, and limiting results.
@@ -28,11 +36,25 @@ class MarketingApi(APISegmentBase):
         Tags:
             Search
         """
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns'
-        query_params = {k: v for k, v in [('sort', sort), ('after', after), ('limit', limit), ('name', name), ('properties', properties)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns"
+        query_params = {
+            k: v
+            for k, v in [
+                ("sort", sort),
+                ("after", after),
+                ("limit", limit),
+                ("name", name),
+                ("properties", properties),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -58,20 +80,37 @@ class MarketingApi(APISegmentBase):
             Basic
         """
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns'
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def batch_read_campaigns_post(self, inputs: List[dict[str, Any]], startDate: Optional[str]=None, endDate: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
+    def batch_read_campaigns_post(
+        self,
+        inputs: List[dict[str, Any]],
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a batch of campaign data from the marketing API, filtering by optional start and end dates and specifying properties to include, using JSON-formatted request body.
@@ -93,13 +132,32 @@ class MarketingApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/batch/read'
-        query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('properties', properties)] if v is not None}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/read"
+        query_params = {
+            k: v
+            for k, v in [
+                ("startDate", startDate),
+                ("endDate", endDate),
+                ("properties", properties),
+            ]
+            if v is not None
+        }
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -125,20 +183,36 @@ class MarketingApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/batch/update'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/update"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_campaign_metrics(self, campaignGuid: str, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
+    def get_campaign_metrics(
+        self,
+        campaignGuid: str,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves campaign metrics for a specified campaign GUID, optionally filtering by start and end dates.
@@ -160,18 +234,34 @@ class MarketingApi(APISegmentBase):
         """
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/metrics'
-        query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/metrics"
+        query_params = {
+            k: v
+            for k, v in [("startDate", startDate), ("endDate", endDate)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_campaign_asset_by_type(self, campaignGuid: str, assetType: str, after: Optional[str]=None, limit: Optional[str]=None, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
+    def get_campaign_asset_by_type(
+        self,
+        campaignGuid: str,
+        assetType: str,
+        after: Optional[str] = None,
+        limit: Optional[str] = None,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves assets of a specified type for a given marketing campaign, supporting optional filtering by date range and pagination.
@@ -198,11 +288,24 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         if assetType is None:
             raise ValueError("Missing required parameter 'assetType'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}'
-        query_params = {k: v for k, v in [('after', after), ('limit', limit), ('startDate', startDate), ('endDate', endDate)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("after", after),
+                ("limit", limit),
+                ("startDate", startDate),
+                ("endDate", endDate),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -228,20 +331,33 @@ class MarketingApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/batch/archive'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/archive"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_campaign_asset(self, campaignGuid: str, assetType: str, assetId: str) -> Any:
+    def update_campaign_asset(
+        self, campaignGuid: str, assetType: str, assetId: str
+    ) -> Any:
         """
 
         Updates a specific asset of a given type within a marketing campaign identified by campaignGuid.
@@ -268,18 +384,29 @@ class MarketingApi(APISegmentBase):
         if assetId is None:
             raise ValueError("Missing required parameter 'assetId'.")
         request_body_data = None
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}'
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
-        response = self._put(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._put(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_campaign_asset_by_id(self, campaignGuid: str, assetType: str, assetId: str) -> Any:
+    def delete_campaign_asset_by_id(
+        self, campaignGuid: str, assetType: str, assetId: str
+    ) -> Any:
         """
 
         Deletes a specific asset from a marketing campaign using the provided campaign GUID, asset type, and asset ID.
@@ -305,18 +432,28 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'assetType'.")
         if assetId is None:
             raise ValueError("Missing required parameter 'assetId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}'
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_campaign_revenue_report(self, campaignGuid: str, attributionModel: Optional[str]=None, startDate: Optional[str]=None, endDate: Optional[str]=None) -> dict[str, Any]:
+    def get_campaign_revenue_report(
+        self,
+        campaignGuid: str,
+        attributionModel: Optional[str] = None,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves revenue reports for a specific marketing campaign using the provided campaign GUID, with optional filtering by attribution model and date range.
@@ -339,11 +476,23 @@ class MarketingApi(APISegmentBase):
         """
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/revenue'
-        query_params = {k: v for k, v in [('attributionModel', attributionModel), ('startDate', startDate), ('endDate', endDate)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/revenue"
+        query_params = {
+            k: v
+            for k, v in [
+                ("attributionModel", attributionModel),
+                ("startDate", startDate),
+                ("endDate", endDate),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -369,13 +518,24 @@ class MarketingApi(APISegmentBase):
             Batch
         """
         request_body_data = None
-        request_body_data = {'inputs': inputs}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/batch/create'
+        request_body_data = {"inputs": inputs}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/create"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -402,18 +562,28 @@ class MarketingApi(APISegmentBase):
         """
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/budget/totals'
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/budget/totals"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_campaign_by_guid(self, campaignGuid: str, startDate: Optional[str]=None, endDate: Optional[str]=None, properties: Optional[List[str]]=None) -> dict[str, Any]:
+    def get_campaign_by_guid(
+        self,
+        campaignGuid: str,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+        properties: Optional[List[str]] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific marketing campaign identified by its campaignGuid, optionally filtered by date range and selected properties.
@@ -436,11 +606,23 @@ class MarketingApi(APISegmentBase):
         """
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}'
-        query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('properties', properties)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("startDate", startDate),
+                ("endDate", endDate),
+                ("properties", properties),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -467,18 +649,24 @@ class MarketingApi(APISegmentBase):
         """
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}'
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_campaign_by_guid(self, campaignGuid: str, properties: dict[str, str]) -> dict[str, Any]:
+    def patch_campaign_by_guid(
+        self, campaignGuid: str, properties: dict[str, str]
+    ) -> dict[str, Any]:
         """
 
         Updates specified properties of a marketing campaign identified by the campaignGuid using a JSON patch document.
@@ -500,20 +688,34 @@ class MarketingApi(APISegmentBase):
         if campaignGuid is None:
             raise ValueError("Missing required parameter 'campaignGuid'.")
         request_body_data = None
-        request_body_data = {'properties': properties}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}'
+        request_body_data = {"properties": properties}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_campaign_contacts_report_by_type(self, campaignGuid: str, contactType: str, startDate: Optional[str]=None, endDate: Optional[str]=None, limit: Optional[int]=None, after: Optional[str]=None) -> dict[str, Any]:
+    def get_campaign_contacts_report_by_type(
+        self,
+        campaignGuid: str,
+        contactType: str,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
+        limit: Optional[int] = None,
+        after: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a report of contacts of a specified type for a marketing campaign, allowing optional filtering by start and end dates and pagination.
@@ -540,18 +742,37 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         if contactType is None:
             raise ValueError("Missing required parameter 'contactType'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/contacts/{contactType}'
-        query_params = {k: v for k, v in [('startDate', startDate), ('endDate', endDate), ('limit', limit), ('after', after)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/reports/contacts/{contactType}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("startDate", startDate),
+                ("endDate", endDate),
+                ("limit", limit),
+                ("after", after),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_email_statistics(self, startTimestamp: Optional[str]=None, endTimestamp: Optional[str]=None, emailIds: Optional[List[int]]=None, property: Optional[str]=None) -> dict[str, Any]:
+    def list_email_statistics(
+        self,
+        startTimestamp: Optional[str] = None,
+        endTimestamp: Optional[str] = None,
+        emailIds: Optional[List[int]] = None,
+        property: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves email statistics for a specified time range and optional email IDs and properties using the GET method.
@@ -572,18 +793,33 @@ class MarketingApi(APISegmentBase):
         Tags:
             Statistics
         """
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/statistics/list'
-        query_params = {k: v for k, v in [('startTimestamp', startTimestamp), ('endTimestamp', endTimestamp), ('emailIds', emailIds), ('property', property)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/statistics/list"
+        query_params = {
+            k: v
+            for k, v in [
+                ("startTimestamp", startTimestamp),
+                ("endTimestamp", endTimestamp),
+                ("emailIds", emailIds),
+                ("property", property),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_ab_test_email_variation(self, variationName: str, contentId: str) -> dict[str, Any]:
+    def create_ab_test_email_variation(
+        self, variationName: str, contentId: str
+    ) -> dict[str, Any]:
         """
 
         Creates a variation for an A/B test email using the POST method and returns a successful creation status.
@@ -603,20 +839,37 @@ class MarketingApi(APISegmentBase):
             Public_VNext_Emails
         """
         request_body_data = None
-        request_body_data = {'variationName': variationName, 'contentId': contentId}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/ab-test/create-variation'
+        request_body_data = {"variationName": variationName, "contentId": contentId}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/ab-test/create-variation"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_email_statistics_histogram(self, interval: Optional[str]=None, startTimestamp: Optional[str]=None, endTimestamp: Optional[str]=None, emailIds: Optional[List[int]]=None) -> dict[str, Any]:
+    def get_email_statistics_histogram(
+        self,
+        interval: Optional[str] = None,
+        startTimestamp: Optional[str] = None,
+        endTimestamp: Optional[str] = None,
+        emailIds: Optional[List[int]] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves histogram statistics for marketing emails filtered by optional parameters such as interval, time range, and specific email IDs.
@@ -637,11 +890,26 @@ class MarketingApi(APISegmentBase):
         Tags:
             Statistics
         """
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/statistics/histogram'
-        query_params = {k: v for k, v in [('interval', interval), ('startTimestamp', startTimestamp), ('endTimestamp', endTimestamp), ('emailIds', emailIds)] if v is not None}
+        url = (
+            f"{self.main_app_client.base_url}/marketing/v3/emails/statistics/histogram"
+        )
+        query_params = {
+            k: v
+            for k, v in [
+                ("interval", interval),
+                ("startTimestamp", startTimestamp),
+                ("endTimestamp", endTimestamp),
+                ("emailIds", emailIds),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -668,11 +936,15 @@ class MarketingApi(APISegmentBase):
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/ab-test/get-variation'
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/ab-test/get-variation"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -700,18 +972,31 @@ class MarketingApi(APISegmentBase):
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
         request_body_data = None
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft/reset'
+        url = (
+            f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft/reset"
+        )
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def restore_email_revision_to_draft(self, emailId: str, revisionId: str) -> dict[str, Any]:
+    def restore_email_revision_to_draft(
+        self, emailId: str, revisionId: str
+    ) -> dict[str, Any]:
         """
 
         Restores a specified email revision to draft status by email ID and revision ID.
@@ -735,11 +1020,20 @@ class MarketingApi(APISegmentBase):
         if revisionId is None:
             raise ValueError("Missing required parameter 'revisionId'.")
         request_body_data = None
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore-to-draft'
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore-to-draft"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -766,94 +1060,150 @@ class MarketingApi(APISegmentBase):
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft'
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def update_email_draft_by_id(self, emailId: str, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, name: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
+    def update_email_draft_by_id(
+        self,
+        emailId: str,
+        rssData: Optional[dict[str, Any]] = None,
+        subject: Optional[str] = None,
+        testing: Optional[dict[str, Any]] = None,
+        publishDate: Optional[str] = None,
+        language: Optional[str] = None,
+        businessUnitId: Optional[str] = None,
+        content: Optional[dict[str, Any]] = None,
+        webversion: Optional[dict[str, Any]] = None,
+        archived: Optional[bool] = None,
+        subscriptionDetails: Optional[dict[str, Any]] = None,
+        activeDomain: Optional[str] = None,
+        name: Optional[str] = None,
+        campaign: Optional[str] = None,
+        from_: Optional[dict[str, Any]] = None,
+        state: Optional[str] = None,
+        to: Optional[dict[str, Any]] = None,
+        subcategory: Optional[str] = None,
+        sendOnPublish: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
-        Updates a draft email identified by the specified emailId using the provided JSON data.
+                Updates a draft email identified by the specified emailId using the provided JSON data.
 
-        Args:
-            emailId (string): emailId
-            rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email. Example: 'My subject'.
-            testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
-            language (string): language
-            businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+                Args:
+                    emailId (string): emailId
+                    rssData (object): RSS related data if it is a blog or rss email.
+                    subject (string): The subject of the email. Example: 'My subject'.
+                    testing (object): AB testing related data. This property is only returned for AB type emails.
+                    publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
+                    language (string): language
+                    businessUnitId (string): businessUnitId
+                    content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
 
-Hello {{ contact.firstname }},
+        Hello {{ contact.firstname }},
 
-Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+        Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
 
-Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+        Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
 
-Link text
+        Link text
 
-Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+        Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
 
-All the best,
+        All the best,
 
-Your full name
+        Your full name
 
-Your job title
+        Your job title
 
-Other contact information
+        Other contact information
 
-{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+        {{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
 
-Unsubscribe ({{unsubscribe_link_all}})
+        Unsubscribe ({{unsubscribe_link_all}})
 
-Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
-            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
-            archived (boolean): Determines if the email is archived or not. Example: False.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
-            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
-            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
-            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
-            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
-            state (string): The email state. Example: 'DRAFT'.
-            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
-            subcategory (string): The email subcategory. Example: 'batch'.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
+        Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+                    webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+                    archived (boolean): Determines if the email is archived or not. Example: False.
+                    subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+                    activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+                    name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
+                    campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+                    from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+                    state (string): The email state. Example: 'DRAFT'.
+                    to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+                    subcategory (string): The email subcategory. Example: 'batch'.
+                    sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
-        Returns:
-            dict[str, Any]: successful operation
+                Returns:
+                    dict[str, Any]: successful operation
 
-        Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                Raises:
+                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
-        Tags:
-            Marketing Emails
+                Tags:
+                    Marketing Emails
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
         request_body_data = None
-        request_body_data = {'rssData': rssData, 'subject': subject, 'testing': testing, 'publishDate': publishDate, 'language': language, 'businessUnitId': businessUnitId, 'content': content, 'webversion': webversion, 'archived': archived, 'subscriptionDetails': subscriptionDetails, 'activeDomain': activeDomain, 'name': name, 'campaign': campaign, 'from': from_, 'state': state, 'to': to, 'subcategory': subcategory, 'sendOnPublish': sendOnPublish}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft'
+        request_body_data = {
+            "rssData": rssData,
+            "subject": subject,
+            "testing": testing,
+            "publishDate": publishDate,
+            "language": language,
+            "businessUnitId": businessUnitId,
+            "content": content,
+            "webversion": webversion,
+            "archived": archived,
+            "subscriptionDetails": subscriptionDetails,
+            "activeDomain": activeDomain,
+            "name": name,
+            "campaign": campaign,
+            "from": from_,
+            "state": state,
+            "to": to,
+            "subcategory": subcategory,
+            "sendOnPublish": sendOnPublish,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_email_revisions(self, emailId: str, after: Optional[str]=None, before: Optional[str]=None, limit: Optional[int]=None) -> dict[str, Any]:
+    def get_email_revisions(
+        self,
+        emailId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> dict[str, Any]:
         """
 
         Get a list of revisions for a specified marketing email, optionally filtered by date range and limited in number.
@@ -876,11 +1226,19 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions'
-        query_params = {k: v for k, v in [('after', after), ('before', before), ('limit', limit)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions"
+        query_params = {
+            k: v
+            for k, v in [("after", after), ("before", before), ("limit", limit)]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -910,18 +1268,22 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
             raise ValueError("Missing required parameter 'emailId'.")
         if revisionId is None:
             raise ValueError("Missing required parameter 'revisionId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}'
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def clone_email(self, id: str, cloneName: Optional[str]=None) -> dict[str, Any]:
+    def clone_email(self, id: str, cloneName: Optional[str] = None) -> dict[str, Any]:
         """
 
         Clones a marketing email using the POST method at the "/marketing/v3/emails/clone" endpoint, creating a duplicate email with the same properties as the original but with a unique ID.
@@ -941,20 +1303,47 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
             Public_VNext_Emails
         """
         request_body_data = None
-        request_body_data = {'cloneName': cloneName, 'id': id}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/clone'
+        request_body_data = {"cloneName": cloneName, "id": id}
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/clone"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def list_marketing_emails(self, createdAt: Optional[str]=None, createdAfter: Optional[str]=None, createdBefore: Optional[str]=None, updatedAt: Optional[str]=None, updatedAfter: Optional[str]=None, updatedBefore: Optional[str]=None, sort: Optional[List[str]]=None, after: Optional[str]=None, limit: Optional[int]=None, includeStats: Optional[bool]=None, type: Optional[str]=None, isPublished: Optional[bool]=None, includedProperties: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def list_marketing_emails(
+        self,
+        createdAt: Optional[str] = None,
+        createdAfter: Optional[str] = None,
+        createdBefore: Optional[str] = None,
+        updatedAt: Optional[str] = None,
+        updatedAfter: Optional[str] = None,
+        updatedBefore: Optional[str] = None,
+        sort: Optional[List[str]] = None,
+        after: Optional[str] = None,
+        limit: Optional[int] = None,
+        includeStats: Optional[bool] = None,
+        type: Optional[str] = None,
+        isPublished: Optional[bool] = None,
+        includedProperties: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves a list of marketing emails with optional filtering, sorting, pagination, and inclusion of statistics.
@@ -985,85 +1374,160 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
         Tags:
             Marketing Emails
         """
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/'
-        query_params = {k: v for k, v in [('createdAt', createdAt), ('createdAfter', createdAfter), ('createdBefore', createdBefore), ('updatedAt', updatedAt), ('updatedAfter', updatedAfter), ('updatedBefore', updatedBefore), ('sort', sort), ('after', after), ('limit', limit), ('includeStats', includeStats), ('type', type), ('isPublished', isPublished), ('includedProperties', includedProperties), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/"
+        query_params = {
+            k: v
+            for k, v in [
+                ("createdAt", createdAt),
+                ("createdAfter", createdAfter),
+                ("createdBefore", createdBefore),
+                ("updatedAt", updatedAt),
+                ("updatedAfter", updatedAfter),
+                ("updatedBefore", updatedBefore),
+                ("sort", sort),
+                ("after", after),
+                ("limit", limit),
+                ("includeStats", includeStats),
+                ("type", type),
+                ("isPublished", isPublished),
+                ("includedProperties", includedProperties),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def create_email_marketing_campaign(self, name: str, feedbackSurveyId: Optional[str]=None, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
+    def create_email_marketing_campaign(
+        self,
+        name: str,
+        feedbackSurveyId: Optional[str] = None,
+        rssData: Optional[dict[str, Any]] = None,
+        subject: Optional[str] = None,
+        testing: Optional[dict[str, Any]] = None,
+        publishDate: Optional[str] = None,
+        language: Optional[str] = None,
+        businessUnitId: Optional[str] = None,
+        content: Optional[dict[str, Any]] = None,
+        webversion: Optional[dict[str, Any]] = None,
+        archived: Optional[bool] = None,
+        subscriptionDetails: Optional[dict[str, Any]] = None,
+        activeDomain: Optional[str] = None,
+        campaign: Optional[str] = None,
+        from_: Optional[dict[str, Any]] = None,
+        state: Optional[str] = None,
+        to: Optional[dict[str, Any]] = None,
+        subcategory: Optional[str] = None,
+        sendOnPublish: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
-        Creates a new email resource in the marketing system using the provided JSON data and returns a success response upon creation.
+                Creates a new email resource in the marketing system using the provided JSON data and returns a success response upon creation.
 
-        Args:
-            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
-            feedbackSurveyId (string): The ID of the feedback survey linked to the email.
-            rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email. Example: 'My subject'.
-            testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
-            language (string): language
-            businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+                Args:
+                    name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
+                    feedbackSurveyId (string): The ID of the feedback survey linked to the email.
+                    rssData (object): RSS related data if it is a blog or rss email.
+                    subject (string): The subject of the email. Example: 'My subject'.
+                    testing (object): AB testing related data. This property is only returned for AB type emails.
+                    publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
+                    language (string): language
+                    businessUnitId (string): businessUnitId
+                    content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
 
-Hello {{ contact.firstname }},
+        Hello {{ contact.firstname }},
 
-Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+        Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
 
-Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+        Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
 
-Link text
+        Link text
 
-Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+        Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
 
-All the best,
+        All the best,
 
-Your full name
+        Your full name
 
-Your job title
+        Your job title
 
-Other contact information
+        Other contact information
 
-{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+        {{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
 
-Unsubscribe ({{unsubscribe_link_all}})
+        Unsubscribe ({{unsubscribe_link_all}})
 
-Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
-            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
-            archived (boolean): Determines if the email is archived or not. Example: False.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
-            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
-            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
-            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
-            state (string): The email state. Example: 'DRAFT'.
-            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
-            subcategory (string): The email subcategory. Example: 'batch'.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
+        Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+                    webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+                    archived (boolean): Determines if the email is archived or not. Example: False.
+                    subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+                    activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+                    campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+                    from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+                    state (string): The email state. Example: 'DRAFT'.
+                    to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+                    subcategory (string): The email subcategory. Example: 'batch'.
+                    sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
-        Returns:
-            dict[str, Any]: successful operation
+                Returns:
+                    dict[str, Any]: successful operation
 
-        Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                Raises:
+                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
-        Tags:
-            Marketing Emails
+                Tags:
+                    Marketing Emails
         """
         request_body_data = None
-        request_body_data = {'feedbackSurveyId': feedbackSurveyId, 'rssData': rssData, 'subject': subject, 'testing': testing, 'publishDate': publishDate, 'language': language, 'businessUnitId': businessUnitId, 'content': content, 'webversion': webversion, 'archived': archived, 'subscriptionDetails': subscriptionDetails, 'activeDomain': activeDomain, 'name': name, 'campaign': campaign, 'from': from_, 'state': state, 'to': to, 'subcategory': subcategory, 'sendOnPublish': sendOnPublish}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/'
+        request_body_data = {
+            "feedbackSurveyId": feedbackSurveyId,
+            "rssData": rssData,
+            "subject": subject,
+            "testing": testing,
+            "publishDate": publishDate,
+            "language": language,
+            "businessUnitId": businessUnitId,
+            "content": content,
+            "webversion": webversion,
+            "archived": archived,
+            "subscriptionDetails": subscriptionDetails,
+            "activeDomain": activeDomain,
+            "name": name,
+            "campaign": campaign,
+            "from": from_,
+            "state": state,
+            "to": to,
+            "subcategory": subcategory,
+            "sendOnPublish": sendOnPublish,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1094,18 +1558,33 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
         if revisionId is None:
             raise ValueError("Missing required parameter 'revisionId'.")
         request_body_data = None
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore'
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore"
         query_params = {}
-        response = self._post(url, data=request_body_data, params=query_params, content_type='application/json')
+        response = self._post(
+            url,
+            data=request_body_data,
+            params=query_params,
+            content_type="application/json",
+        )
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def get_email_by_id(self, emailId: str, includeStats: Optional[bool]=None, includedProperties: Optional[List[str]]=None, archived: Optional[bool]=None) -> dict[str, Any]:
+    def get_email_by_id_marketing(
+        self,
+        emailId: str,
+        includeStats: Optional[bool] = None,
+        includedProperties: Optional[List[str]] = None,
+        archived: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
         Retrieves detailed information about a specific email by its ID, optionally including statistics, selected properties, and archived status.
@@ -1128,18 +1607,32 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}'
-        query_params = {k: v for k, v in [('includeStats', includeStats), ('includedProperties', includedProperties), ('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
+        query_params = {
+            k: v
+            for k, v in [
+                ("includeStats", includeStats),
+                ("includedProperties", includedProperties),
+                ("archived", archived),
+            ]
+            if v is not None
+        }
         response = self._get(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def delete_email_by_id(self, emailId: str, archived: Optional[bool]=None) -> Any:
+    def delete_email_by_id_marketing(
+        self, emailId: str, archived: Optional[bool] = None
+    ) -> Any:
         """
 
         Deletes the specified marketing email by its emailId, optionally archiving it, and returns a 204 No Content status on success.
@@ -1160,88 +1653,139 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
         except ValueError:
             return None
 
-    def patch_email_by_id(self, emailId: str, archived: Optional[bool]=None, rssData: Optional[dict[str, Any]]=None, subject: Optional[str]=None, testing: Optional[dict[str, Any]]=None, publishDate: Optional[str]=None, language: Optional[str]=None, businessUnitId: Optional[str]=None, content: Optional[dict[str, Any]]=None, webversion: Optional[dict[str, Any]]=None, archived_body: Optional[bool]=None, subscriptionDetails: Optional[dict[str, Any]]=None, activeDomain: Optional[str]=None, name: Optional[str]=None, campaign: Optional[str]=None, from_: Optional[dict[str, Any]]=None, state: Optional[str]=None, to: Optional[dict[str, Any]]=None, subcategory: Optional[str]=None, sendOnPublish: Optional[bool]=None) -> dict[str, Any]:
+    def patch_email_by_id(
+        self,
+        emailId: str,
+        archived: Optional[bool] = None,
+        rssData: Optional[dict[str, Any]] = None,
+        subject: Optional[str] = None,
+        testing: Optional[dict[str, Any]] = None,
+        publishDate: Optional[str] = None,
+        language: Optional[str] = None,
+        businessUnitId: Optional[str] = None,
+        content: Optional[dict[str, Any]] = None,
+        webversion: Optional[dict[str, Any]] = None,
+        archived_body: Optional[bool] = None,
+        subscriptionDetails: Optional[dict[str, Any]] = None,
+        activeDomain: Optional[str] = None,
+        name: Optional[str] = None,
+        campaign: Optional[str] = None,
+        from_: Optional[dict[str, Any]] = None,
+        state: Optional[str] = None,
+        to: Optional[dict[str, Any]] = None,
+        subcategory: Optional[str] = None,
+        sendOnPublish: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
 
-        Updates an email resource identified by `{emailId}` with partial modifications using JSON in the request body and optionally sets its archived status.
+                Updates an email resource identified by `{emailId}` with partial modifications using JSON in the request body and optionally sets its archived status.
 
-        Args:
-            emailId (string): emailId
-            archived (boolean): Indicates whether the email should be marked as archived, with true meaning archived and false meaning not archived, during the PATCH operation.
-            rssData (object): RSS related data if it is a blog or rss email.
-            subject (string): The subject of the email. Example: 'My subject'.
-            testing (object): AB testing related data. This property is only returned for AB type emails.
-            publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
-            language (string): language
-            businessUnitId (string): businessUnitId
-            content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
+                Args:
+                    emailId (string): emailId
+                    archived (boolean): Indicates whether the email should be marked as archived, with true meaning archived and false meaning not archived, during the PATCH operation.
+                    rssData (object): RSS related data if it is a blog or rss email.
+                    subject (string): The subject of the email. Example: 'My subject'.
+                    testing (object): AB testing related data. This property is only returned for AB type emails.
+                    publishDate (string): The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails. Example: '2023-11-30T18:44:20.387Z'.
+                    language (string): language
+                    businessUnitId (string): businessUnitId
+                    content (object): Data structure representing the content of the email. Example: {'flexAreas': {'main': {'boxed': False, 'isSingleColumnFullWidth': False, 'sections': [{'columns': [{'id': 'column_1606761806181_0', 'widgets': ['module_160676180617911'], 'width': 12}], 'id': 'section_1606761806181', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT'}}, {'columns': [{'id': 'column-0-1', 'widgets': ['module-0-1-1'], 'width': 12}], 'id': 'section-0', 'style': {'backgroundType': 'CONTENT', 'paddingBottom': '40px', 'paddingTop': '40px'}}, {'columns': [{'id': 'column-1-1', 'widgets': ['module-1-1-1'], 'width': 12}], 'id': 'section-1', 'style': {'backgroundColor': '', 'backgroundType': 'CONTENT', 'paddingBottom': '0px', 'paddingTop': '0px'}}]}}, 'plainTextVersion': 'This is custom! View in browser ({{view_as_page_url}})
 
-Hello {{ contact.firstname }},
+        Hello {{ contact.firstname }},
 
-Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
+        Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.
 
-Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
+        Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.
 
-Link text
+        Link text
 
-Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
+        Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.
 
-All the best,
+        All the best,
 
-Your full name
+        Your full name
 
-Your job title
+        Your job title
 
-Other contact information
+        Other contact information
 
-{{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
+        {{site_settings.company_name}}, {{site_settings.company_street_address_1}}, {{site_settings.company_street_address_2}}, {{site_settings.company_city}}, {{site_settings.company_state}} {{site_settings.company_zip}}, {{site_settings.company_country}}, {{site_settings.company_phone}}
 
-Unsubscribe ({{unsubscribe_link_all}})
+        Unsubscribe ({{unsubscribe_link_all}})
 
-Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
-            webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
-            archived_body (boolean): Determines if the email is archived or not. Example: False.
-            subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
-            activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
-            name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
-            campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
-            from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
-            state (string): The email state. Example: 'DRAFT'.
-            to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
-            subcategory (string): The email subcategory. Example: 'batch'.
-            sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
+        Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'module-0-1-1': {'body': {'css_class': 'dnd-module', 'html': '<p style="margin-bottom:10px;">Hello {{ contact.firstname }},<br><br>Plain text emails have minimal formatting so your reader can really focus on what you have to say. Introduce yourself and explain why you’re reaching out.</p><p style="margin-bottom:10px;">Every email should try to lead the reader to some kind of action. Use this space to describe why the reader should want to click on the link below. Put the link on its own line to really draw their eye to it.</p><p style="margin-bottom:10px;"><a target="_blank" rel="noopener">Link text</a></p><p style="margin-bottom:10px;">Now it’s time to wrap up your email. Before your signature, thank the recipient for reading. You can also invite them to send this email to any of their colleagues who might be interested.</p><p style="margin-bottom:10px;">All the best,<br>Your full name<br>Your job title<br>Other contact information</p>', 'i18nKey': 'richText.plainText', 'path': '@hubspot/rich_text', 'schema_version': 2}, 'child_css': {}, 'css': {}, 'id': 'module-0-1-1', 'module_id': 1155639, 'name': 'module-0-1-1', 'order': 2, 'styles': {}, 'type': 'module'}, 'module-1-1-1': {'body': {'align': 'center', 'css_class': 'dnd-module', 'font': {'color': '#23496d', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}}, 'link_font': {'color': '#00a4bd', 'font': 'Helvetica,Arial,sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'path': '@hubspot/email_footer', 'schema_version': 2, 'unsubscribe_link_type': 'both'}, 'child_css': {}, 'css': {}, 'id': 'module-1-1-1', 'module_id': 2869621, 'name': 'module-1-1-1', 'order': 3, 'styles': {}, 'type': 'module'}, 'module_160676180617911': {'body': {'font': {'color': '#00a4bd', 'font': 'Arial, sans-serif', 'size': {'units': 'px', 'value': 12}, 'styles': {'bold': False, 'italic': False, 'underline': True}}, 'hs_enable_module_padding': False, 'hs_wrapper_css': {}}, 'child_css': {}, 'css': {}, 'id': 'module_160676180617911', 'module_id': 2794854, 'name': 'module_160676180617911', 'styles': {}, 'type': 'module'}, 'preview_text': {'body': {'value': ''}, 'child_css': {}, 'css': {}, 'id': 'preview_text', 'label': 'Preview Text <span class=help-text>This will be used as the preview text that displays in some email clients</span>', 'name': 'preview_text', 'order': 0, 'styles': {}, 'type': 'text'}}}.
+                    webversion (object): webversion Example: {'expiresAt': '2020-11-30T18:44:20.387Z', 'metaDescription': '', 'redirectToPageId': 0, 'redirectToUrl': 'http://www.example.org'}.
+                    archived_body (boolean): Determines if the email is archived or not. Example: False.
+                    subscriptionDetails (object): Data structure representing the subscription fields of the email. Example: {'officeLocationId': '5449392956'}.
+                    activeDomain (string): The active domain of the email. Example: 'test.hs-sites.com'.
+                    name (string): The name of the email, as displayed on the email dashboard. Example: 'My subject'.
+                    campaign (string): The ID of the campaign this email is associated to. Example: '1b7f51a6-33c1-44d6-ba28-fe81f655dced'.
+                    from_ (object): Data structure representing the from fields on the email. Example: {'fromName': 'Bruce Wayne', 'replyTo': 'test@hubspot.com'}.
+                    state (string): The email state. Example: 'DRAFT'.
+                    to (object): Data structure representing the to fields of the email. Example: {'contactIds': {}, 'contactLists': {'exclude': [1], 'include': [5]}, 'suppressGraymail': True}.
+                    subcategory (string): The email subcategory. Example: 'batch'.
+                    sendOnPublish (boolean): Determines whether the email will be sent immediately on publish. Example: True.
 
-        Returns:
-            dict[str, Any]: successful operation
+                Returns:
+                    dict[str, Any]: successful operation
 
-        Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                Raises:
+                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
+                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
-        Tags:
-            Marketing Emails
+                Tags:
+                    Marketing Emails
         """
         if emailId is None:
             raise ValueError("Missing required parameter 'emailId'.")
         request_body_data = None
-        request_body_data = {'rssData': rssData, 'subject': subject, 'testing': testing, 'publishDate': publishDate, 'language': language, 'businessUnitId': businessUnitId, 'content': content, 'webversion': webversion, 'archived': archived_body, 'subscriptionDetails': subscriptionDetails, 'activeDomain': activeDomain, 'name': name, 'campaign': campaign, 'from': from_, 'state': state, 'to': to, 'subcategory': subcategory, 'sendOnPublish': sendOnPublish}
-        request_body_data = {k: v for k, v in request_body_data.items() if v is not None}
-        url = f'{self.main_app_client.base_url}/marketing/v3/emails/{emailId}'
-        query_params = {k: v for k, v in [('archived', archived)] if v is not None}
+        request_body_data = {
+            "rssData": rssData,
+            "subject": subject,
+            "testing": testing,
+            "publishDate": publishDate,
+            "language": language,
+            "businessUnitId": businessUnitId,
+            "content": content,
+            "webversion": webversion,
+            "archived": archived_body,
+            "subscriptionDetails": subscriptionDetails,
+            "activeDomain": activeDomain,
+            "name": name,
+            "campaign": campaign,
+            "from": from_,
+            "state": state,
+            "to": to,
+            "subcategory": subcategory,
+            "sendOnPublish": sendOnPublish,
+        }
+        request_body_data = {
+            k: v for k, v in request_body_data.items() if v is not None
+        }
+        url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
+        query_params = {k: v for k, v in [("archived", archived)] if v is not None}
         response = self._patch(url, data=request_body_data, params=query_params)
         response.raise_for_status()
-        if response.status_code == 204 or not response.content or (not response.text.strip()):
+        if (
+            response.status_code == 204
+            or not response.content
+            or (not response.text.strip())
+        ):
             return None
         try:
             return response.json()
@@ -1249,4 +1793,38 @@ Manage preferences ({{unsubscribe_link}})', 'styleSettings': {}, 'widgets': {'mo
             return None
 
     def list_tools(self):
-        return [self.get_marketing_campaigns, self.create_marketing_campaigns, self.batch_read_campaigns_post, self.update_campaigns_batch, self.get_campaign_metrics, self.get_campaign_asset_by_type, self.archive_campaigns_batch, self.update_campaign_asset, self.delete_campaign_asset_by_id, self.get_campaign_revenue_report, self.create_campaigns_batch, self.get_campaign_budget_totals, self.get_campaign_by_guid, self.delete_campaign_by_guid, self.patch_campaign_by_guid, self.get_campaign_contacts_report_by_type, self.list_email_statistics, self.create_ab_test_email_variation, self.get_email_statistics_histogram, self.get_email_ab_test_variation, self.reset_email_draft_by_id, self.restore_email_revision_to_draft, self.get_email_draft_by_id, self.update_email_draft_by_id, self.get_email_revisions, self.get_email_revision_by_id, self.clone_email, self.list_marketing_emails, self.create_email_marketing_campaign, self.restore_email_revision, self.get_email_by_id, self.delete_email_by_id, self.patch_email_by_id]
+        return [
+            self.get_marketing_campaigns,
+            self.create_marketing_campaigns,
+            self.batch_read_campaigns_post,
+            self.update_campaigns_batch,
+            self.get_campaign_metrics,
+            self.get_campaign_asset_by_type,
+            self.archive_campaigns_batch,
+            self.update_campaign_asset,
+            self.delete_campaign_asset_by_id,
+            self.get_campaign_revenue_report,
+            self.create_campaigns_batch,
+            self.get_campaign_budget_totals,
+            self.get_campaign_by_guid,
+            self.delete_campaign_by_guid,
+            self.patch_campaign_by_guid,
+            self.get_campaign_contacts_report_by_type,
+            self.list_email_statistics,
+            self.create_ab_test_email_variation,
+            self.get_email_statistics_histogram,
+            self.get_email_ab_test_variation,
+            self.reset_email_draft_by_id,
+            self.restore_email_revision_to_draft,
+            self.get_email_draft_by_id,
+            self.update_email_draft_by_id,
+            self.get_email_revisions,
+            self.get_email_revision_by_id,
+            self.clone_email,
+            self.list_marketing_emails,
+            self.create_email_marketing_campaign,
+            self.restore_email_revision,
+            self.get_email_by_id_marketing,
+            self.delete_email_by_id_marketing,
+            self.patch_email_by_id,
+        ]
