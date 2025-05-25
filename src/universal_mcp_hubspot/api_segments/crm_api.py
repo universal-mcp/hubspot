@@ -456,7 +456,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails"
         query_params = {
@@ -503,7 +503,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -2340,7 +2340,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies"
         query_params = {
@@ -2387,7 +2387,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -3839,7 +3839,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals"
         query_params = {
@@ -6305,7 +6305,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts"
         query_params = {
@@ -6352,7 +6352,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -8268,7 +8268,7 @@ class CrmApi(APISegmentBase):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Basic
+            Basic, important
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets"
         query_params = {
