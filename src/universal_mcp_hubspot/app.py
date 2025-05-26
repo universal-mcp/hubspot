@@ -1,7 +1,7 @@
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
-from .api_segments.crm_api import CrmApi
-from .api_segments.marketing_api import MarketingApi
+from universal_mcp_hubspot.api_segments.crm_api import CrmApi
+from universal_mcp_hubspot.api_segments.marketing_api import MarketingApi
 
 class HubspotApp(APIApplication):
 
