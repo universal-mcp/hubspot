@@ -17,7 +17,7 @@ class CrmApi(APISegmentBase):
     ) -> dict[str, Any]:
         """
 
-        Retrieves a batch of emails from a CRM system using the "POST" method, allowing optional filtering by archived status, and returns the results in a multipart response.
+        Retrieves a batch of emails from a CRM system using the "POST" method allowing optional filtering by archived status, and returns the results in a multipart response.
 
         Args:
             propertiesWithHistory (array): propertiesWithHistory
@@ -30,8 +30,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -48,23 +47,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_email_by_id(
         self,
@@ -91,8 +79,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -111,18 +98,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_email_by_id(self, emailId: str) -> Any:
         """
@@ -136,8 +112,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -146,18 +121,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_email_by_id(
         self, emailId: str, properties: dict[str, str], idProperty: Optional[str] = None
@@ -175,8 +139,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -190,18 +153,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/{emailId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_emails_post(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -218,8 +170,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -234,23 +185,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_emails_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -264,8 +204,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -277,23 +216,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_emails_batch_post(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -307,8 +235,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -320,23 +247,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_emails_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -350,8 +266,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -363,23 +278,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_email_gdpr_data(
         self, objectId: str, idProperty: Optional[str] = None
@@ -396,8 +300,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -409,23 +312,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_emails_with_filters(
         self,
@@ -452,11 +344,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails"
         query_params = {
@@ -471,18 +362,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_email(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -499,11 +379,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -512,23 +391,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_emails_post(
         self,
@@ -555,8 +423,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -575,23 +442,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/emails/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_read_products_post(
         self,
@@ -616,8 +472,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -634,23 +489,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_product_by_id(
         self,
@@ -677,8 +521,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -697,18 +540,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_product_by_id(self, productId: str) -> Any:
         """
@@ -722,8 +554,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -732,18 +563,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'productId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/{productId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_product_by_id(
         self,
@@ -764,8 +584,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -779,18 +598,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/{productId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_products(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -807,8 +615,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -823,23 +630,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_products_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -853,8 +649,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -866,23 +661,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_products_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -896,8 +680,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -909,23 +692,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_products_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -939,8 +711,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -952,23 +723,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_product_gdpr_data(
         self, objectId: str, idProperty: Optional[str] = None
@@ -985,8 +745,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -998,23 +757,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_products(
         self,
@@ -1041,8 +789,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -1060,18 +807,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_product(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -1088,8 +824,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -1101,23 +836,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_products(
         self,
@@ -1144,8 +868,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -1164,23 +887,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/products/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_pipeline_by_id_for_type(
         self, objectType: str, pipelineId: str
@@ -1197,8 +909,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1209,18 +920,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'pipelineId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_pipeline(
         self,
@@ -1249,8 +949,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1280,23 +979,12 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_pipeline_by_id_and_type(
         self,
@@ -1319,8 +1007,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1341,18 +1028,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_pipeline_by_object_type(
         self,
@@ -1381,8 +1057,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1412,18 +1087,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def get_pipeline_audit_by_object_type(
         self, objectType: str, pipelineId: str
@@ -1440,8 +1104,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Audits
@@ -1452,18 +1115,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'pipelineId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/audit"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_pipeline_stages_by_object_type(
         self, objectType: str, pipelineId: str
@@ -1480,8 +1132,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1492,18 +1143,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'pipelineId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_pipeline_stage(
         self,
@@ -1532,8 +1172,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1553,23 +1192,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_pipelines_by_type(self, objectType: str) -> dict[str, Any]:
         """
@@ -1583,8 +1211,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1593,18 +1220,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_pipeline_by_object_type(
         self,
@@ -1627,8 +1243,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipelines
@@ -1646,23 +1261,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_pipeline_stage_by_id(
         self, objectType: str, pipelineId: str, stageId: str
@@ -1680,8 +1284,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1694,18 +1297,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'stageId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_pipeline_stage_by_id(
         self,
@@ -1736,8 +1328,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1759,23 +1350,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_pipeline_stage_by_id(
         self, objectType: str, pipelineId: str, stageId: str
@@ -1793,8 +1373,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1807,18 +1386,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'stageId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_pipeline_stage(
         self,
@@ -1851,8 +1419,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Pipeline Stages
@@ -1875,18 +1442,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/pipelines/{objectType}/{pipelineId}/stages/{stageId}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def batch_read_companies_post(
         self,
@@ -1911,8 +1467,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -1929,23 +1484,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_company_by_id(
         self,
@@ -1972,8 +1516,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -1992,18 +1535,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_company_by_id(self, companyId: str) -> Any:
         """
@@ -2017,8 +1549,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -2027,18 +1558,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'companyId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_company_by_id(
         self,
@@ -2059,8 +1579,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -2074,18 +1593,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/{companyId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_companies_post(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -2102,8 +1610,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -2118,23 +1625,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_companies_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -2148,8 +1644,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -2161,23 +1656,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_companies_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -2191,8 +1675,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -2204,23 +1687,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_companies_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -2234,8 +1706,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -2247,23 +1718,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_company_gdpr_data(
         self, objectId: str, idProperty: Optional[str] = None
@@ -2280,8 +1740,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -2293,23 +1752,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_companies(
         self,
@@ -2336,11 +1784,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies"
         query_params = {
@@ -2355,18 +1802,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_company(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -2383,11 +1819,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -2396,23 +1831,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_companies_post(
         self,
@@ -2439,8 +1863,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -2459,23 +1882,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/companies/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_calling_app_settings(self, appId: str) -> dict[str, Any]:
         """
@@ -2489,8 +1901,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -2499,18 +1910,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_calling_app_settings(
         self,
@@ -2539,8 +1939,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -2561,23 +1960,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_calling_app_settings_by_id(self, appId: str) -> Any:
         """
@@ -2591,8 +1979,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -2601,18 +1988,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_calling_settings(
         self,
@@ -2641,8 +2017,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -2663,18 +2038,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def get_calling_app_recording_settings(self, appId: str) -> dict[str, Any]:
         """
@@ -2688,8 +2052,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Recording_Settings
@@ -2698,18 +2061,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def post_calling_app_recording_settings(
         self, appId: str, urlToRetrieveAuthedRecording: str
@@ -2726,8 +2078,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Recording_Settings
@@ -2743,23 +2094,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_recording_settings(
         self, appId: str, urlToRetrieveAuthedRecording: Optional[str] = None
@@ -2776,8 +2116,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Recording_Settings
@@ -2793,18 +2132,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/calling/{appId}/settings/recording"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def read_quotes_batch(
         self,
@@ -2829,8 +2157,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -2847,23 +2174,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_quote_by_id(
         self,
@@ -2890,8 +2206,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -2910,18 +2225,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_quote_by_id(self, quoteId: str) -> Any:
         """
@@ -2935,8 +2239,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -2945,18 +2248,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'quoteId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_quote(
         self, quoteId: str, properties: dict[str, str], idProperty: Optional[str] = None
@@ -2974,8 +2266,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -2989,18 +2280,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/{quoteId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_quotes(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -3017,8 +2297,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -3033,23 +2312,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_quotes_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -3063,8 +2331,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3076,23 +2343,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_quote_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -3106,8 +2362,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3119,23 +2374,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_quotes_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -3149,8 +2393,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3162,23 +2405,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_quote_gdpr_data(
         self, objectId: str, idProperty: Optional[str] = None
@@ -3195,8 +2427,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -3208,23 +2439,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_quotes(
         self,
@@ -3251,8 +2471,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3270,18 +2489,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_quote(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -3298,8 +2506,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3311,23 +2518,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_quotes(
         self,
@@ -3354,8 +2550,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -3374,23 +2569,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/quotes/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_read_deals_post(
         self,
@@ -3415,8 +2599,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3433,23 +2616,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_deal_by_id(
         self,
@@ -3476,8 +2648,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3496,18 +2667,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_deal_by_id(self, dealId: str) -> Any:
         """
@@ -3521,8 +2681,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3531,18 +2690,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'dealId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_deal_by_id(
         self, dealId: str, properties: dict[str, str], idProperty: Optional[str] = None
@@ -3560,8 +2708,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3575,18 +2722,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/{dealId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_deals(self, objectIdToMerge: str, primaryObjectId: str) -> dict[str, Any]:
         """
@@ -3601,8 +2737,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -3617,23 +2752,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_deals_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -3647,8 +2771,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3660,23 +2783,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_deals_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -3690,8 +2802,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3703,23 +2814,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_update_deals(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -3733,8 +2833,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -3746,23 +2845,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def post_deal_gdpr_delete(
         self, objectId: str, idProperty: Optional[str] = None
@@ -3779,8 +2867,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -3792,23 +2879,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_deals(
         self,
@@ -3835,11 +2911,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals"
         query_params = {
@@ -3854,18 +2929,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_deal(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -3882,8 +2946,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -3895,23 +2958,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_deals(
         self,
@@ -3938,8 +2990,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -3958,23 +3009,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/deals/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def cancel_import_by_id(self, importId: str) -> dict[str, Any]:
         """
@@ -3988,8 +3028,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -3999,23 +3038,12 @@ class CrmApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/crm/v3/imports/{importId}/cancel"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_import_by_id(self, importId: str) -> dict[str, Any]:
         """
@@ -4029,8 +3057,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4039,18 +3066,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'importId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/imports/{importId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_import_errors_by_id(
         self, importId: str, after: Optional[str] = None, limit: Optional[int] = None
@@ -4068,8 +3084,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Imports
@@ -4080,18 +3095,7 @@ class CrmApi(APISegmentBase):
         query_params = {
             k: v for k, v in [("after", after), ("limit", limit)] if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_schema_by_object_type(self, objectType: str) -> dict[str, Any]:
         """
@@ -4105,8 +3109,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4115,18 +3118,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_schema_by_type(
         self, objectType: str, archived: Optional[bool] = None
@@ -4143,8 +3135,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4153,18 +3144,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_crm_schema_by_object_type(
         self,
@@ -4195,8 +3175,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4218,18 +3197,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def create_object_type_association(
         self,
@@ -4252,8 +3220,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4273,23 +3240,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_schema_object_type_purge(self, objectType: str) -> Any:
         """
@@ -4303,8 +3259,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object_Schemas
@@ -4313,18 +3268,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/purge"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def delete_association_by_object_type_id(
         self, objectType: str, associationIdentifier: str
@@ -4341,8 +3285,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4353,18 +3296,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'associationIdentifier'.")
         url = f"{self.main_app_client.base_url}/crm/v3/schemas/{objectType}/associations/{associationIdentifier}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def list_schemas(self, archived: Optional[bool] = None) -> dict[str, Any]:
         """
@@ -4378,26 +3310,14 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
         """
         url = f"{self.main_app_client.base_url}/crm/v3/schemas"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_crm_schema(
         self,
@@ -4430,8 +3350,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4453,23 +3372,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/schemas"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_properties_batch_post(
         self, objectType: str, inputs: List[dict[str, Any]]
@@ -4486,8 +3394,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -4501,23 +3408,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_property_group(self, objectType: str, groupName: str) -> dict[str, Any]:
         """
@@ -4532,8 +3428,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Groups
@@ -4544,18 +3439,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'groupName'.")
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def remove_property_group(self, objectType: str, groupName: str) -> Any:
         """
@@ -4570,8 +3454,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Groups
@@ -4582,18 +3465,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'groupName'.")
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_property_group_by_identifier(
         self,
@@ -4616,8 +3488,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Groups
@@ -4633,18 +3504,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups/{groupName}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def get_crm_property(
         self,
@@ -4667,8 +3527,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4683,18 +3542,7 @@ class CrmApi(APISegmentBase):
             for k, v in [("archived", archived), ("properties", properties)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_property_by_object_type(self, objectType: str, propertyName: str) -> Any:
         """
@@ -4709,8 +3557,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4721,18 +3568,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'propertyName'.")
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_crm_property_by_name(
         self,
@@ -4771,8 +3607,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4799,18 +3634,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/{propertyName}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def batch_read_properties_by_object_type(
         self, objectType: str, archived: bool, inputs: List[dict[str, Any]]
@@ -4828,8 +3652,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -4845,23 +3668,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/read"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_batch_properties(
         self, objectType: str, inputs: List[dict[str, Any]]
@@ -4878,8 +3690,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -4893,23 +3704,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_properties_by_object_type(
         self,
@@ -4930,8 +3730,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -4944,18 +3743,7 @@ class CrmApi(APISegmentBase):
             for k, v in [("archived", archived), ("properties", properties)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_property_schema(
         self,
@@ -5000,8 +3788,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -5030,23 +3817,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_property_groups_by_object_type(self, objectType: str) -> dict[str, Any]:
         """
@@ -5060,8 +3836,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Groups
@@ -5070,18 +3845,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_property_group(
         self, objectType: str, name: str, label: str, displayOrder: Optional[int] = None
@@ -5100,8 +3864,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Groups
@@ -5115,23 +3878,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/properties/{objectType}/groups"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_owner_by_id(
         self,
@@ -5152,8 +3904,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Owners
@@ -5166,18 +3917,7 @@ class CrmApi(APISegmentBase):
             for k, v in [("idProperty", idProperty), ("archived", archived)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def batch_create_timeline_events(
         self, inputs: List[dict[str, Any]]
@@ -5193,8 +3933,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Events
@@ -5206,23 +3945,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_timeline_event_template_by_id(
         self, appId: str, eventTemplateId: str
@@ -5239,8 +3967,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Templates
@@ -5251,18 +3978,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_timeline_event_template_by_id(
         self,
@@ -5298,8 +4014,7 @@ class CrmApi(APISegmentBase):
                     dict[str, Any]: successful operation
 
                 Raises:
-                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                    HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
                 Tags:
                     Templates
@@ -5321,23 +4036,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_event_template_by_id(self, appId: str, eventTemplateId: str) -> Any:
         """
@@ -5352,8 +4056,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Templates
@@ -5364,18 +4067,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'eventTemplateId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def create_event(
         self,
@@ -5410,8 +4102,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Events
@@ -5434,23 +4125,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/events"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_token_template(
         self,
@@ -5483,8 +4163,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Tokens
@@ -5508,23 +4187,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_event_template_token(
         self,
@@ -5551,8 +4219,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Tokens
@@ -5574,23 +4241,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}"
         query_params = {}
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_timeline_event_template_token(
         self, appId: str, eventTemplateId: str, tokenName: str
@@ -5608,8 +4264,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Tokens
@@ -5622,18 +4277,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'tokenName'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates/{eventTemplateId}/tokens/{tokenName}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def get_timeline_event_detail_by_id(
         self, eventTemplateId: str, eventId: str
@@ -5650,8 +4294,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Events
@@ -5662,18 +4305,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'eventId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/detail"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_timeline_event_by_id(
         self, eventTemplateId: str, eventId: str
@@ -5690,8 +4322,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Events
@@ -5702,18 +4333,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'eventId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_timeline_event_templates_by_app_id(self, appId: str) -> dict[str, Any]:
         """
@@ -5727,8 +4347,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Templates
@@ -5737,18 +4356,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_timeline_event_template(
         self,
@@ -5780,8 +4388,7 @@ class CrmApi(APISegmentBase):
                     dict[str, Any]: successful operation
 
                 Raises:
-                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                    HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
                 Tags:
                     Templates
@@ -5801,23 +4408,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/{appId}/event-templates"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_timeline_event_render(
         self, eventTemplateId: str, eventId: str, detail: Optional[bool] = None
@@ -5835,8 +4431,7 @@ class CrmApi(APISegmentBase):
             Any: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Events
@@ -5847,18 +4442,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'eventId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/timeline/events/{eventTemplateId}/{eventId}/render"
         query_params = {k: v for k, v in [("detail", detail)] if v is not None}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def batch_read_contacts_post(
         self,
@@ -5883,8 +4467,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -5901,23 +4484,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_contact_by_id(
         self,
@@ -5942,8 +4514,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -5961,18 +4532,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_contact_by_id(self, contactId: str) -> Any:
         """
@@ -5986,8 +4546,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -5996,18 +4555,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'contactId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_contact_by_id(
         self, contactId: str, properties: dict[str, str]
@@ -6024,8 +4572,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6039,18 +4586,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/{contactId}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_contacts(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -6067,8 +4603,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -6083,23 +4618,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_contacts_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -6113,8 +4637,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6126,23 +4649,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_contacts_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -6156,8 +4668,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6169,23 +4680,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_update_contacts(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -6199,8 +4699,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6212,23 +4711,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_contact_gdpr_data(
         self, objectId: str, idProperty: Optional[str] = None
@@ -6245,8 +4733,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -6258,23 +4745,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_contacts(
         self,
@@ -6301,11 +4777,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts"
         query_params = {
@@ -6320,18 +4795,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_contact(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -6348,11 +4812,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         request_body_data = None
         request_body_data = {"associations": associations, "properties": properties}
@@ -6361,23 +4824,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_contacts_post(
         self,
@@ -6404,8 +4856,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -6424,23 +4875,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/contacts/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_read_feedback_submissions(
         self,
@@ -6465,8 +4905,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6483,23 +4922,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_feedback_submission_by_id(
         self,
@@ -6526,8 +4954,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6546,18 +4973,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_feedback_submission_by_id(self, feedbackSubmissionId: str) -> Any:
         """
@@ -6571,8 +4987,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6581,18 +4996,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'feedbackSubmissionId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_feedback_submission_by_id(
         self,
@@ -6613,8 +5017,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6628,18 +5031,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/{feedbackSubmissionId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_feedback_submissions(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -6656,8 +5048,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -6674,23 +5065,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/merge"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_feedback_submissions_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -6704,8 +5084,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6717,23 +5096,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_feedback_submissions_batch(
         self, inputs: List[dict[str, Any]]
@@ -6749,8 +5117,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6762,23 +5129,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_feedback_submissions_batch(
         self, inputs: List[dict[str, Any]]
@@ -6794,8 +5150,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -6807,23 +5162,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def post_feedback_submissions_gdpr_delete(
         self, objectId: str, idProperty: Optional[str] = None
@@ -6840,8 +5184,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -6853,23 +5196,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_feedback_submissions(
         self,
@@ -6896,8 +5228,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6915,18 +5246,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_feedback_submission(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -6943,8 +5263,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -6956,23 +5275,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_feedback_submissions(
         self,
@@ -6999,8 +5307,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -7019,23 +5326,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/feedback_submissions/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def read_batch_objects(
         self,
@@ -7062,8 +5358,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -7082,23 +5377,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_object_details(
         self,
@@ -7127,8 +5411,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7149,18 +5432,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_object_by_id(self, objectType: str, objectId: str) -> Any:
         """
@@ -7175,8 +5447,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7187,18 +5458,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'objectId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_object_by_id(
         self,
@@ -7221,8 +5481,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7238,18 +5497,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/{objectId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_objects(
         self, objectType: str, objectIdToMerge: str, primaryObjectId: str
@@ -7267,8 +5515,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -7285,23 +5532,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_batch_objects_by_type(
         self, objectType: str, inputs: List[dict[str, Any]]
@@ -7318,8 +5554,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -7335,23 +5570,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/archive"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_create_object_records(
         self, objectType: str, inputs: List[dict[str, Any]]
@@ -7368,8 +5592,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -7385,23 +5608,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/create"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_batch_object(
         self, objectType: str, inputs: List[dict[str, Any]]
@@ -7418,8 +5630,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -7435,23 +5646,12 @@ class CrmApi(APISegmentBase):
             f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/batch/update"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def gdpr_delete_object(
         self, objectType: str, objectId: str, idProperty: Optional[str] = None
@@ -7469,8 +5669,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -7484,23 +5683,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_objects_by_type(
         self,
@@ -7529,8 +5717,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7550,18 +5737,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_object_by_type(
         self,
@@ -7582,8 +5758,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7597,23 +5772,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_objects_by_type_post(
         self,
@@ -7642,8 +5806,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -7664,23 +5827,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/{objectType}/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_video_conferencing_settings_by_app_id(self, appId: str) -> dict[str, Any]:
         """
@@ -7694,8 +5846,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -7704,18 +5855,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_video_conferencing_settings_by_app_id(
         self,
@@ -7742,8 +5882,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -7763,23 +5902,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_video_conf_settings_by_app_id(self, appId: str) -> Any:
         """
@@ -7793,8 +5921,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Settings
@@ -7803,18 +5930,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'appId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/extensions/videoconferencing/settings/{appId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def batch_read_tickets_post(
         self,
@@ -7839,8 +5955,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -7857,23 +5972,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_ticket_by_id(
         self,
@@ -7900,8 +6004,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7920,18 +6023,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_ticket_by_id(self, ticketId: str) -> Any:
         """
@@ -7945,8 +6037,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -7955,18 +6046,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'ticketId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def update_ticket(
         self,
@@ -7987,8 +6067,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8002,18 +6081,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/{ticketId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_tickets(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -8030,8 +6098,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -8046,23 +6113,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_tickets_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -8076,8 +6132,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8089,23 +6144,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_tickets_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -8119,8 +6163,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8132,23 +6175,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_tickets_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -8162,8 +6194,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8175,23 +6206,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_ticket_gdpr(
         self, objectId: str, idProperty: Optional[str] = None
@@ -8208,8 +6228,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -8221,23 +6240,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_tickets(
         self,
@@ -8264,11 +6272,10 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Basic, important
+            Basic
         """
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets"
         query_params = {
@@ -8283,18 +6290,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_ticket(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -8311,8 +6307,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8324,23 +6319,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_tickets_post(
         self,
@@ -8367,8 +6351,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -8387,23 +6370,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/tickets/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_read_line_items_post(
         self,
@@ -8428,8 +6400,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8446,23 +6417,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/read"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_line_item_by_id(
         self,
@@ -8489,8 +6449,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8509,18 +6468,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_line_item_by_id(self, lineItemId: str) -> Any:
         """
@@ -8534,8 +6482,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8544,18 +6491,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'lineItemId'.")
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_line_item_by_id(
         self,
@@ -8576,8 +6512,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8591,18 +6526,7 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/{lineItemId}"
         query_params = {k: v for k, v in [("idProperty", idProperty)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def merge_line_items_post(
         self, objectIdToMerge: str, primaryObjectId: str
@@ -8619,8 +6543,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_Object
@@ -8635,23 +6558,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/merge"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def archive_line_items_batch_post(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -8665,8 +6577,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8678,23 +6589,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def create_line_items_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -8708,8 +6608,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8721,23 +6620,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_update_line_items(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -8751,8 +6639,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -8764,23 +6651,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def gdpr_delete_line_items(
         self, objectId: str, idProperty: Optional[str] = None
@@ -8797,8 +6673,7 @@ class CrmApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             GDPR
@@ -8810,23 +6685,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/gdpr-delete"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_line_items(
         self,
@@ -8853,8 +6717,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8872,18 +6735,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_line_item(
         self, associations: List[dict[str, Any]], properties: dict[str, str]
@@ -8900,8 +6752,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -8913,23 +6764,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def search_line_items(
         self,
@@ -8956,8 +6796,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -8976,23 +6815,12 @@ class CrmApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/crm/v3/objects/line_items/search"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_crm_imports(
         self,
@@ -9013,8 +6841,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -9025,18 +6852,7 @@ class CrmApi(APISegmentBase):
             for k, v in [("after", after), ("before", before), ("limit", limit)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_crm_import(
         self, files: Optional[bytes] = None, importRequest: Optional[str] = None
@@ -9053,8 +6869,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Core
@@ -9072,24 +6887,13 @@ class CrmApi(APISegmentBase):
             files_data = None
         url = f"{self.main_app_client.base_url}/crm/v3/imports"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             files=files_data,
             params=query_params,
             content_type="multipart/form-data",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_owners_list(
         self,
@@ -9112,8 +6916,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Owners
@@ -9129,18 +6932,7 @@ class CrmApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_association_types_by_object_types(
         self, fromObjectType: str, toObjectType: str
@@ -9157,8 +6949,7 @@ class CrmApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Types
@@ -9169,18 +6960,7 @@ class CrmApi(APISegmentBase):
             raise ValueError("Missing required parameter 'toObjectType'.")
         url = f"{self.main_app_client.base_url}/crm/v3/associations/{fromObjectType}/{toObjectType}/types"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def list_tools(self):
         return [

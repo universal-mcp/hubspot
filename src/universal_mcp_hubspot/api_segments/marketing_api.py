@@ -30,8 +30,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Search
@@ -48,18 +47,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_marketing_campaigns(self, properties: dict[str, str]) -> dict[str, Any]:
         """
@@ -73,8 +61,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -86,23 +73,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def batch_read_campaigns_post(
         self,
@@ -125,8 +101,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -146,23 +121,12 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -176,8 +140,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -189,23 +152,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/update"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_campaign_metrics(
         self,
@@ -226,8 +178,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Reports
@@ -240,18 +191,7 @@ class MarketingApi(APISegmentBase):
             for k, v in [("startDate", startDate), ("endDate", endDate)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_campaign_asset_by_type(
         self,
@@ -278,8 +218,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Asset
@@ -299,18 +238,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def archive_campaigns_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -324,8 +252,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -337,23 +264,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/archive"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def update_campaign_asset(
         self, campaignGuid: str, assetType: str, assetId: str
@@ -371,8 +287,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Asset
@@ -386,23 +301,12 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
-        response = self._put(
+        return self._put_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def delete_campaign_asset_by_id(
         self, campaignGuid: str, assetType: str, assetId: str
@@ -420,8 +324,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Asset
@@ -434,18 +337,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'assetId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def get_campaign_revenue_report(
         self,
@@ -468,8 +360,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Reports
@@ -486,18 +377,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -511,8 +391,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Batch
@@ -524,23 +403,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/create"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_campaign_budget_totals(self, campaignGuid: str) -> dict[str, Any]:
         """
@@ -554,8 +422,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Budget
@@ -564,18 +431,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/budget/totals"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_campaign_by_guid(
         self,
@@ -598,8 +454,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -616,18 +471,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_campaign_by_guid(self, campaignGuid: str) -> Any:
         """
@@ -641,8 +485,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -651,18 +494,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_campaign_by_guid(
         self, campaignGuid: str, properties: dict[str, str]
@@ -679,8 +511,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Basic
@@ -694,18 +525,7 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def get_campaign_contacts_report_by_type(
         self,
@@ -732,8 +552,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Reports
@@ -753,18 +572,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def list_email_statistics(
         self,
@@ -787,8 +595,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Statistics
@@ -804,18 +611,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_ab_test_email_variation(
         self, variationName: str, contentId: str
@@ -832,8 +628,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_VNext_Emails
@@ -845,23 +640,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/ab-test/create-variation"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_email_statistics_histogram(
         self,
@@ -884,8 +668,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Statistics
@@ -903,18 +686,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_email_ab_test_variation(self, emailId: str) -> dict[str, Any]:
         """
@@ -928,8 +700,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -938,18 +709,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/ab-test/get-variation"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def reset_email_draft_by_id(self, emailId: str) -> Any:
         """
@@ -963,8 +723,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -976,23 +735,12 @@ class MarketingApi(APISegmentBase):
             f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft/reset"
         )
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def restore_email_revision_to_draft(
         self, emailId: str, revisionId: str
@@ -1009,8 +757,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1022,23 +769,12 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore-to-draft"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_email_draft_by_id(self, emailId: str) -> dict[str, Any]:
         """
@@ -1052,8 +788,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1062,18 +797,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def update_email_draft_by_id(
         self,
@@ -1150,8 +874,7 @@ class MarketingApi(APISegmentBase):
                     dict[str, Any]: successful operation
 
                 Raises:
-                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                    HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
                 Tags:
                     Marketing Emails
@@ -1184,18 +907,7 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def get_email_revisions(
         self,
@@ -1218,8 +930,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1232,18 +943,7 @@ class MarketingApi(APISegmentBase):
             for k, v in [("after", after), ("before", before), ("limit", limit)]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def get_email_revision_by_id(self, emailId: str, revisionId: str) -> dict[str, Any]:
         """
@@ -1258,8 +958,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1270,18 +969,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'revisionId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}"
         query_params = {}
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def clone_email(self, id: str, cloneName: Optional[str] = None) -> dict[str, Any]:
         """
@@ -1296,8 +984,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Public_VNext_Emails
@@ -1309,23 +996,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/clone"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def list_marketing_emails(
         self,
@@ -1368,8 +1044,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1395,18 +1070,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def create_email_marketing_campaign(
         self,
@@ -1483,8 +1147,7 @@ class MarketingApi(APISegmentBase):
                     dict[str, Any]: successful operation
 
                 Raises:
-                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                    HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
                 Tags:
                     Marketing Emails
@@ -1516,23 +1179,12 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def restore_email_revision(self, emailId: str, revisionId: str) -> Any:
         """
@@ -1547,8 +1199,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1560,23 +1211,12 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore"
         query_params = {}
-        response = self._post(
+        return self._post_json(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
 
     def get_email_by_id_marketing(
         self,
@@ -1599,8 +1239,7 @@ class MarketingApi(APISegmentBase):
             dict[str, Any]: successful operation
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1617,18 +1256,7 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        response = self._get(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._get_json(url, params=query_params)
 
     def delete_email_by_id_marketing(
         self, emailId: str, archived: Optional[bool] = None
@@ -1645,8 +1273,7 @@ class MarketingApi(APISegmentBase):
             Any: No content
 
         Raises:
-            HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-            JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
             Marketing Emails
@@ -1655,18 +1282,7 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._delete(url, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._delete_json(url, params=query_params)
 
     def patch_email_by_id(
         self,
@@ -1745,8 +1361,7 @@ class MarketingApi(APISegmentBase):
                     dict[str, Any]: successful operation
 
                 Raises:
-                    HTTPError: Raised when the API request fails (e.g., non-2XX status code).
-                    JSONDecodeError: Raised if the response body cannot be parsed as JSON.
+                    HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
                 Tags:
                     Marketing Emails
@@ -1779,18 +1394,7 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        response = self._patch(url, data=request_body_data, params=query_params)
-        response.raise_for_status()
-        if (
-            response.status_code == 204
-            or not response.content
-            or (not response.text.strip())
-        ):
-            return None
-        try:
-            return response.json()
-        except ValueError:
-            return None
+        return self._patch_json(url, data=request_body_data, params=query_params)
 
     def list_tools(self):
         return [
