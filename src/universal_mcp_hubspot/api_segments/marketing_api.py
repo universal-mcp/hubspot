@@ -47,7 +47,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def create_marketing_campaigns(self, properties: dict[str, str]) -> dict[str, Any]:
         """
@@ -73,12 +74,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def batch_read_campaigns_post(
         self,
@@ -121,12 +123,13 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def update_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -152,12 +155,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/update"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def get_campaign_metrics(
         self,
@@ -191,7 +195,8 @@ class MarketingApi(APISegmentBase):
             for k, v in [("startDate", startDate), ("endDate", endDate)]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def get_campaign_asset_by_type(
         self,
@@ -238,7 +243,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def archive_campaigns_batch(self, inputs: List[dict[str, Any]]) -> Any:
         """
@@ -264,12 +270,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/archive"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def update_campaign_asset(
         self, campaignGuid: str, assetType: str, assetId: str
@@ -301,12 +308,13 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
-        return self._put_json(
+        response = self._put(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def delete_campaign_asset_by_id(
         self, campaignGuid: str, assetType: str, assetId: str
@@ -337,7 +345,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'assetId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/assets/{assetType}/{assetId}"
         query_params = {}
-        return self._delete_json(url, params=query_params)
+        response = self._delete(url, params=query_params)
+        return self._handle_response(response)
 
     def get_campaign_revenue_report(
         self,
@@ -377,7 +386,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def create_campaigns_batch(self, inputs: List[dict[str, Any]]) -> dict[str, Any]:
         """
@@ -403,12 +413,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/batch/create"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def get_campaign_budget_totals(self, campaignGuid: str) -> dict[str, Any]:
         """
@@ -431,7 +442,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}/budget/totals"
         query_params = {}
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def get_campaign_by_guid(
         self,
@@ -471,7 +483,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def delete_campaign_by_guid(self, campaignGuid: str) -> Any:
         """
@@ -494,7 +507,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'campaignGuid'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
-        return self._delete_json(url, params=query_params)
+        response = self._delete(url, params=query_params)
+        return self._handle_response(response)
 
     def patch_campaign_by_guid(
         self, campaignGuid: str, properties: dict[str, str]
@@ -525,7 +539,8 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/campaigns/{campaignGuid}"
         query_params = {}
-        return self._patch_json(url, data=request_body_data, params=query_params)
+        response = self._patch(url, data=request_body_data, params=query_params)
+        return self._handle_response(response)
 
     def get_campaign_contacts_report_by_type(
         self,
@@ -572,7 +587,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def list_email_statistics(
         self,
@@ -611,7 +627,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def create_ab_test_email_variation(
         self, variationName: str, contentId: str
@@ -640,12 +657,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/ab-test/create-variation"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def get_email_statistics_histogram(
         self,
@@ -686,7 +704,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def get_email_ab_test_variation(self, emailId: str) -> dict[str, Any]:
         """
@@ -709,7 +728,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/ab-test/get-variation"
         query_params = {}
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def reset_email_draft_by_id(self, emailId: str) -> Any:
         """
@@ -735,12 +755,13 @@ class MarketingApi(APISegmentBase):
             f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft/reset"
         )
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def restore_email_revision_to_draft(
         self, emailId: str, revisionId: str
@@ -769,12 +790,13 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore-to-draft"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def get_email_draft_by_id(self, emailId: str) -> dict[str, Any]:
         """
@@ -797,7 +819,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def update_email_draft_by_id(
         self,
@@ -907,7 +930,8 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/draft"
         query_params = {}
-        return self._patch_json(url, data=request_body_data, params=query_params)
+        response = self._patch(url, data=request_body_data, params=query_params)
+        return self._handle_response(response)
 
     def get_email_revisions(
         self,
@@ -943,7 +967,8 @@ class MarketingApi(APISegmentBase):
             for k, v in [("after", after), ("before", before), ("limit", limit)]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def get_email_revision_by_id(self, emailId: str, revisionId: str) -> dict[str, Any]:
         """
@@ -969,7 +994,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'revisionId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}"
         query_params = {}
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def clone_email(self, id: str, cloneName: Optional[str] = None) -> dict[str, Any]:
         """
@@ -996,12 +1022,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/clone"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def list_marketing_emails(
         self,
@@ -1070,7 +1097,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def create_email_marketing_campaign(
         self,
@@ -1179,12 +1207,13 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def restore_email_revision(self, emailId: str, revisionId: str) -> Any:
         """
@@ -1211,12 +1240,13 @@ class MarketingApi(APISegmentBase):
         request_body_data = None
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}/revisions/{revisionId}/restore"
         query_params = {}
-        return self._post_json(
+        response = self._post(
             url,
             data=request_body_data,
             params=query_params,
             content_type="application/json",
         )
+        return self._handle_response(response)
 
     def get_email_by_id_marketing(
         self,
@@ -1256,7 +1286,8 @@ class MarketingApi(APISegmentBase):
             ]
             if v is not None
         }
-        return self._get_json(url, params=query_params)
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
 
     def delete_email_by_id_marketing(
         self, emailId: str, archived: Optional[bool] = None
@@ -1282,7 +1313,8 @@ class MarketingApi(APISegmentBase):
             raise ValueError("Missing required parameter 'emailId'.")
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        return self._delete_json(url, params=query_params)
+        response = self._delete(url, params=query_params)
+        return self._handle_response(response)
 
     def patch_email_by_id(
         self,
@@ -1394,7 +1426,8 @@ class MarketingApi(APISegmentBase):
         }
         url = f"{self.main_app_client.base_url}/marketing/v3/emails/{emailId}"
         query_params = {k: v for k, v in [("archived", archived)] if v is not None}
-        return self._patch_json(url, data=request_body_data, params=query_params)
+        response = self._patch(url, data=request_body_data, params=query_params)
+        return self._handle_response(response)
 
     def list_tools(self):
         return [
