@@ -9,7 +9,15 @@ This is automatically generated from OpenAPI schema for the HubspotApp API.
 
 | Tool | Description |
 |------|-------------|
-| `batch_read_emails` | Retrieves a batch of emails from a CRM system using the "POST" method, allowing optional filtering by archived status, and returns the results in a multipart response. |
+| `fetch_multiple_lists` | Fetch multiple lists in a single request by ILS list ID. The response will include the definitions of all lists that exist for the listIds provided. |
+| `create_list` | Create a new list in HubSpot with the specified object type, processing type, and name.  |
+| `get_list_by_id` | Fetch a single list by ILS list ID. |
+| `delete_list_by_id` | Delete a list by ILS list ID. Lists deleted through this endpoint can be restored for up to 90 days. After 90 days, the list is permanently purged and cannot be restored |
+| `add_records_to_list` | Add the records provided to the list. Records that do not exist or that are already members of the list are ignored. |
+| `remove_records_from_list` | Remove the records provided from the list. Records that are not members of the list are ignored. |
+| `search_lists` | Search lists by list name or page through all lists by providing an empty query value. |
+| `fetch_list_by_name` | Fetch a list by its name and object type ID. |
+| `batch_read_emails` | Retrieves a batch of emails from a CRM system using the "POST" method allowing optional filtering by archived status, and returns the results in a multipart response. |
 | `get_email_by_id` | Retrieves detailed information about a specific email object in a CRM system, allowing optional filtering by properties, associations, and archival status. |
 | `delete_email_by_id` | Deletes an email object identified by the specified emailId from a CRM system. |
 | `update_email_by_id` | Updates specific properties of an existing email record in the CRM by its emailId using a PATCH request with JSON data. |
