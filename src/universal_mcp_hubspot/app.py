@@ -12,6 +12,49 @@ class HubspotApp(APIApplication):
         self.crm = CrmApi(self)
         self.marketing = MarketingApi(self)
     
+    def add_a_note(
+        self,
+        hs_note_body: str,
+        associations: Optional[List[dict[str, Any]]] = None,
+    ) -> dict[str, Any]:
+        """
+        Create a note in HubSpot with the given properties and associations.
+
+        Args:
+            hs_note_body (str): The body/content of the note
+            associations (Optional[List[dict[str, Any]]]): List of associations to other objects. Exmaple: [{"to": {"id": "101"}, "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 202}]}]
+
+        Returns:
+            dict[str, Any]: The created note object with ID
+
+        Raises:
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
+
+        Tags:
+            Notes, CRM
+        """
+        if hs_note_body is None:
+            raise ValueError("Missing required parameter 'hs_note_body'.")
+        
+        url = f"{self.base_url}/crm/v3/objects/notes"
+        
+        # Build the properties object
+        properties = {
+            "hs_note_body": hs_note_body
+        }
+        
+        # Build the request body
+        request_body_data: dict[str, Any] = {
+            "properties": properties
+        }
+        
+        # Add associations if provided
+        if associations:
+            request_body_data["associations"] = associations
+        
+        response = self._post(url, data=request_body_data)
+        return self._handle_response(response)
+
     def fetch_multiple_lists(self, listIds: Optional[List[str]] = None, includeFilters: Optional[bool] = None) -> dict[str, Any]:
         """
         Fetch multiple lists in a single request by ILS list ID. The response will include the definitions of all lists that exist for the listIds provided.
@@ -255,6 +298,7 @@ class HubspotApp(APIApplication):
 
     def list_tools(self):
         all_tools = [
+         self.add_a_note,
          self.fetch_multiple_lists,
          self.create_list,
          self.get_list_by_id,
