@@ -31,7 +31,7 @@ class HubspotApp(APIApplication):
             HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
 
         Tags:
-            Notes, CRM
+            Notes, CRM, important
         """
         if hs_note_body is None:
             raise ValueError("Missing required parameter 'hs_note_body'.")
