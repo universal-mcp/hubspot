@@ -9,6 +9,7 @@ This is automatically generated from OpenAPI schema for the HubspotApp API.
 
 | Tool | Description |
 |------|-------------|
+| `add_a_note` | Create a note in HubSpot with the given properties and associations. |
 | `fetch_multiple_lists` | Fetch multiple lists in a single request by ILS list ID. The response will include the definitions of all lists that exist for the listIds provided. |
 | `create_list` | Create a new list in HubSpot with the specified object type, processing type, and name.  |
 | `get_list_by_id` | Fetch a single list by ILS list ID. |
