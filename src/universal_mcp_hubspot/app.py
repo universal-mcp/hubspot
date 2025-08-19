@@ -3,6 +3,7 @@ from universal_mcp.integrations import Integration
 from universal_mcp_hubspot.api_segments.crm_api import CrmApi
 from universal_mcp_hubspot.api_segments.marketing_api import MarketingApi
 from typing import List, Optional, Any
+from datetime import datetime, timezone
 
 class HubspotApp(APIApplication):
 
@@ -15,6 +16,7 @@ class HubspotApp(APIApplication):
     def add_a_note(
         self,
         hs_note_body: str,
+        hs_timestamp: Optional[str] = None,
         associations: Optional[List[dict[str, Any]]] = None,
     ) -> dict[str, Any]:
         """
@@ -22,6 +24,7 @@ class HubspotApp(APIApplication):
 
         Args:
             hs_note_body (str): The body/content of the note
+            hs_timestamp (Optional[str]): Timestamp for the note (ISO format). If not provided, current time will be used.
             associations (Optional[List[dict[str, Any]]]): List of associations to other objects. Exmaple: [{"to": {"id": "101"}, "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 202}]}]
 
         Returns:
@@ -40,7 +43,8 @@ class HubspotApp(APIApplication):
         
         # Build the properties object
         properties = {
-            "hs_note_body": hs_note_body
+            "hs_note_body": hs_note_body,
+            "hs_timestamp": hs_timestamp if hs_timestamp else datetime.now(timezone.utc).isoformat()
         }
         
         # Build the request body
