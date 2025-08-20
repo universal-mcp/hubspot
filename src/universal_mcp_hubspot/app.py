@@ -81,6 +81,47 @@ class HubspotApp(APIApplication):
         response = self._get(url, params=query_params)
         return self._handle_response(response)   
 
+    def fetch_list_memberships(
+        self,
+        listId: str,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> dict[str, Any]:
+        """
+        Fetch the memberships of a list in order sorted by the recordId of the records in the list.
+
+        Args:
+            listId (str): The ILS ID of the list
+            after (Optional[str]): The paging offset token for the page that comes after the previously requested records
+            before (Optional[str]): The paging offset token for the page that comes before the previously requested records
+            limit (Optional[int]): The number of records to return in the response (max 250)
+
+        Returns:
+            dict[str, Any]: List memberships ordered by recordId
+
+        Raises:
+            HTTPStatusError: Raised when the API request fails with detailed error information including status code and response body.
+
+        Tags:
+            Lists, CRM
+        """
+        if listId is None:
+            raise ValueError("Missing required parameter 'listId'.")
+        
+        url = f"{self.base_url}/crm/v3/lists/{listId}/memberships"
+        query_params = {}
+        
+        if after is not None:
+            query_params["after"] = after
+        if before is not None:
+            query_params["before"] = before
+        if limit is not None:
+            query_params["limit"] = limit
+        
+        response = self._get(url, params=query_params)
+        return self._handle_response(response)
+
     def create_list(self, objectTypeId: str, processingType: str, name: str, membershipSettings: Optional[dict[str, Any]] = None, customProperties: Optional[dict[str, str]] = None, listFolderId: Optional[int] = None, listPermissions: Optional[dict[str, Any]] = None, filterBranch: Optional[Any] = None) -> dict[str, Any]:
         """
         Create a new list in HubSpot with the specified object type, processing type, and name. 
@@ -304,6 +345,7 @@ class HubspotApp(APIApplication):
         all_tools = [
          self.add_a_note,
          self.fetch_multiple_lists,
+         self.fetch_list_memberships,
          self.create_list,
          self.get_list_by_id,
          self.delete_list_by_id,
