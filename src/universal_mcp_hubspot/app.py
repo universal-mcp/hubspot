@@ -25,7 +25,7 @@ class HubspotApp(APIApplication):
         Args:
             hs_note_body (str): The body/content of the note
             hs_timestamp (Optional[str]): Timestamp for the note (ISO format). If not provided, current time will be used.
-            associations (Optional[List[dict[str, Any]]]): List of associations to other objects. Exmaple: [{"to": {"id": "101"}, "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 202}]}]
+            associations (Optional[List[dict[str, Any]]]): List of associations to other objects. Exmaple: To add notes to contact [{"to": {"id": "101"}, "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 202}]}], to add notes to company [{"to": {"id": "101"}, "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 190}]}]
 
         Returns:
             dict[str, Any]: The created note object with ID
